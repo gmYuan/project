@@ -30,7 +30,10 @@ function createDOM(vdom){
 	if (type === REACT_TEXT){
 		// 如果是一个文本元素，就创建一个文本节点
 		dom = document.createTextNode(props.content)
-  } else {
+  } else if ( typeof type === 'function' ) {
+		//说明这是一个React函数组件
+		return mountFunctionComponent(vdom)
+	}  else {
 		// 原生DOM类型
 		dom = document.createElement(type) 
 	}
@@ -46,8 +49,15 @@ function createDOM(vdom){
   }
 
 	return dom
- 
 }
+
+function mountFunctionComponent(vdom){
+	let { type,props } = vdom
+	let renderVdom = type(props)
+	// vdom.oldRenderVdom = renderVdom
+	return createDOM(renderVdom)
+}
+
 
 function updateProps(dom, oldProps, newProps){
 	for (let key in newProps) {
