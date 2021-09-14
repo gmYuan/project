@@ -4,12 +4,12 @@ Q1：一段JSX代码是如何转化成 显示在页面上的DOM元素的
 A：
 以 
 ```js
-<h1 className='box' style={{color: 'red'}}>
-  <span>
+<h1 className='box' style={{color: 'red'}} key='h1' >
+  <span key='span1'>
     hello 
-    <span>--</span>
+    <span key='span1-child2'>--</span>
   </span> 
-  <span>world</span> 
+  <span key='span2'>world</span> 
 </h1>
 ```
    为例，过程如下所示：

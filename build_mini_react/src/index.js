@@ -4,15 +4,16 @@ import ReactDOM from './react-dom';
 // S1
 let element = React.createElement("h1", 
   {
+    key: "h1",
     className: "box",
     style: {
       color: 'red'
     }
   }, 
-  React.createElement("span", null, "hello", 
-    React.createElement("span", null, "--")
+  React.createElement("span", { key: "span1"}, "hello", 
+    React.createElement("span", { key: "span1-child2" } , "--")
   ), 
-  React.createElement("span", null, "world")
+  React.createElement("span",  { key: "span2"}, "world")
 )
 
 
