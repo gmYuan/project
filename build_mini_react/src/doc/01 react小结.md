@@ -7,7 +7,7 @@ A：
 <h1 className='box' style={{color: 'red'}} key='h1' >
   <span key='span1'>
     hello 
-    <span key='span1-child2'>--</span>
+    <span key='span1-c2'>--</span>
   </span> 
   <span key='span2'>world</span> 
 </h1>
@@ -18,15 +18,16 @@ S1 JSX 转化为 React.createElement(type, config, children)，结果为
 ```js
 React.createElement("h1", 
   {
+    key: "h1",
     className: "box",
     style: {
       color: 'red'
     }
   }, 
-  React.createElement("span", null, "hello", 
-    React.createElement("span", null, "--")
+  React.createElement("span", { key: "span1"}, "hello", 
+    React.createElement("span", { key: "span1-c2" } , "--")
   ), 
-  React.createElement("span", null, "world")
+  React.createElement("span",  { key: "span2"}, "world")
 )
 ```
 
@@ -44,23 +45,23 @@ S2.2 React.createElement(type, config, children)大致做了一下工作
 // 第1次执行
 React.createElement("span", null, "--") 的执行结果为：
 const v1 = {
-  key: undefined,
+  key: 'span1-c2',
   type: 'span',
   props: { children: { type:REACT_TEXT,  props: { content: '--'} } }
 }
 
 // 第2次执行
-React.createElement("span", null, "hello",
-  React.createElement("span", null, "--")
-)  ===> React.createElement( "span", null, "hello", v1) )  的执行结果为：
+React.createElement("span", { key: "span1"}, "hello",
+  React.createElement("span", { key: "span1-c2"}, "--")
+)  ===> React.createElement( "span", { key: "span1"}, "hello", v1) )  的执行结果为：
 
 const v2 = {
-  key: undefined,
+  key: "span1",
   type: 'span',
   props: {
     children: [
       { type: REACT_TEXT,  props: { content: 'hello'} },
-      { key: undefined, type: 'span',  props: {
+      { key: "span1-c2", type: 'span',  props: {
          children: { type:REACT_TEXT,  props: { content: '--'} }, 
         }
       }
@@ -69,9 +70,9 @@ const v2 = {
 }
 
 // 第3次执行
-React.createElement("span", null, "world") 的执行结果为：
+React.createElement("span",  { key: "span2"}, "world") 的执行结果为：
 const v3 = {
-  key: undefined,
+  key: "span2",
   type: 'span',
   props: { children: { type: REACT_TEXT,  props: { content: 'world'} } }
 }
@@ -79,6 +80,7 @@ const v3 = {
 // 第4次执行
 React.createElement("h1", 
   {
+    key: "h1"
     className: "box",
     style: {
       color: 'red'
@@ -89,7 +91,7 @@ React.createElement("h1",
 ) 的执行结果为
 
 const vdom = const v4 = {
-  key: undefined,
+  key: "h1",
   type: 'h1',
   props: {
     className: "box",
@@ -97,12 +99,12 @@ const vdom = const v4 = {
     children: [
       // v2
       { 
-        key: undefined,
+        key: "span1",
         type: 'span', 
         props: { 
           children: [
             { type: REACT_TEXT,  props: { content: 'hello'} },
-            { key: undefined, type: 'span', 
+            { key: "span1-c2", type: 'span', 
               props: { children: { type:REACT_TEXT,  props: { content: '--'} } }
             }
           ]
@@ -110,7 +112,7 @@ const vdom = const v4 = {
       },
       // v3
       {
-        key: undefined
+        key: "span2"
         type: 'span', 
         props: {
           children: { type:REACT_TEXT,  props: { content: 'world'} },
