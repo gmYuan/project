@@ -1,160 +1,201 @@
+## React小结
 
-Q1 React中JSX是什么
+Q1：一段JSX代码是如何转化成 显示在页面上的DOM元素的
 A：
-S1 本质上是 React.createElement(type, config, children)的语法糖，返回/生成一个 React元素
+以 
+```js
+<h1 className='box' style={{color: 'red'}}>
+  <span>
+    hello 
+    <span>--</span>
+  </span> 
+  <span>world</span> 
+</h1>
+```
+   为例，过程如下所示：
 
-S2 react元素 === 虚拟DOM === 一个具有 type/props等属性的 JS对象
+S1 JSX 转化为 React.createElement(type, config, children)，结果为
+```js
+React.createElement("h1", 
+  {
+    className: "box",
+    style: {
+      color: 'red'
+    }
+  }, 
+  React.createElement("span", null, "hello", 
+    React.createElement("span", null, "--")
+  ), 
+  React.createElement("span", null, "world")
+)
+```
+
+S2.1 React.createElement有多个子元素时，以 `深度优先` 的顺序执行(函数栈的入栈和执行顺序)
+
+S2.2 React.createElement(type, config, children)大致做了一下工作
+  - 自定义config属性：处理config内部的特殊属性，如 ref和key
+  - 生成 props对象：把 conifg 作为 props值
+  - 生成 props.children：把chidren作为props属性值，即props.children
+  - 返回vdom：返回一个如  `{ type: "div",  props: {key: bb,  children: [xxx]  } }` 的 vdom对象
+
+所以 以上代码的执行顺序为 '--' ==> 'hello' ==> 'world' ==> h1.box，最后生成的vdom为：
 
 ```js
-let element = <h1>hello world</h1>
-console.log('element', JSON.stringify(element) )
-// 结果大致为以下对象
-{
-  type:"h1",
-  key: null,
-  ref:null,
+// 第1次执行
+React.createElement("span", null, "--") 的执行结果为：
+const v1 = {
+  key: undefined,
+  type: 'span',
+  props: { children: { type:REACT_TEXT,  props: { content: '--'} } }
+}
+
+// 第2次执行
+React.createElement("span", null, "hello",
+  React.createElement("span", null, "--")
+)  ===> React.createElement( "span", null, "hello", v1) )  的执行结果为：
+
+const v2 = {
+  key: undefined,
+  type: 'span',
   props: {
-    children: "hello world"
-  }
-  _owner:null,
+    children: [
+      { type: REACT_TEXT,  props: { content: 'hello'} },
+      { key: undefined, type: 'span',  props: {
+         children: { type:REACT_TEXT,  props: { content: '--'} }, 
+        }
+      }
+    ],
+  },
+}
+
+// 第3次执行
+React.createElement("span", null, "world") 的执行结果为：
+const v3 = {
+  key: undefined,
+  type: 'span',
+  props: { children: { type: REACT_TEXT,  props: { content: 'world'} } }
+}
+
+// 第4次执行
+React.createElement("h1", 
+  {
+    className: "box",
+    style: {
+      color: 'red'
+    }
+  }, 
+  v2,
+  v3
+) 的执行结果为
+
+const vdom = const v4 = {
+  key: undefined,
+  type: 'h1',
+  props: {
+    className: "box",
+    style: { color: 'red' },
+    children: [
+      // v2
+      { 
+        key: undefined,
+        type: 'span', 
+        props: { 
+          children: [
+            { type: REACT_TEXT,  props: { content: 'hello'} },
+            { key: undefined, type: 'span', 
+              props: { children: { type:REACT_TEXT,  props: { content: '--'} } }
+            }
+          ]
+        } 
+      },
+      // v3
+      {
+        key: undefined
+        type: 'span', 
+        props: {
+          children: { type:REACT_TEXT,  props: { content: 'world'} },
+        }
+      }
+    ],
+  },
 }
 ```
 
-------
-Q2 React.createElement(type, config, children)大致做了什么
-A：
-S1 自定义config属性：处理config内部的特殊属性，如 ref和key
+S3 reactDOM.render(vdom, container)大致做了以下工作
+  S3.1 render(vdom,container)：把虚拟DOM转成真实DOM，并插入 container容器中
 
-S2 生成 props对象：把 conifg 作为 props值
+  S3.2 createDOM(vdom)：根据 vdom，创建真实DOM
+    - 根据 type + DOM API，创建 真实原生DOM，赋值给dom
+    - 根据 props，生成 真实DOM的属性
 
-S3 生成 props.children：把chidren作为props属性值，即props.children
+  S3.3 updateProps(dom, oldProps, newProps)：对props进行针对性处理
+    - props.chilren：单独处理，具体见下
+    - props.style：	`dom.style[attr] = styleObj[attr]`
+    - 其他props.xxx：直接赋值给真实DOM
 
-S4 返回vdom：返回一个如  `{ type: "div",  props: {key: bb,  children: [xxx]  } }` 的 vdom对象
+  S3.4 单独处理 props.children
+    - 只有一个儿子，直接调用 render(props.chilren, dom)即可
+    - 有多个儿子，则调用 reconcileChildren(childrenVdom, parentDOM)：深度优先 遍历调用 render
 
 ```js
-function createElement(type,config,children){
-  let ref      //用来 获取虚拟DOM实例的
-  let key     //用来 区分同一个父亲的不同儿子
-  // S1
-  if(config){
-    delete config.__source;
-    delete config.__self;
-    ref = config.ref;
-    delete config.ref;
-    key = config.key;
-    delete config.key;
-  }
-  //S2 
-  let props = {...config}   
-
-  //S3 如果参数大于3个，说明有多个儿子
-  if(arguments.length>3) {
-    //把字符串/数字类型的 节点转换成对象的形式
-    props.children = Array.prototype.slice.call(arguments,2).map(wrapToVdom)
-  } else {
-    if(typeof children !== 'undefined') {
-      props.children = wrapToVdom(children)
-    }
-  }
-  // S4
-  return {
-    type,
-    props,
-    ref,
-    key
-  }
+// 入参vdom为
+const vdom = {
+  key: undefined,
+  type: 'h1',
+  props: {
+    className: "box",
+    style: { color: 'red' },
+    children: [
+      // v2
+      { 
+        key: undefined,
+        type: 'span', 
+        props: { 
+          children: [
+            { type: REACT_TEXT,  props: { content: 'hello'} },
+            { key: undefined, type: 'span', 
+              props: { children: { type:REACT_TEXT,  props: { content: '--'} } }
+            }
+          ]
+        } 
+      },
+      // v3
+      {
+        key: undefined
+        type: 'span', 
+        props: {
+          children: { type:REACT_TEXT,  props: { content: 'world'} },
+        }
+      }
+    ],
+  },
 }
-```
+// 第1次 执行过程
+render() 即 mount(vdom, container)  即  createDOM(vdom) ==>  dom = h1 
+updateProps(dom, {}, props) ==>  dom = h1.box & h1.box.style.color = 'red'
+reconcileChildren(v4.props.children, h1.box) ==> 遍历执行 render(), 即 render(v4.props.children[0],  h1.box)
 
-------
-Q3 reactDOM.render()大致做了什么
-A：
-S1 render((vdom,container)：把虚拟DOM转成真实DOM，并插入div容器中
+// 第2次执行过程为
+render() 即 mount(vdom, container)  即  createDOM(v4.props.children[0]) ==>  dom = span
+updateProps(dom, {}, props) ==>  dom = span
+reconcileChildren(props.children, span) ==> 遍历执行 render(), 即 render(v2.props.children[0],  span)
 
-S2 createDOM(vdom)：根据 vdom，创建真实DOM
-  - 根据 type + DOM API，创建 真实原生DOM
-  - 根据 props，生成 真实DOM的属性
+// 第2.1次执行过程为
+render() 即 mount(vdom, container)  即  createDOM(  { type: REACT_TEXT,  props: { content: 'hello'} }) ==>  dom = text
+updateProps(dom, {}, props) ==>  dom = text.content = 'hello'
 
-S3 updateProps(dom, oldProps, newProps)：对props进行针对性处理
-  - props.chilren：单独处理，具体见下
-  - props.style：	`dom.style[attr] = styleObj[attr]`
-  - 其他props.xxx：直接赋值给真实DOM
+createDOM() 执行返回结果，即 dom = text.content = 'hello'
+mount执行 container.appendChild(newDOM)，即 把 text.content = 'hello' 插入到 div.root 中
 
-S4 单独处理 props.children
-  - 只有一个儿子，直接调用 render(props.chilren, dom)即可
-  - 有多个儿子，则调用 reconcileChildren(childrenVdom, parentDOM)：对每一个childrenVdom调用render
+// 第2.2次执行过程为
+继续执行 reconcileChildren(v4.props.children, span) ==> 遍历执行 render(), 即 render(v4.props.children[1],  span)
 
 
-```js
-function render(vdom,container){
-  mount(vdom,container);
-}
-// S1
-function mount(vdom,container){
-  let newDOM = createDOM(vdom)
-  container.appendChild(newDOM) 
-}
+render() 即 mount(vdom, container)  即  createDOM(  { type: REACT_TEXT,  props: { content: 'hello'} }) ==>  dom = text
+updateProps(dom, {}, props) ==>  dom = text.content = 'hello'
 
-// S2
-function createDOM(vdom){
-  let { type, props } = vdom
-	//即将创建并返回的 真实DOM元素
-	let dom  
-  // S2.1
-	if (type === REACT_TEXT){
-		// 如果是一个文本元素，就创建一个文本节点
-		dom = document.createTextNode(props.content)
-  } else {
-		// 原生DOM类型
-		dom = document.createElement(type) 
-	}
-	// S2.2 
-	if (props) {
-		updateProps(dom, {}, props)
-    // S4
-    if(typeof props.children == 'object' && props.children.type) {
-      // S4.1 它是个对象 只有一个儿子
-      render(props.children, dom);
-    } else if ( Array.isArray(props.children) )  {
-      // S4.2
-      reconcileChildren(props.children, dom)
-    }
-  }
+createDOM() 执行返回结果，即 dom = text.content = 'hello'
+mount执行 container.appendChild(newDOM)，即 把 text.content = 'hello' 插入到 div.root 中
 
-  return dom
- 
-}
-
-// S3
-function updateProps(dom, oldProps, newProps){
-	for (let key in newProps) {
-		// S3.1  后面会单独处理children属性，所以此处跳过去
-		if (key === 'children') { continue; }
-    // S3.2 处理style
-		if (key === 'style') {
-			let styleObj = newProps[key];
-			for (let attr in styleObj) {
-				dom.style[attr] = styleObj[attr]
-			}
-    // S3.3 处理其他props
-		} else {
-			if ( newProps[key] ) {
-				dom[key]=newProps[key];
-			}
-		}
-
-	}
-}
- 
-// S4.2 
-function reconcileChildren(childrenVdom, parentDOM){
-  for(let i=0; i<childrenVdom.length; i++) {
-    let childVdom = childrenVdom[i]
-    render(childVdom,parentDOM)
-  }
-}
 
 ```
-
------
-Q4

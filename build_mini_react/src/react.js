@@ -29,13 +29,14 @@ function createElement(type,config,children){
             props.children = wrapToVdom(children)
         }
     }
-
-    return {
+    const vdom = {
+        key,
         type,
         props,
-        ref,
-        key
+        ref
     }
+    console.log('vdom是', vdom)
+    return vdom
 }
 
 
