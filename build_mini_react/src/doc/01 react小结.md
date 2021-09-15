@@ -124,80 +124,83 @@ const vdom = const v4 = {
 ```
 
 S3 reactDOM.render(vdom, container)大致做了以下工作
-  S3.1 render(vdom,container)：把虚拟DOM转成真实DOM，并插入 container容器中
 
-  S3.2 createDOM(vdom)：根据 vdom，创建真实DOM
-    - 根据 type + DOM API，创建 真实原生DOM，赋值给dom
-    - 根据 props，生成 真实DOM的属性
-
-  S3.3 updateProps(dom, oldProps, newProps)：对props进行针对性处理
-    - props.chilren：单独处理，具体见下
-    - props.style：	`dom.style[attr] = styleObj[attr]`
-    - 其他props.xxx：直接赋值给真实DOM
-
-  S3.4 单独处理 props.children
-    - 只有一个儿子，直接调用 render(props.chilren, dom)即可
-    - 有多个儿子，则调用 reconcileChildren(childrenVdom, parentDOM)：深度优先 遍历调用 render
-
+必须画 函数执行栈，否则接下来的过程描述很不清晰
 ```js
 // 入参vdom为
-const vdom = {
-  key: undefined,
+const vdom = const v4 =  {
+  key: "h1",
   type: 'h1',
   props: {
     className: "box",
     style: { color: 'red' },
     children: [
-      // v2
-      { 
-        key: undefined,
-        type: 'span', 
-        props: { 
-          children: [
-            { type: REACT_TEXT,  props: { content: 'hello'} },
-            { key: undefined, type: 'span', 
-              props: { children: { type:REACT_TEXT,  props: { content: '--'} } }
-            }
-          ]
-        } 
-      },
-      // v3
-      {
-        key: undefined
-        type: 'span', 
-        props: {
-          children: { type:REACT_TEXT,  props: { content: 'world'} },
-        }
-      }
-    ],
+      v2,
+      v3
   },
 }
-// 第1次 执行过程
-render() 即 mount(vdom, container)  即  createDOM(vdom) ==>  dom = h1 
-updateProps(dom, {}, props) ==>  dom = h1.box & h1.box.style.color = 'red'
-reconcileChildren(v4.props.children, h1.box) ==> 遍历执行 render(), 即 render(v4.props.children[0],  h1.box)
 
-// 第2次执行过程为
-render() 即 mount(vdom, container)  即  createDOM(v4.props.children[0]) ==>  dom = span
-updateProps(dom, {}, props) ==>  dom = span
-reconcileChildren(props.children, span) ==> 遍历执行 render(), 即 render(v2.props.children[0],  span)
+//S1 第1次render 执行过程
+render(vdom, container)，即 render(v4, div.root)：
+  createDom(vdom), 即 createDom(v4)：
+    createRelDomByVdomType(v4.type) ==> domA = h1
 
-// 第2.1次执行过程为
-render() 即 mount(vdom, container)  即  createDOM(  { type: REACT_TEXT,  props: { content: 'hello'} }) ==>  dom = text
-updateProps(dom, {}, props) ==>  dom = text.content = 'hello'
+    updateProps(realDom, oldProps, newProps)，即 updateProps(domA, {}, v4.props) ==> domA = h1.box 并且 h1.box.style.color = 'red'
 
-createDOM() 执行返回结果，即 dom = text.content = 'hello'
-mount执行 container.appendChild(newDOM)，即 把 text.content = 'hello' 插入到 div.root 中
+    reconcileChildren(childrenVdom, parentRealDOM)，即 reconcileChildren(v4.props.children, domA)  ==> 对 v4.props.children，依次调用 render(vdom, container)
+    即 render(v4.props.children[0], domB)，即 render(v2, domA) 
+  
+  第1次的createDom 被打断
+    
+//S2 第2次render 执行过程
+render(v2, domA)：
+  createDom(v2)：
+    createRelDomByVdomType(v2.type) ==> domB = span
+    updateProps(domB, {}, v2.props) ==> domB = span
+    reconcileChildren(v2.props.children, domB) ==> 对 v2.props.children，依次调用 render
+    即 render(v2.props.children[0], domB)，即 render('hello', domB) 
+  
+  第2次的createDom 被打断  
 
-// 第2.2次执行过程为
-继续执行 reconcileChildren(v4.props.children, span) ==> 遍历执行 render(), 即 render(v4.props.children[1],  span)
+//S3 第3次render 执行过程
+render('hello', domB)：
+  createDom('hello')：
+    createRelDomByVdomType('hello'.type) ==> domB1 = text
+    updateProps(domB, {}, 'hello'.props) ==> domB1 = text.content='hello'
+    'hello'无 props.children，所以调用新的 render()，也就没有新的函数入栈 打断createDom
+  
+  所以第3次的createDom 未被打断   执行到了 return realDom，即 return domB1
+  parentRealDom.appendChild(newRealDom), 即 domB.child = domB1
 
+第3次render执行完成，render栈退出，恢复到 第2次render 执行过程中 被打断的位置
 
-render() 即 mount(vdom, container)  即  createDOM(  { type: REACT_TEXT,  props: { content: 'hello'} }) ==>  dom = text
-updateProps(dom, {}, props) ==>  dom = text.content = 'hello'
+//S4 第2次render过程恢复执行
+render(v2.props.children[0], domB)，即 render('hello', domB) 完成
+接下来继续执行 render(v2.props.children[1], domB)，即 render('span1-c2', domB) 
+所以 第4次调用render
 
-createDOM() 执行返回结果，即 dom = text.content = 'hello'
-mount执行 container.appendChild(newDOM)，即 把 text.content = 'hello' 插入到 div.root 中
+//S5 第4次render 执行过程
+render('span1-c2', domB)：
+  createDom('span1-c2')：
+    createRelDomByVdomType('span1-c2'.type) ==> domB2 = span
+    updateProps(domB2, {}, 'span1-c2'.props) ==> domB2 = span
 
+    因为 domB2.props.children的数量为1，所以不调用 reconcileChildren，而是直接调用render
+  第4次的createDom 被打断
 
+// S6 第5次render 执行过程
+render('--', domB2)
+  过程类似S3, 即 domB2.child = '--'
+第5次render执行完成，render栈退出，恢复到 第4次render 执行过程中 被打断的位置
+
+// S7 恢复 第4次render 执行过程
+render('span1-c2', domB)：
+  createDom('span1-c2')：返回newRealDom，即domB2
+  domB.appendChild(domB2) 
+第4次render 执行过程结束， 恢复到第2次render过程恢复执行
+
+//S8 恢复 第2次render 执行过程
+ 即 render(v4.props.children[1], domB)，即 render(v3, domA1) 
+
+之后过程同上类似，不赘述
 ```

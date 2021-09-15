@@ -16,6 +16,7 @@ function mount(vdom,container){
   debugger
   let newDOM = createDOM(vdom)
   container.appendChild(newDOM) 
+  console.log('container', container)
 }
 
 
@@ -48,8 +49,7 @@ function createDOM(vdom){
 			reconcileChildren(props.children, dom)
 		}
   }
-
-	return dom
+  return dom
 }
 
 function mountFunctionComponent(vdom){
