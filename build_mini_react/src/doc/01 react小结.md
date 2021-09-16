@@ -124,8 +124,14 @@ const vdom = const v4 = {
 ```
 
 S3 reactDOM.render(vdom, container)大致做了以下工作
+  render(vdom, container)：createDOM(vdom) 并且 container.appendChild(newRealDom)
+  createDom(vdom)：
+    realDom = createRelDomByVdomType(vdom.type)
+    updateProps(realDom, oldProps, newProps)：处理非children的props赋值
+    根据 vdom.props.children的 数量/类型 ，分别调用 render(childrenVdom, realDOM)  或者 reconcileChildren(childrenVdom, realDOM)
+所以，render的执行过程，也是一个 根据函数栈顺序执行的 "深度优先"操作，最终结果是生成真实DOM
 
-必须画 函数执行栈，否则接下来的过程描述很不清晰
+举例示意一下执行顺序，需要画一下函数执行栈才能更好的理解
 ```js
 // 入参vdom为
 const vdom = const v4 =  {
@@ -204,3 +210,21 @@ render('span1-c2', domB)：
 
 之后过程同上类似，不赘述
 ```
+
+--------
+Q2 如何实现 函数组件显示为 DOM
+A：
+S1 形如 const element = <FnCom name='test' />的函数组件，经过编译，会转化为 React.createElement( FnCom, { name: "test" } )
+
+S2 React.createElement(type, config, children) ==>  vdom = { type: FnCom,  { name: "test" }, key: undefined  }
+
+S3 ReactDom.render(vdom, container) ==> createDOM(vdom)
+createDom(vdom)：
+  realDom = createRelDomByVdomType(vdom.type)
+  updateProps(realDom, oldProps, newProps)：处理非children的props赋值
+  根据 vdom.props.children的 数量/类型 ，分别调用 render(childrenVdom, realDOM)  或者 reconcileChildren(childrenVdom, realDOM)
+
+S4 createRelDomByVdomType(vdom.type)  
+  发现vdom.type为函数 ==> return mountFunctionComponent(vdom)
+  mountFunctionComponent：renderVdom = type(props) + return createDOM(renderVdom)
+  因为mountFunctionComponent执行完成后 已经获取到了newRealDom, 所以createDom直接返回它即可
