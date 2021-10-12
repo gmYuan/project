@@ -15,7 +15,6 @@ function render(vdom,container){
 function mount(vdom,container){
   let newDOM = createDOM(vdom)
   container.appendChild(newDOM) 
-  console.log('container', container)
 }
 
 
@@ -32,8 +31,14 @@ function createDOM(vdom){
 		// 如果是一个文本元素，就创建一个文本节点
 		dom = document.createTextNode(props.content)
   } else if ( typeof type === 'function' ) {
-		//说明这是一个React函数组件
-		return mountFunctionComponent(vdom)
+		if (type.isReactComponent) {
+			//说明它是一个类组件
+			return mountClassComponent(vdom);
+	  } else {
+		  //说明是React函数组件
+			return mountFunctionComponent(vdom);
+	  }
+
 	}  else {
 		// 原生DOM类型
 		dom = document.createElement(type) 
@@ -51,10 +56,19 @@ function createDOM(vdom){
   return dom
 }
 
+function mountClassComponent(vdom){
+	let { type, props } = vdom
+	let classInstance = new type( { ...props } )
+	let renderVdom= classInstance.render()
+	let dom =  createDOM(renderVdom);
+	return dom
+}
+
+
+
 function mountFunctionComponent(vdom){
 	let { type,props } = vdom
 	let renderVdom = type(props)
-	// vdom.oldRenderVdom = renderVdom
 	return createDOM(renderVdom)
 }
 
