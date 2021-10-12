@@ -1,7 +1,7 @@
 import {wrapToVdom} from './utils';
 
 /** 
- * S1  作用：生成如  { type: "div",  props: {key: bb,  children: [xxx]  } }的 vdom对象
+ * S1  作用：生成如  { type: "div",  key: bb, props: { children: [xxx]  } }的 vdom对象
  * S2 参数：type 类型    config 配置对象    children  第一个儿子
  *
  **/

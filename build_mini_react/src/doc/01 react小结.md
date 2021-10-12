@@ -37,7 +37,7 @@ S2.2 React.createElement(type, config, children)大致做了一下工作
   - 自定义config属性：处理config内部的特殊属性，如 ref和key
   - 生成 props对象：把 conifg 作为 props值
   - 生成 props.children：把chidren作为props属性值，即props.children
-  - 返回vdom：返回一个如  `{ type: "div",  props: {key: bb,  children: [xxx]  } }` 的 vdom对象
+  - 返回vdom：返回一个如  `{ type: "div",  key: bb, props: { children: [xxx]  } }` 的 vdom对象
 
 所以 以上代码的执行顺序为 '--' ==> 'hello' ==> 'world' ==> h1.box，最后生成的vdom为：
 
