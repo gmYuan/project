@@ -228,3 +228,13 @@ S4 createRelDomByVdomType(vdom.type)
   发现vdom.type为函数 ==> return mountFunctionComponent(vdom)
   mountFunctionComponent：renderVdom = type(props) + return createDOM(renderVdom)
   因为mountFunctionComponent执行完成后 已经获取到了newRealDom, 所以createDom直接返回它即可
+
+
+-------
+Q3 如何渲染 自定义类组件内容 到页面上
+A:
+S1 能够区分出是类组件，而不是函数组件：定义 React.Component父类上的isReactComponent属性为true + 自定义类组件都继承自 React.Component
+
+S2 能够获取到类组件 内部的vdom：vdom = new type(props).render()
+
+S3 转化vdom为真实dom渲染：reactDOM.render ==> createDOM(vdom)，具体过程见上

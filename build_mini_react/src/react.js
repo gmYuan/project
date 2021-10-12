@@ -1,4 +1,5 @@
-import {wrapToVdom} from './utils';
+import { wrapToVdom } from './utils'
+import { Component } from './Component'
 
 /** 
  * S1  作用：生成如  { type: "div",  key: bb, props: { children: [xxx]  } }的 vdom对象
@@ -41,7 +42,8 @@ function createElement(type,config,children){
 
 
 const React = {
-    createElement
+    createElement,
+    Component
 }
 
 export default React;
