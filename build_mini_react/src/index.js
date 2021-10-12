@@ -18,10 +18,10 @@ import ReactDOM from './react-dom';
 
 
 // S2 自定义 函数组件
-function FnCom(props) {
-  return <h1 className='box'><span>hello,</span>{props.name}</h1>
-}
-const element2 = <FnCom name='test' />
+// function FnCom(props) {
+//   return <h1 className='box'><span>hello,</span>{props.name}</h1>
+// }
+// const element2 = <FnCom name='test' />
 
 
 // S3 自定义 类组件
@@ -32,7 +32,7 @@ class ClassCom extends React.Component {
     )
   }
 }
-const element3 = <ClassCom name="ygm"/>
+const element3 = <ClassCom name="ygm222"/>
 
 
 
