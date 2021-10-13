@@ -9,7 +9,6 @@ import {
  *  S2 参数-  vdom：虚拟DOM    container：容器
  */
 function render(vdom,container){
-  debugger
   mount(vdom,container);
 }
 

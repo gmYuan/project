@@ -233,8 +233,22 @@ S4 createRelDomByVdomType(vdom.type)
 -------
 Q3 如何渲染 自定义类组件内容 到页面上
 A:
-S1 能够区分出是类组件，而不是函数组件：定义 React.Component父类上的isReactComponent属性为true + 自定义类组件都继承自 React.Component
+S1 JSX调用编译： 形如 const element = <ClassCom name="world"/>的类组件，经过编译，会转化为  React.createElement(ClassCom, {name: "world"})
 
-S2 能够获取到类组件 内部的vdom：vdom = new type(props).render()
+S2 React.createElement执行 ==> 返回 vdom = { type: class ClassCom, props: {name: 'world'}, key: undefined }
 
-S3 转化vdom为真实dom渲染：reactDOM.render ==> createDOM(vdom)，具体过程见上
+S3 ReactDOM.render(vdom, container)执行 ==>
+  createDOM(vdom) ==> 根据vdom，创建并返回 真实DOM元素，即newDOM
+  container.appendChild(newDOM) 
+
+S4 createDOM(vdom)执行 ==> 
+  realDom = createRelDomByVdomType(vdom.type)
+  updateProps(realDom, oldProps, newProps)：处理非children的props赋值
+  reconcileChildren(childrenVdom, realDOM)：依次调用render()，从而把子vdom挂载到realDom上
+
+S5 createRelDomByVdomType(vdom.type)
+  - 要能够区分出是类组件，而不是函数组件：定义 React.Component父类上的isReactComponent属性为true + 自定义类组件都继承自 React.Component，从而保证vdom.type.isReactComponent = true
+
+  - 要能获取到类组件 内部的vdom：vdom = new type(props).render()，在此过程中，会渲染出包含页面内容结构的vdom对象
+
+  - 转化vdom为真实dom渲染：reactDOM.render ==> createDOM(vdom)，具体过程见上

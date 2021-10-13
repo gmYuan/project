@@ -32,7 +32,7 @@ class ClassCom extends React.Component {
     )
   }
 }
-const element3 = <ClassCom name="ygm222"/>
+const element3 = <ClassCom name="world"/>
 
 
 
