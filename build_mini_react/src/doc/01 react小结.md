@@ -1,6 +1,7 @@
 ## React小结
 
 Q1：一段JSX代码是如何转化成 显示在页面上的DOM元素的
+
 A：
 以 
 ```js
@@ -12,7 +13,7 @@ A：
   <span key='span2'>world</span> 
 </h1>
 ```
-   为例，过程如下所示：
+为例，过程如下所示：
 
 S1 JSX 转化为 React.createElement(type, config, children)，结果为
 ```js
@@ -40,7 +41,6 @@ S2.2 React.createElement(type, config, children)大致做了一下工作
   - 返回vdom：返回一个如  `{ type: "div",  key: bb, props: { children: [xxx]  } }` 的 vdom对象
 
 所以 以上代码的执行顺序为 '--' ==> 'hello' ==> 'world' ==> h1.box，最后生成的vdom为：
-
 ```js
 // 第1次执行
 React.createElement("span", null, "--") 的执行结果为：
@@ -124,11 +124,14 @@ const vdom = const v4 = {
 ```
 
 S3 reactDOM.render(vdom, container)大致做了以下工作
+
   render(vdom, container)：createDOM(vdom) 并且 container.appendChild(newRealDom)
+
   createDom(vdom)：
-    realDom = createRelDomByVdomType(vdom.type)
-    updateProps(realDom, oldProps, newProps)：处理非children的props赋值
-    根据 vdom.props.children的 数量/类型 ，分别调用 render(childrenVdom, realDOM)  或者 reconcileChildren(childrenVdom, realDOM)
+    - realDom = createRelDomByVdomType(vdom.type)
+    - updateProps(realDom, oldProps, newProps)：处理非children的props赋值
+    - 根据 vdom.props.children的 数量/类型 ，分别调用 render(childrenVdom, realDOM)  或者 reconcileChildren(childrenVdom, realDOM)
+
 所以，render的执行过程，也是一个 根据函数栈顺序执行的 "深度优先"操作，最终结果是生成真实DOM
 
 举例示意一下执行顺序，需要画一下函数执行栈才能更好的理解
@@ -213,38 +216,40 @@ render('span1-c2', domB)：
 
 --------
 Q2 如何实现 函数组件显示为 DOM
+
 A：
 S1 形如 const element = <FnCom name='test' />的函数组件，经过编译，会转化为 React.createElement( FnCom, { name: "test" } )
 
 S2 React.createElement(type, config, children) ==>  vdom = { type: FnCom,  { name: "test" }, key: undefined  }
 
 S3 ReactDom.render(vdom, container) ==> createDOM(vdom)
+
 createDom(vdom)：
-  realDom = createRelDomByVdomType(vdom.type)
-  updateProps(realDom, oldProps, newProps)：处理非children的props赋值
-  根据 vdom.props.children的 数量/类型 ，分别调用 render(childrenVdom, realDOM)  或者 reconcileChildren(childrenVdom, realDOM)
+  - realDom = createRelDomByVdomType(vdom.type)
+  - updateProps(realDom, oldProps, newProps)：处理非children的props赋值
+  - 根据 vdom.props.children的 数量/类型 ，分别调用 render(childrenVdom, realDOM)  或者 reconcileChildren(childrenVdom, realDOM)
 
 S4 createRelDomByVdomType(vdom.type)  
-  发现vdom.type为函数 ==> return mountFunctionComponent(vdom)
-  mountFunctionComponent：renderVdom = type(props) + return createDOM(renderVdom)
-  因为mountFunctionComponent执行完成后 已经获取到了newRealDom, 所以createDom直接返回它即可
-
+  - 发现vdom.type为函数 ==> return mountFunctionComponent(vdom)
+  - mountFunctionComponent：renderVdom = type(props) + return createDOM(renderVdom)
+  - 因为mountFunctionComponent执行完成后 已经获取到了newRealDom, 所以createDom直接返回它即可
 
 -------
 Q3 如何渲染 自定义类组件内容 到页面上
+
 A:
 S1 JSX调用编译： 形如 const element = <ClassCom name="world"/>的类组件，经过编译，会转化为  React.createElement(ClassCom, {name: "world"})
 
 S2 React.createElement执行 ==> 返回 vdom = { type: class ClassCom, props: {name: 'world'}, key: undefined }
 
 S3 ReactDOM.render(vdom, container)执行 ==>
-  createDOM(vdom) ==> 根据vdom，创建并返回 真实DOM元素，即newDOM
-  container.appendChild(newDOM) 
+  - createDOM(vdom) ==> 根据vdom，创建并返回 真实DOM元素，即newDOM
+  - container.appendChild(newDOM) 
 
 S4 createDOM(vdom)执行 ==> 
-  realDom = createRelDomByVdomType(vdom.type)
-  updateProps(realDom, oldProps, newProps)：处理非children的props赋值
-  reconcileChildren(childrenVdom, realDOM)：依次调用render()，从而把子vdom挂载到realDom上
+  - realDom = createRelDomByVdomType(vdom.type)
+  - updateProps(realDom, oldProps, newProps)：处理非children的props赋值
+  - reconcileChildren(childrenVdom, realDOM)：依次调用render()，从而把子vdom挂载到realDom上
 
 S5 createRelDomByVdomType(vdom.type)
   - 要能够区分出是类组件，而不是函数组件：定义 React.Component父类上的isReactComponent属性为true + 自定义类组件都继承自 React.Component，从而保证vdom.type.isReactComponent = true
@@ -252,3 +257,15 @@ S5 createRelDomByVdomType(vdom.type)
   - 要能获取到类组件 内部的vdom：vdom = new type(props).render()，在此过程中，会渲染出包含页面内容结构的vdom对象
 
   - 转化vdom为真实dom渲染：reactDOM.render ==> createDOM(vdom)，具体过程见上
+
+-------
+Q4 setState是如何工作的，它是同步还是异步执行
+
+A:
+S1 从表明形式上
+  - 在React可以控制的范围内，如生命周期/事件处理函数等，setState是批量更新 + 异步的；
+  - 在React无法控制的范围内，如setTimeout/Promise.then等，它是非批量 + 同步的
+
+执行流程为 开锁isBatchUpdate + 执行事件处理函数完成后 => 批量执行setState语句 ==> 解锁isBatchUpdate ==> 页面渲染显示新数据
+
+S2 从实现原理上
