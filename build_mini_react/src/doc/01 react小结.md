@@ -266,6 +266,6 @@ S1 从表明形式上
   - 在React可以控制的范围内，如生命周期/事件处理函数等，setState是批量更新 + 异步的；
   - 在React无法控制的范围内，如setTimeout/Promise.then等，它是非批量 + 同步的
 
-执行流程为 开锁isBatchUpdate + 执行事件处理函数完成后 => 批量执行setState语句 ==> 解锁isBatchUpdate ==> 页面渲染显示新数据
+执行流程为 开锁isBatchingUpdate + 执行事件处理函数完成后 => 批量执行setState语句 ==> 解锁isBatchingUpdate ==> 页面渲染显示新数据
 
 S2 从实现原理上
