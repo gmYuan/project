@@ -53,6 +53,7 @@ function shouldUpdate( classInstance, nextState ){
 }
 
 export class Component {
+
   // 当子类继承父类的时候 ，父类的静态属性也是可以继承的
   static isReactComponent = true
   constructor (props) {
