@@ -83,6 +83,8 @@ function updateProps(dom, oldProps, newProps){
 			for (let attr in styleObj) {
 				dom.style[attr] = styleObj[attr]
 			}
+		} else if( key.startsWith('on') ){  //onClick
+		  dom[key.toLocaleLowerCase()]=newProps[key]  //dom.onclick=handleClick
 		} else {
 			if ( newProps[key] ) {
 				dom[key]=newProps[key];
@@ -98,7 +100,6 @@ function reconcileChildren(childrenVdom, parentDOM){
     render(childVdom,parentDOM)
   }
 }
-
 
 
 const ReactDOM = {
