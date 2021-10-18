@@ -269,4 +269,12 @@ S1 从表明形式上
 执行流程为 开锁isBatchingUpdate + 执行事件处理函数完成后 => 批量执行setState语句 ==> 解锁isBatchingUpdate ==> 页面渲染显示新数据
 
 S2 从实现原理上
-  - classA extends React.Component
+
+S2.1 classA extends React.Component：this.updater = new Updater(this) +  pendingStates队列 + callbacks队列
+
+S2.2 调用setState(partialState, callback)
+  - 调用 addState(partialState, callback)：partialState和cb 分别入队 + 调用emitUpdate
+  - emitUpdate：调用 updateComponent
+  - updateComponent：调用addState来 整合获取新的state状态 + 之后调用shouldUpdate
+  - shouldUpdate：更新 classInstance.state = nextState + 调用classInstance.forceUpdate
+  - forceUpdate： todo 待完成   

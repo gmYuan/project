@@ -42,7 +42,7 @@ import ReactDOM from './react-dom';
 class Counter extends React.Component {
   state = {number: 0 }
   handleClick = (e) => {
-    this.setState({number: this.state.number + 1})
+    // this.setState({number: this.state.number + 1})
     this.setState({number: this.state.number + 1}, () => {
       console.log('cb2', this.state.number)
     })

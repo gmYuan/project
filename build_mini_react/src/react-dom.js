@@ -13,7 +13,7 @@ function render(vdom,container){
 }
 
 function mount(vdom,container){
-  debugger
+//   debugger
   let newDOM = createDOM(vdom)
   container.appendChild(newDOM) 
 }
