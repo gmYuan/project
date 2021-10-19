@@ -54,22 +54,27 @@ function createDOM(vdom){
 			reconcileChildren(props.children, dom)
 		}
   }
+
+	//让虚拟DOM的dom属性 指向它的真实DOM 
+	vdom.dom = dom
   return dom
 }
 
 function mountClassComponent(vdom){
 	let { type, props } = vdom
 	let classInstance = new type( { ...props } )
-	let renderVdom= classInstance.render()
+	let renderVdom = classInstance.render()
+	// 挂载的时候计算出虚拟DOM，然后挂到类的实例上
+	classInstance.oldRenderVdom = vdom.oldRenderVdom = renderVdom
 	let dom =  createDOM(renderVdom);
 	return dom
 }
 
 
-
 function mountFunctionComponent(vdom){
 	let { type,props } = vdom
 	let renderVdom = type(props)
+	vdom.oldRenderVdom = renderVdom
 	return createDOM(renderVdom)
 }
 
@@ -101,6 +106,31 @@ function reconcileChildren(childrenVdom, parentDOM){
     render(childVdom,parentDOM)
   }
 }
+
+/**
+ * 根据vdom返回真实DOM
+ * @param {*} vdom 
+ */
+ export function findDOM(vdom){
+	let type = vdom.type;
+	let dom
+	//原生的组件
+	if (typeof type === 'string' || type === REACT_TEXT){ 
+	 dom = vdom.dom
+	} else {
+		// 可能函数组件 类组件 provider context forward
+	 dom = findDOM(vdom.oldRenderVdom);
+	}
+	return dom
+}
+
+
+export function compareTwoVdom(parentDOM,oldVdom,newVdom){
+  let oldDOM = findDOM(oldVdom)
+  let newDOM = createDOM(newVdom)
+  parentDOM.replaceChild(newDOM,oldDOM)
+}
+
 
 
 const ReactDOM = {

@@ -1,3 +1,6 @@
+import { findDOM, compareTwoVdom } from './react-dom';
+
+
 class Updater {
   constructor(classInstance){
     this.classInstance = classInstance
@@ -65,9 +68,19 @@ export class Component {
   setState(partialState, callback) {
     this.updater.addState(partialState, callback)
   }
-
+  
+  //根据新的属性状态计算新的要渲染的虚拟DOM
   forceUpdate() {
-    console.log('准备执行forceUpdate')
+    //上一次类组件render方法计算得到的虚拟DOM
+    let oldRenderVdom = this.oldRenderVdom
+    //获取 oldRenderVdom对应的真实DOM
+    let oldDOM = findDOM(oldRenderVdom)
+
+    //然后基于新的属性和状态，计算新的虚拟DOM
+    let newRenderVdom = this.render()
+
+    compareTwoVdom(oldDOM.parentNode, oldRenderVdom, newRenderVdom)
+    this.oldRenderVdom = newRenderVdom
   }
 
 }
