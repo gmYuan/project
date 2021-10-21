@@ -270,7 +270,17 @@ S1 从表明形式上
 
 S2 从实现原理上
 
-S2.1 classA extends React.Component：this.updater = new Updater(this) +  pendingStates队列 + callbacks队列
+S2.1 使用JSX ==> 调用 React.createElement() ==> 生成vdom
+S2.2 ReactDOM.render(vdom, container) ==> mount(vdom, container) ==> createDOM(vdom)：
+  - 原生类型/文本类型： 生成对应的真实 newRealDOM
+  - 绑定DOM对应的属性：style/onXXX事件回调等
+  - 处理children vdom，生成对应的真实DOM：递归调用render(childrenVdom, realDOM)
+  - `在本次的vdom上绑定对应生成的真实DOM`：vdom.dom = realDOM
+
+
+
+
+classA extends React.Component：this.updater = new Updater(this) +  pendingStates队列 + callbacks队列
 
 S2.2 调用setState(partialState, callback)
   - 调用 addState(partialState, callback)：partialState和cb 分别入队 + 调用emitUpdate
