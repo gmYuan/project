@@ -271,18 +271,22 @@ S1 从表明形式上
 S2 从实现原理上
 
 S2.1 使用JSX ==> 调用 React.createElement() ==> 生成vdom
+
 S2.2 ReactDOM.render(vdom, container) ==> mount(vdom, container) ==> createDOM(vdom)：
   - 原生类型/文本类型： 生成对应的真实 newRealDOM
   - 绑定DOM对应的属性：style/onXXX事件回调等
   - 处理children vdom，生成对应的真实DOM：递归调用render(childrenVdom, realDOM)
   - `在本次的vdom上绑定对应生成的真实DOM`：vdom.dom = realDOM
 
+S2.3 createDOM(vdom) 对类组件/函数组件类型的处理过程
+  - vdom.type就是 类定义/函数定义的指针地址，所以可以通过调用它获取renderVdom
+  -	`classInstance.oldRenderVdom = vdom.oldRenderVdom = renderVdom`
+  - 根据获取的renderVdom生成+渲染新的vdom：createDOM(renderVdom)
 
+S2.4 classA extends React.Component
+  - this.updater = new Updater(this) +  pendingStates队列 + callbacks队列
 
-
-classA extends React.Component：this.updater = new Updater(this) +  pendingStates队列 + callbacks队列
-
-S2.2 调用setState(partialState, callback)
+S2.5 调用setState(partialState, callback)
   - 调用 addState(partialState, callback)：partialState和cb 分别入队 + 调用emitUpdate
   - emitUpdate：调用 updateComponent
   - updateComponent：调用addState来 整合获取新的state状态 + 之后调用shouldUpdate

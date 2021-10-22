@@ -64,6 +64,7 @@ function mountClassComponent(vdom){
 	let { type, props } = vdom
 	let classInstance = new type( { ...props } )
 	let renderVdom = classInstance.render()
+	debugger
 	// 挂载的时候计算出虚拟DOM，然后挂到类的实例上
 	classInstance.oldRenderVdom = vdom.oldRenderVdom = renderVdom
 	let dom =  createDOM(renderVdom);
