@@ -270,25 +270,62 @@ S1 从表明形式上
 
 S2 从实现原理上
 
-S2.1 使用JSX ==> 调用 React.createElement() ==> 生成vdom
+使用JSX ==> 调用 React.createElement() ==> 生成vdom
+  - 原生类型 vdom  ==> { key: xxx, type: 'div',  props: { children: [] } }
+  - 自定义类/函数组件 vdom  ==> { key: xxx, type: Class/Fn,  props: { children: [] } }
 
-S2.2 ReactDOM.render(vdom, container) ==> mount(vdom, container) ==> createDOM(vdom)：
-  - 原生类型/文本类型： 生成对应的真实 newRealDOM
-  - 绑定DOM对应的属性：style/onXXX事件回调等
-  - 处理children vdom，生成对应的真实DOM：递归调用render(childrenVdom, realDOM)
-  - `在本次的vdom上绑定对应生成的真实DOM`：vdom.dom = realDOM
+举例理解DOM的渲染 和 更新过程：
+```js
+// 渲染过程
+执行JSX ==> 生成classVdom = { type: classCom, props: { xxx }, key: xxx}
 
-S2.3 createDOM(vdom) 对类组件/函数组件类型的处理过程
-  - vdom.type就是 类定义/函数定义的指针地址，所以可以通过调用它获取renderVdom
-  -	`classInstance.oldRenderVdom = vdom.oldRenderVdom = renderVdom`
-  - 根据获取的renderVdom生成+渲染新的vdom：createDOM(renderVdom)
+1 mount(classVdom, div.root) 
+  2 createDOM(classVdom)
+    3 return mountClassComponent(classVdom) ==> Instace.oldRenDOM = classVdom.oldRenDOM = renderVdom1 =  { divVdom / textVdom + fnVdom }  +  return createDOM(renderVdom1)
 
-S2.4 classA extends React.Component
-  - this.updater = new Updater(this) +  pendingStates队列 + callbacks队列
+      4 createDOM(divVdom)  ==> domDiv + reconcileChildren(childrenVdom, domDiv)
 
-S2.5 调用setState(partialState, callback)
-  - 调用 addState(partialState, callback)：partialState和cb 分别入队 + 调用emitUpdate
-  - emitUpdate：调用 updateComponent
-  - updateComponent：调用addState来 整合获取新的state状态 + 之后调用shouldUpdate
-  - shouldUpdate：更新 classInstance.state = nextState + 调用classInstance.forceUpdate
-  - forceUpdate： todo 待完成   
+        5.1 render/mount(textVdom, domDiv)
+          6 createDOM(textVdom) ==> textVdom.dom = domTextA + return domTextA
+        5.1 domDiv.append(domTextA)  
+
+        5.2 render/mount(fnVdom, domDiv)
+          6 createDOM(fnVdom) 
+            7 return mountFunctionComponent(fnVdom) ==> fnVdom.oldRenDOM = renderVdom2 =  { btnVdom }   +  return createDOM(renderVdom2)
+
+              8 createDOM(btnVdom)  ==> domBtn + render(textVdomB, domBtn)
+                9 render/mount (textVdomB, domBtn)
+                  10 createDOM(textVdomB) ==> textVdomB.dom = domTextB + return domTextB
+                9 domBtn.append(domTextB)  
+              8 btnVdom.dom = domBtn + return domBtn  
+
+            7 return domBtn
+          6  return domBtn
+        5.2 domDiv.append(domBtn)    
+    
+      4 divVdom.dom = domDiv + return domDiv
+    3 return domDiv
+  2 return domDiv
+1  div.root.append(domDiv)      
+
+
+// 更新过程
+1 classInstance.setState(partialState, cb)
+
+  2 this.updater.addState(partialState, cb) ==> this.pendingStates.push(partialState) + this.callbacks.push(cb) + this.emitUpdate
+    3 this.emitUpdate==> this.updateComponent
+      4 this.updateComponent==>  shouldUpdate(this.classInstance, this.getState())
+        4.2 this.getState:  根据老状态，和pendingStates这个更新队列，计算并返回 新状态
+      
+      5 shouldUpdate(classInstance, nextState) ==> classInstance.state = nextState + classInstance.forceUpdate 
+
+        6 forceUpdate==> 
+        let oldRenderVdom = this.oldRenderVdom ==> 即 { divVdom / textVdom + fnVdom } 
+        oldDOM = findDOM(oldRenderVdom) ==> 即 domDiv
+        `findDOM是一个递归函数，是为了防止oldRenderVdom内部返回的还是一个 自定义类/函数组件`
+
+        let newRenderVdom = this.render() ==> 即更新state之后的 rendvdom
+
+        compareTwoVdom(oldDOM.parentNode, oldRenderVdom, newRenderVdom) ==> 替换DOM
+        this.oldRenderVdom = newRenderVdom
+```

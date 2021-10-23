@@ -42,8 +42,6 @@ import ReactDOM from './react-dom';
 class Counter extends React.Component {
   state = {number: 0 }
   handleClick = (e) => {
-    debugger
-    // this.setState({number: this.state.number + 1})
     this.setState({number: this.state.number + 1}, () => {
       console.log('cb2', this.state.number)
     })
@@ -52,15 +50,30 @@ class Counter extends React.Component {
 
   render() {
     return (
-      <div>
-        <p>{this.state.number}</p>
-        <button onClick={this.handleClick}> + </button>
-      </div>
+      // <div>
+      //   {this.state.number}
+      //   <ChildFnCom handleClick={this.handleClick} />
+      // </div>
+
+      <ChildFnCom number={this.state.number} handleClick={this.handleClick} />
       
     )
   }
 }
 
+function ChildFnCom({handleClick, number}) {
+  return(
+      // <button onClick={handleClick}> + </button>
+
+      // 用于测试findDom
+      <div>
+      {number}
+      <button onClick={handleClick}> + </button>
+      </div>
+  )
+}
+
+// debugger
 const element4 = <Counter />
 
 
