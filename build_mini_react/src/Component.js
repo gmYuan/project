@@ -1,5 +1,17 @@
 import { findDOM, compareTwoVdom } from './react-dom';
 
+export let updateQueue = {
+  isBatchingUpdate:false,  //通过此变量来控制是否批量更新
+  updaters: [],
+  batchUpdate() {
+    // for(let updater of updateQueue.updaters){
+    //   updater.updateComponent();
+    // }
+    // updateQueue.isBatchingUpdate=false;
+    // updateQueue.updaters.length=0;
+  }
+}
+
 
 class Updater {
   constructor(classInstance){
@@ -18,14 +30,22 @@ class Updater {
     //触发更新逻辑       
     this.emitUpdate()
   }
+
   //不管状态和属性的变化 都会让组件刷新，即都会执行此方法
-  emitUpdate(){
-    this.updateComponent()
+  emitUpdate(nextProps){
+    this.nextProps  = nextProps;  //可能会传过来了一新的属性对象
+
+    //如果当前处于批量更新模式，那么就把此updater实例添加到updateQueue里去
+    if ( updateQueue.isBatchingUpdate ) {
+      updateQueue.updaters.push(this)
+    } else {
+     this.updateComponent(); //让组件更新
+    }
   }
 
   updateComponent(){
-    let { classInstance, pendingStates } = this
-    if (pendingStates.length > 0){//如果有等待的更新的话
+    let { classInstance, pendingStates, nextProps } = this
+    if (nextProps || pendingStates.length > 0){//如果有等待的更新的话
       shouldUpdate(classInstance, this.getState())
     }
   }
