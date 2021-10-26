@@ -25,6 +25,7 @@ export function addEvent(dom, eventType, handler) {  //TODO handler
 }
 
 function dispatchEvent(event){
+    // debugger
     let { target, type } = event;
     let eventType = `on${type}`;  //onclick
     updateQueue.isBatchingUpdate = true;  //切换为批量更新模式
@@ -34,9 +35,11 @@ function dispatchEvent(event){
     while(target){
         let { store } = target
         let handler = store && store[eventType]
+        debugger
         handler && handler.call( target, syntheticEvent)
         target = target.parentNode
     }
+    debugger
     updateQueue.isBatchingUpdate = false
     updateQueue.batchUpdate();
 }   

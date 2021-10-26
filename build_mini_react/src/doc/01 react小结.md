@@ -329,3 +329,36 @@ S2 从实现原理上
         compareTwoVdom(oldDOM.parentNode, oldRenderVdom, newRenderVdom) ==> 替换DOM
         this.oldRenderVdom = newRenderVdom
 ```
+
+而React的自定义合成事件 + 批量更新实现步骤如下
+```js
+1 createDOM
+  2 updateProps处理onXXX属性时：Event.saddEvent(dom, key.toLocaleLowerCase(), newProps[key] )，即对应 dom.onclick = handleClick
+
+    3 addEvent(dom, eventType, handler)：
+      S1 创建store = dom.store = {onclick = handler}
+      S2 事件委托到document上：document[eventType] = dispatchEvent
+  
+  2 继续执行UpdateProps ......
+1 继续执行createDOM ......
+
+target触发了点击事件后，冒泡到 document.onClick事件上，从而调用了dispatchEvent
+
+1 dispatchEvent(event)：
+  S1  切换为批量更新模式: updateQueue.isBatchingUpdate = true
+  S2 创建合成事件： let syntheticEvent = createSyntheticEvent(event)
+  S3 从 DOM.store 的DOM事件中心中，获取对应当前事件的回调函数 + 执行回调:  let handler = target.store[eventType] + handler.call( target, syntheticEvent)
+
+  2 handler里调用了setState
+    3  this.updater.addState(partialState, callback) ==> this.pendingStates.push(partialState) + this.callbacks.push(cb) + this.emitUpdate
+      4  this.emitUpdate ==> 如果是updateQueue.isBatchingUpdate，那么updateQueue.updaters.push(this)，否则才会调用 this.updateComponent
+  2 handler非 setState的逻辑语句： 直接执行即可
+  
+  S4 循环更新target，从而模拟 事件冒泡的过程
+  S5 完成冒泡过程后，设置updateQueue.isBatchingUpdate为false + 调用批量更新
+ updateQueue.batchUpdate
+   
+  2 updateQueue.batchUpdate ==> 循环每个 updateQueue.updaters +  调用 updater.updateComponent 来更新组建
+    3 updateComponent ==> shouldUpdate ==> forceUpdate等一系列更新逻辑
+
+```
