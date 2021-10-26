@@ -4,11 +4,11 @@ export let updateQueue = {
   isBatchingUpdate:false,  //通过此变量来控制是否批量更新
   updaters: [],
   batchUpdate() {
-    // for(let updater of updateQueue.updaters){
-    //   updater.updateComponent();
-    // }
-    // updateQueue.isBatchingUpdate=false;
-    // updateQueue.updaters.length=0;
+    for(let updater of updateQueue.updaters){
+      updater.updateComponent();
+    }
+    updateQueue.isBatchingUpdate=false;
+    updateQueue.updaters.length=0;
   }
 }
 

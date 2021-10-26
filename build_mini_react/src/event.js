@@ -27,7 +27,7 @@ export function addEvent(dom, eventType, handler) {  //TODO handler
 function dispatchEvent(event){
     let { target, type } = event;
     let eventType = `on${type}`;  //onclick
-    updateQueue.isBatchingUpdate = true;//切换为批量更新模式
+    updateQueue.isBatchingUpdate = true;  //切换为批量更新模式
     let syntheticEvent = createSyntheticEvent(event)
 
     //模拟事件冒泡的过程
