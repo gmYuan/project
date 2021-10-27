@@ -333,7 +333,7 @@ S2 从实现原理上
 而React的自定义合成事件 + 批量更新实现步骤如下
 ```js
 1 createDOM
-  2 updateProps处理onXXX属性时：Event.saddEvent(dom, key.toLocaleLowerCase(), newProps[key] )，即对应 dom.onclick = handleClick
+  2 updateProps处理onXXX属性时：Events.addEvent(dom, key.toLocaleLowerCase(), newProps[key] )，即对应 dom.onclick = handleClick
 
     3 addEvent(dom, eventType, handler)：
       S1 创建store = dom.store = {onclick = handler}
