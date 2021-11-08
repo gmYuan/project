@@ -31,19 +31,25 @@ function createElement(type,config,children){
         }
     }
     const vdom = {
-        key,
         type,
         props,
-        ref
+        ref,
+        key
     }
     console.log('vdom是', vdom)
     return vdom
 }
 
 
+function createRef(){
+    return {current:null};
+}
+
+
 const React = {
     createElement,
-    Component
+    Component,
+    createRef
 }
 
 export default React;

@@ -75,42 +75,71 @@ import ReactDOM from './react-dom';
 
 // const element4 = <Counter />
 
+
 // ---------------------
-
 // S5 类组件的合成事件 + 批量更新机制
-class Counter extends React.Component {
-  state = {number: 0 }
-  handleClick = () => {
-    this.setState({number: this.state.number + 1}, () => {
-      console.log('回调1', this.state.number)
-    })
-    console.log('handleClick1', this.state.number)
+// class Counter extends React.Component {
+//   state = {number: 0 }
+//   handleClick = () => {
+//     this.setState({number: this.state.number + 1}, () => {
+//       console.log('回调1', this.state.number)
+//     })
+//     console.log('handleClick1', this.state.number)
 
-    this.setState({number: this.state.number + 1},  () => {
-      console.log('回调2', this.state.number)
-    })
-    console.log('handleClick2', this.state.number)
+//     this.setState({number: this.state.number + 1},  () => {
+//       console.log('回调2', this.state.number)
+//     })
+//     console.log('handleClick2', this.state.number)
 
-    setTimeout(() => {
-      this.setState({number: this.state.number + 1})
-      console.log('handleClick3', this.state.number)
-      this.setState({number: this.state.number + 1})
-      console.log('handleClick4', this.state.number)
-    }, 10);
+//     setTimeout(() => {
+//       this.setState({number: this.state.number + 1})
+//       console.log('handleClick3', this.state.number)
+//       this.setState({number: this.state.number + 1})
+//       console.log('handleClick4', this.state.number)
+//     }, 10);
+//   }
+
+//   render() {
+//     return (
+//       <div>
+//         {this.state.number}
+//         <button onClick={this.handleClick}> + </button>
+//       </div>
+//     )
+//   }
+// }
+// const element5 = <Counter />
+
+
+// ---------------------
+// S6 Ref的实现原理
+class Sum extends React.Component{
+  numberA
+  numberB
+  result
+  constructor(props){
+    super(props);
+    this.numberA = React.createRef();  //{current:null}
+    this.numberB = React.createRef();
+    this.result = React.createRef();
   }
-
-  render() {
+  handleClick = (event)=>{
+    let numberA = this.numberA.current.value;
+    let numberB = this.numberB.current.value;
+    this.result.current.value = parseFloat(numberA)+parseFloat(numberB);
+  }
+  render(){
     return (
-      <div>
-        {this.state.number}
-        <button onClick={this.handleClick}> + </button>
-      </div>
+      <>
+        <input ref={this.numberA}/>
+        <input ref={this.numberB}/>
+        <button onClick={this.handleClick}>+</button>
+        <input ref={this.result}/>
+      </>
     )
   }
 }
-const element5 = <Counter />
-
-
+const element5 = <Sum />
 
 
 ReactDOM.render( element5,  document.getElementById('root'))

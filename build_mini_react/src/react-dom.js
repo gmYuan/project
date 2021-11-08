@@ -11,7 +11,7 @@ function render(vdom,container){
 }
 
 function mount(vdom,container){
-//   debugger
+  //   debugger
   let newDOM = createDOM(vdom)
   container.appendChild(newDOM) 
 }
@@ -22,7 +22,7 @@ function mount(vdom,container){
  *  S2 参数：vdom  虚拟DOM
  */
 function createDOM(vdom){
-  let { type, props } = vdom
+  let { type, props, ref } = vdom
 	//S1 即将创建并返回的 真实DOM元素
 	let dom  
 
@@ -51,10 +51,11 @@ function createDOM(vdom){
 		} else if ( Array.isArray(props.children) )  {
 			reconcileChildren(props.children, dom)
 		}
-  }
+    }
 
-	//让虚拟DOM的dom属性 指向它的真实DOM 
-	vdom.dom = dom
+	vdom.dom = dom            // 让虚拟DOM的dom属性 指向它的真实DOM 
+	if(ref) ref.current = dom   // 让ref.current属性 指向真实DOM的实例
+
   return dom
 }
 

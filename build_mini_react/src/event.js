@@ -35,11 +35,11 @@ function dispatchEvent(event){
     while(target){
         let { store } = target
         let handler = store && store[eventType]
-        debugger
+        // debugger
         handler && handler.call( target, syntheticEvent)
         target = target.parentNode
     }
-    debugger
+    // debugger
     updateQueue.isBatchingUpdate = false
     updateQueue.batchUpdate();
 }   

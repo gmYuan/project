@@ -360,5 +360,11 @@ target触发了点击事件后，冒泡到 document.onClick事件上，从而调
    
   2 updateQueue.batchUpdate ==> 循环每个 updateQueue.updaters +  调用 updater.updateComponent 来更新组建
     3 updateComponent ==> shouldUpdate ==> forceUpdate等一系列更新逻辑
-
 ```
+
+---------------------
+Q5 ref的实现原理
+1 createRef ==> 返回一个{ current: null } 对象
+2 JSX ==> createElement ==>  vdom = { type, props, ref, key }
+3 reactDOm.createDOM ==> 
+  - 原生vdom类型：vdom.dom = dom + ` if(ref) ref.current = dom`
