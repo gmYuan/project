@@ -113,33 +113,30 @@ import ReactDOM from './react-dom';
 
 // ---------------------
 // S6 Ref的实现原理
-class Sum extends React.Component{
-  numberA
-  numberB
-  result
+function TextInput(props, ref){
+  return <input ref={ref} />
+}
+const ForwardedTextInput = React.forwardRef(TextInput);
+
+class Form extends React.Component{
   constructor(props){
     super(props);
-    this.numberA = React.createRef();  //{current:null}
-    this.numberB = React.createRef();
-    this.result = React.createRef();
+    this.textInputRef = React.createRef();
   }
-  handleClick = (event)=>{
-    let numberA = this.numberA.current.value;
-    let numberB = this.numberB.current.value;
-    this.result.current.value = parseFloat(numberA)+parseFloat(numberB);
+  getFormFocus = ()=>{
+    //this.textInputRef.current就会指向TextInput类组件的实例
+    this.textInputRef.current.focus();
   }
   render(){
     return (
       <>
-        <input ref={this.numberA}/>
-        <input ref={this.numberB}/>
-        <button onClick={this.handleClick}>+</button>
-        <input ref={this.result}/>
+        <ForwardedTextInput ref={this.textInputRef}/>
+        <button onClick={this.getFormFocus}>获得焦点</button>
       </>
     )
   }
 }
-const element5 = <Sum />
+const element6 = <Form />
 
 
-ReactDOM.render( element5,  document.getElementById('root'))
+ReactDOM.render( element6,  document.getElementById('root'))

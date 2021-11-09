@@ -13,7 +13,7 @@ function createElement(type,config,children){
         delete config.__source;
         delete config.__self;
         ref = config.ref;
-        delete config.ref;
+        // delete config.ref;
         key = config.key;
         delete config.key;
     }
@@ -45,11 +45,26 @@ function createRef(){
     return {current:null};
 }
 
+function forwardRef(FunctionComponent){
+  return class extends Component{
+    render(){
+        return FunctionComponent(this.props, this.props.ref);
+    }
+  }
+}
+// function forwardRef(render){
+//     return {
+//         $$typeof:REACT_FORWARD_REF_TYPE,
+//         render//原来那个函数件
+//     }
+// }
+
 
 const React = {
     createElement,
     Component,
-    createRef
+    createRef,
+    forwardRef
 }
 
 export default React;
