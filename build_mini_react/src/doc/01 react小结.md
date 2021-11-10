@@ -372,3 +372,18 @@ Q5 ref的实现原理
   - 类组件类型：父组件a的ref指向子 类组件实例对象b，b的ref执行 原生dom类型，这样通过 a.b.ref.current来 间接获取到子组件的 dom指向  ==> classInstance.oldRenderVdom = vdom.oldRenderVdom = renderVdom + `if(ref) ref.current = classInstance`
 
   - 函数组件类型：通过 `React.forwardRef(FnCom)`, 返回一个新的传递ref的 类组件实例
+
+----------------
+Q6 生命周期实现原理
+A：
+S1 init： constructor在创建类实例时自动执行
+S2 componentWillMount/render/componentDidMount：
+  - reactDOM.mountClassComponent里调用钩子即可
+
+S3 componentWillUpdate / shouldComponentUpdate：
+  - 在 react.Component里的 shouldUpdate函数里实现
+  - 根据shouldComponentUpdate的返回结果，决定是否执行 更新视图的逻辑
+  - 不管视图是否更新，属性和状态的值 都要更新为最新的
+
+S4 componentDidUpdate
+  - 在 react.Component里的 forceUpdate函数里实现

@@ -1,5 +1,5 @@
-import React from './react';
-import ReactDOM from './react-dom';
+import React from 'react';
+import ReactDOM from 'react-dom';
 
 // S1 原生组件
 // let element = React.createElement("h1", 
@@ -112,31 +112,86 @@ import ReactDOM from './react-dom';
 
 
 // ---------------------
-// S6 Ref的实现原理
-function TextInput(props, ref){
-  return <input ref={ref} />
-}
-const ForwardedTextInput = React.forwardRef(TextInput);
+// S6 Ref的实现原理---- 见01 ref.js代码内容
 
-class Form extends React.Component{
-  constructor(props){
-    super(props);
-    this.textInputRef = React.createRef();
+// ---------------------
+// S7 生命周期的实现---- 见02 生命周期.js代码内容
+class ChildCounter extends React.Component{
+  // 1.设置默认属性
+  static defaultProps = {
+    name:'ChildCounter'
   }
-  getFormFocus = ()=>{
-    //this.textInputRef.current就会指向TextInput类组件的实例
-    this.textInputRef.current.focus();
+  componentWillMount(){
+    console.log('Child 1.componentWillMount');
   }
   render(){
-    return (
-      <>
-        <ForwardedTextInput ref={this.textInputRef}/>
-        <button onClick={this.getFormFocus}>获得焦点</button>
-      </>
-    )
+    console.log('Child 2.render');
+    return <div id="ChildCounter">ChildCounter:{this.props.count}</div>
+  }
+  componentDidMount(){
+    console.log('Child 3.componentDidMount');
+  }
+  shouldComponentUpdate(nextProps,nextState){
+    console.log('Child 5 .shouldComponentUpdate');
+    return nextProps.count%3 === 0   //如果是3的倍数就更新，否则不更新
+  }
+  componentWillReceiveProps(){
+    console.log('Child 4.componentWillReceiveProps');
+  }
+  componentWillUnmount(){
+    console.log('Child 6.componentWillUnmount');
   }
 }
-const element6 = <Form />
+
+// function FunctionChildCounter(props){
+//   return <div id="functionChildCounter">{props.count}</div>
+// }
+
+class Counter extends React.Component{
+  static defaultProps = {// 1.设置默认属性
+    name:'Counter'
+  }
+  constructor(props){
+    super(props);
+    this.state = {number:0}   //2.设置默认状态
+    console.log('Parent 1.constructor');
+  }
+  componentWillMount(){
+    console.log('Parent 2.componentWillMount')
+  }
+
+  handleClick = (event)=>{
+    this.setState( {number:this.state.number+1} )
+  }
+
+  //setState会引起状态的变化,父组件更新的时候，会让子组件的属性发生变化
+  //当属性或者状态发生改变的话，会走此方法来决定 是否要渲染更新
+  shouldComponentUpdate(nextProps, nextState){
+    console.log('Parent 5.shouldComponentUpdate')
+    return nextState.number%2 === 0   //奇数不更新，偶数更新
+  }
+  componentWillUpdate(){
+    console.log('Parent 6.componentWillUpdate')
+  }
+  render(){
+    console.log('Parent 3.render')
+    return (
+      <div id="Counter">
+        <p> ParentCounter:{this.state.number} </p>
+        { this.state.number === 4 ? null : <ChildCounter count={this.state.number}/> }
+        {/* <FunctionChildCounter count={this.state.number}/> */}
+        <button onClick={this.handleClick}>+</button>
+      </div>
+    )
+  }
+  componentDidUpdate(){
+    console.log('Parent 7.componentDidUpdate');
+  }
+  componentDidMount(){
+    console.log('Parent 4.componentDidMount');
+  }
+}
+const element7 = <Counter />
 
 
-ReactDOM.render( element6,  document.getElementById('root'))
+ReactDOM.render( element7,  document.getElementById('root'))

@@ -46,7 +46,7 @@ class Updater {
   updateComponent(){
     let { classInstance, pendingStates, nextProps } = this
     if (nextProps || pendingStates.length > 0){//如果有等待的更新的话
-      shouldUpdate(classInstance, this.getState())
+      shouldUpdate(classInstance, nextProps, this.getState())
     }
   }
 
@@ -70,9 +70,31 @@ class Updater {
 }
 
 // shouldUpdate
-function shouldUpdate( classInstance, nextState ){
-  classInstance.state = nextState
-  classInstance.forceUpdate()  //然后调用类组件实例的updateComponent进行更新
+function shouldUpdate( classInstance, nextProps, nextState ){
+  let willUpdate = true    //是否要更新，默认值是true
+  if ( classInstance.shouldComponentUpdate 
+    && 
+    (!classInstance.shouldComponentUpdate(nextProps,nextState)) ) {
+      willUpdate=false
+  }
+  // 生命周期
+  if (willUpdate && classInstance.componentWillUpdate) {
+    classInstance.componentWillUpdate()
+  }
+
+  // 不管要不要更新视图，属性和状态的值 都要更新为最新的
+  if (nextProps) classInstance.props = nextProps
+  if (classInstance.constructor.getDerivedStateFromProps) {
+    let nextState = classInstance.constructor.getDerivedStateFromProps(nextProps,classInstance.state);
+    if(nextState){
+      classInstance.state = nextState;
+    }
+  } else {
+    classInstance.state = nextState   //永远指向最新的状态
+  }
+  if (willUpdate) {
+    classInstance.forceUpdate()  //然后调用类组件实例的updateComponent进行更新
+  }
 }
 
 export class Component {
@@ -101,6 +123,10 @@ export class Component {
 
     compareTwoVdom(oldDOM.parentNode, oldRenderVdom, newRenderVdom)
     this.oldRenderVdom = newRenderVdom
+
+    if (this.componentDidUpdate) {
+      this.componentDidUpdate( this.props, this.state )
+    } 
   }
 
 }
