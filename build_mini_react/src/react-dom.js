@@ -137,12 +137,73 @@ function reconcileChildren(childrenVdom, parentDOM){
 }
 
 
-export function compareTwoVdom(parentDOM,oldVdom,newVdom){
-  let oldDOM = findDOM(oldVdom)
-  let newDOM = createDOM(newVdom)
-  parentDOM.replaceChild(newDOM,oldDOM)
+export function compareTwoVdom( parentDOM, oldVdom, newVdom ) {
+  //   let oldDOM = findDOM(oldVdom)
+  //   let newDOM = createDOM(newVdom)
+  //   parentDOM.replaceChild(newDOM,oldDOM)
+
+  if (!oldVdom && !newVdom) {
+	  //如果老的虚拟DOM是null, 新的虚拟DOM也是null
+	  return null
+  } else if ( oldVdom && (!newVdom) ) {
+	  //老的为不null,新的为null,销毁老组件
+	  let currentDOM = findDOM(oldVdom)
+	  //把老的真实DOM删除
+	  currentDOM.parentNode.removeChild(currentDOM)
+  	if(oldVdom.classInstance && oldVdom.classInstance.componentWillUnmount) {
+		  oldVdom.classInstance.componentWillUnmount()  //执行组件卸载方法
+	  }
+	  return null
+  } else if ( !oldVdom && newVdom ){
+	  //如果老的没有，新的有，就根据新的组件创建新的DOM并且添加到父DOM容器中  
+	  let newDOM = createDOM(newVdom)
+	  parentDOM.appendChild(newDOM)
+	  if (newDOM.componentDidMount) {
+	    newDOM.componentDidMount()
+	  }
+	  return newVdom
+  } else if (oldVdom && newVdom && (oldVdom.type !== newVdom.type) ) {
+	  // 新老都有，但是不同类型，也不能复用，则需要删除老的，添加新的 
+	  let oldDOM  = findDOM(oldVdom)          // 先获取 老的真实DOM
+	  let newDOM = createDOM(newVdom)     // 创建新的真实DOM
+	  oldDOM.parentNode.replaceChild(newDOM,oldDOM)
+
+	  if(oldVdom.classInstance&&oldVdom.classInstance.componentWillUnmount) {
+			//执行组件卸载方法
+		  oldVdom.classInstance.componentWillUnmount()
+	  }
+	  if (newDOM.componentDidMount) { 
+			newDOM.componentDidMount()
+		}
+		return newVdom
+  } else {
+		//老的有，新的也有，类型也一样，需要复用老节点，进行深度dom diff
+	  updateElement(oldVdom,newVdom)
+		return newVdom
+  }
 }
 
+function updateElement (oldVdom,newVdom) {
+	// 说明是原生组件 div
+  if( typeof oldVdom.type === 'string' ){
+		//让新的虚拟DOM的 真实DOM属性  等于 老的虚拟DOM对应的 那个真实DOM
+		let currentDOM = newVdom.dom = findDOM(oldVdom)
+		//用新的属性 更新DOM的老属性
+		updateProps(currentDOM, oldVdom.props, newVdom.props)
+		updateChildren(currentDOM, oldVdom.props.children, newVdom.props.children)
+	}
+}
+
+function updateChildren(parentDOM, oldVChildren, newVChildren){
+	oldVChildren = Array.isArray(oldVChildren) ? oldVChildren : [oldVChildren]
+	newVChildren = Array.isArray(newVChildren) ? newVChildren : [newVChildren]
+	let maxLength = Math.max( oldVChildren.length, newVChildren.length)
+	for (let i=0; i<maxLength; i++) {
+		//找当前的虚拟DOM节点这后的  最近的一个真实DOM节点
+		// let nextVNode = oldVChildren.find( (item,index) => index>i && item && findDOM(item) )
+		compareTwoVdom( parentDOM, oldVChildren[i], newVChildren[i] )
+	}
+}
 
 
 const ReactDOM = {
