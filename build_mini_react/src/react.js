@@ -52,6 +52,7 @@ function forwardRef(FunctionComponent){
     }
   }
 }
+
 // function forwardRef(render){
 //     return {
 //         $$typeof:REACT_FORWARD_REF_TYPE,
