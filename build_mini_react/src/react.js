@@ -1,5 +1,7 @@
 import { wrapToVdom } from './utils'
 import { Component } from './Component'
+import { REACT_FORWARD_REF_TYPE } from './constants'
+
 
 /** 
  * S1  作用：生成如  { type: "div",  key: bb, props: { children: [xxx]  } }的 vdom对象
@@ -13,7 +15,7 @@ function createElement(type,config,children){
         delete config.__source;
         delete config.__self;
         ref = config.ref;
-        // delete config.ref;
+        delete config.ref;
         key = config.key;
         delete config.key;
     }
@@ -45,6 +47,7 @@ function createRef(){
     return {current:null};
 }
 
+/** 
 function forwardRef(FunctionComponent){
   return class extends Component{
     render(){
@@ -52,13 +55,13 @@ function forwardRef(FunctionComponent){
     }
   }
 }
-
-// function forwardRef(render){
-//     return {
-//         $$typeof:REACT_FORWARD_REF_TYPE,
-//         render//原来那个函数件
-//     }
-// }
+*/
+function forwardRef(render){
+    return {
+        $$typeof: REACT_FORWARD_REF_TYPE,
+        render  //原来那个函数件
+    }
+}
 
 
 const React = {

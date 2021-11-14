@@ -1,4 +1,4 @@
-import { REACT_TEXT } from './constants'
+import { REACT_TEXT, REACT_FORWARD_REF_TYPE } from './constants'
 import { addEvent } from './event';
 
 
@@ -26,7 +26,9 @@ function createDOM(vdom){
 	//S1 即将创建并返回的 真实DOM元素
 	let dom  
 
-	if (type === REACT_TEXT){
+	if( type && type.$$typeof === REACT_FORWARD_REF_TYPE) {
+		return mountForwardComponent(vdom)
+  } else if (type === REACT_TEXT){
 		// 如果是一个文本元素，就创建一个文本节点
 		dom = document.createTextNode(props.content)
   } else if ( typeof type === 'function' ) {
@@ -57,6 +59,13 @@ function createDOM(vdom){
 	if(ref) ref.current = dom   // 让ref.current属性 指向真实DOM的实例
 
   return dom
+}
+
+function mountForwardComponent(vdom){
+	let { type, props, ref } = vdom
+	let renderVdom = type.render(props, ref)
+	vdom.oldRenderVdom = renderVdom
+	return createDOM(renderVdom);
 }
 
 function mountClassComponent(vdom){

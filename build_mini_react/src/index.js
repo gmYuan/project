@@ -1,5 +1,5 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from './react';
+import ReactDOM from './react-dom';
 
 // S1 原生组件
 // let element = React.createElement("h1", 
@@ -113,6 +113,7 @@ import ReactDOM from 'react-dom';
 
 // ---------------------
 // S6 Ref的实现原理---- 见01 ref.js代码内容
+
 
 // ---------------------
 // S7 生命周期的实现---- 见02 生命周期.js代码内容

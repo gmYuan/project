@@ -369,9 +369,48 @@ Q5 ref的实现原理
 3 reactDOm.createDOM ==> 
   - 原生vdom类型：vdom.dom = dom + ` if(ref) ref.current = dom`
 
-  - 类组件类型：父组件a的ref指向子 类组件实例对象b，b的ref执行 原生dom类型，这样通过 a.b.ref.current来 间接获取到子组件的 dom指向  ==> classInstance.oldRenderVdom = vdom.oldRenderVdom = renderVdom + `if(ref) ref.current = classInstance`
+  - 类组件类型：父组件a的ref指向子 类组件实例对象b，b的ref指向 原生dom类型，这样通过 a.b.ref.current来 间接获取到子组件的 dom指向  ==> classInstance.oldRenderVdom = vdom.oldRenderVdom = renderVdom + `if(ref) ref.current = classInstance`
 
-  - 函数组件类型：通过 `React.forwardRef(FnCom)`, 返回一个新的传递ref的 类组件实例
+  - 函数组件类型：通过 `React.forwardRef(FnCom)`, 返回一个forward类型对象 + 后续特定处理
+
+调试过程理解如下：
+
+1 调用JSX ==> createElement()  ==> 生成vdom{ type, key, ref, props }
+2 ReactDOM.render(vdom, container) ==> mount(vdom, container) 
+  3.1 newDOM = createDOM(vdom)
+    4.1  dom = createDOMByVdomType
+    4.2 updateProps(dom, {}, props)
+    4.3 render(props.children, dom) / reconcileChildren(props.children, dom)
+    4.4 挂载 生成的真实dom :  vdom.dom = dom + ref.current = dom
+
+  3.2 container.appendChild(newDOM)  
+ 
+
+4.1 dom = createDOMByVdomType 过程细化解析 
+  5.1 mountClassComponent：处理 class类型的vdom
+    6.1 初始化/ 构造类组件实例 classInstance = new type({...defaultProps,...props})
+      7 执行类组件构造函数 ==> React.Component默认父组件构造函数 ==>
+        classInstance = { props: {} , state: {},  updater: Updater }
+    6.2 执行 类组件生命周期：
+      7 classInstance.WillMount() 
+       let renderVdom = classInstance.render() ==> JSX ==> 子内容vdom
+       classInstance.DidMount()
+    6.3 addNewPropertyToVdom：vdom.oldRenderVdom = renderVdom
+    6.4 addNewPropertyToClassInstance：classInstance.oldRenderVdom = renderVdom
+    6.5 处理类组件的ref，让它执行类组件实例 ==>  ref.current = classInstance 
+    6.6 根据vdom 生成真实vom ==> 递归执行 return const  dom =  createDOM(renderVdom)
+
+  综上，类组件的vdom 和 classInstance的属性分别有：
+  vdom = {type, props, key,  ref: classInstance, oldRenderVdom: vdom,  dom: dom }
+  classInstance = { props, state,  updater: Updater, oldRenderVdom: vdom  }
+
+  5.2 mountForwardComponent(vdom)：处理Forward类型的 vdom
+    6.1 执行被传入forward的函数组件 ==> let renderVdom = type.render(props, ref)
+    6.2 addNewPropertyToVdom：vdom.oldRenderVdom = renderVdom
+    6.3 根据vdom 生成真实vom ==> 递归执行 return createDOM(renderVdom)
+
+  5.3 ......
+   
 
 ----------------
 Q6 生命周期实现原理
@@ -387,3 +426,6 @@ S3 componentWillUpdate / shouldComponentUpdate：
 
 S4 componentDidUpdate
   - 在 react.Component里的 forceUpdate函数里实现
+
+
+  
