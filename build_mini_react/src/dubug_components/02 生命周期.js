@@ -112,8 +112,8 @@ class Counter extends React.Component{
   render(){
     console.log('Parent 3.render')
     return (
-      <div id="Counter">
-        <p> ParentCounter:{this.state.number} </p>
+      <div id="Parent">
+        {/* <p>ParentCounter:{this.state.number}</p> */}
         { this.state.number === 4 ? null : <ChildCounter count={this.state.number}/> }
         {/* <FunctionChildCounter count={this.state.number}/> */}
         <button onClick={this.handleClick}>+</button>
@@ -127,6 +127,55 @@ class Counter extends React.Component{
     console.log('Parent 4.componentDidMount');
   }
 }
-
+// debugger
 const element7 = <Counter />
-ReactDOM.render( element7,  document.getElementById('root'))
+
+
+/** 
+打印结果是
+
+Parent 1.constructor
+Parent 2.componentWillMount
+Parent 3.render
+
+Child 1.componentWillMount
+Child 2.render
+Child 3.componentDidMount
+
+Parent 4.componentDidMount
+
+--------------
+state: 2
+
+Parent 5.shouldComponentUpdate
+Parent 6.componentWillUpdate
+Parent 3.render
+
+Child 4.componentWillReceiveProps
+Child 5 .shouldComponentUpdate
+Parent 7.componentDidUpdate
+
+----------------
+state: 4
+
+Parent 5.shouldComponentUpdate
+Parent 6.componentWillUpdate
+Parent 3.render
+
+Child 6.componentWillUnmount
+Parent 7.componentDidUpdate
+
+---------------
+state: 6
+
+Parent 5.shouldComponentUpdate
+Parent 6.componentWillUpdate
+Parent 3.render
+
+Child 1.componentWillMount
+Child 2.render
+Child 3.componentDidMount
+
+Parent 7.componentDidUpdate
+
+**/

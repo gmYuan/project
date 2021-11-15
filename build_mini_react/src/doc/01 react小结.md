@@ -413,19 +413,171 @@ Q5 ref的实现原理
 
 ----------------
 Q6 生命周期实现原理
+
 A：
-S1 init： constructor在创建类实例时自动执行
-S2 componentWillMount/render/componentDidMount：
-  - reactDOM.mountClassComponent里调用钩子即可
-  - 对didMount需要进行特殊处理
+  - willMount/render/didMount ==> ReactDOM.render中挂载
 
-S3 componentWillUpdate / shouldComponentUpdate：
-  - 在 react.Component里的 shouldUpdate函数里实现
-  - 根据shouldComponentUpdate的返回结果，决定是否执行 更新视图的逻辑
-  - 不管视图是否更新，属性和状态的值 都要更新为最新的
+组件渲染过程见下：
+1 返回JSX ==> React.createElement() ==> 生成 vdom { type, key, ref, props }
 
-S4 componentDidUpdate
-  - 在 react.Component里的 forceUpdate函数里实现
+2 ReactDOM.render(vdom, container) ==> mount(vdom, container) 
+  2.1 newDOM = createDOM(vdom)
+  2.2 container.appendChild(newDOM)  
+  2.3 comDidMount生命周期执行：`newDOM.componentDidMount()`
+ 
+2.1 newDOM = createDOM(vdom)过程细化
+  3.1  dom = createDOMByVdomType：mountClassComponent等
+  3.2 updateProps(dom, {}, props)
+  3.3 render / reconcileChildren(props.children, dom)
+  3.4 在vdom上挂载 生成的真实dom + 处理ref指向： 
+    - vdom.dom = dom
+    - ref.current = dom
 
 
+3.1 mountClassComponent 过程细化解析
+  4.1 构造组件实例 classInstance = new type({...df, ...props})
+    - 执行类组件构造函数 ==> React.Component默认父组件构造函数 
+    - classInstance = { props, state,  updater: Updater }
   
+  4.2 `执行 类组件生命周期钩子`
+    - classInstance.componentWillMount()
+    - renderVdom = classInstance.render() ==> JSX/ 子内容vdom
+
+  4.3 在vdom/classInstance上，挂载一些生成的新属性
+    -  vdom.classInstance = classInstance
+    -  vdom.oldRenderVdom = renderVdom
+    -  classInstance.oldRenderVdom = renderVdom
+  
+  4.4 处理ref，指向类组件的实例：ref.current = classInstance 
+
+  4.5 生成真实DOM + `挂载didMount`
+    - return let dom =  createDOM(renderVdom) 递归调用
+    - dom.componentDidMount = classInstance.componentDidMount.bind(classInstance)
+
+综上，类组件的vdom 和 classInstance的属性分别有：
+  vdom = { type, props, key,  ref, oldRenderVdom,  classInstance, dom }
+  classInstance = { props, state,  updater, oldRenderVdom }
+其中，
+  classInstance.oldRenderVdom 用于 
+    - 基于上一次渲染的vdom, `配合vdom.dom` 获取到 上一次视图的真实DOM
+    - 用于dom-diff，比较新旧 vdom节点的差异
+  
+  vdom.classInstance 用于 
+    - 执行挂载在 classInstance的生命周期钩子，如willUnmount
+
+
+3.2 mountFunctionComponent 过程细化解析
+  4.1 创建函数组件实例 ==>	let renderVdom = type(props)
+  4.2 在vdom上，挂载一些生成的新属性
+    -  vdom.oldRenderVdom = renderVdom
+  4.3 生成真实DOM ==> return createDOM(renderVdom)
+
+3.3 mountForwardComponent 过程细化解析
+  4.1 创建`封装的` 函数组件实例==>	renderVdom = type(props, ref)
+  4.2 在vdom上，挂载一些生成的新属性
+    -  vdom.oldRenderVdom = renderVdom
+  4.3 生成真实DOM ==> return createDOM(renderVdom)
+
+
+组件更新过程见下：
+
+1 updateProps
+  1.1 处理 props.children ==> 略过
+  1.2 处理 props.style ==> 处理对象 + 赋值到 dom.style上
+  1.3 处理 props.onXXX ==> addEvent(dom,  eventType, handler)
+  1.4 处理 props.其他属性 ==> dom[key] = Props[key]
+ 
+1.3 Event里的 addEvent(dom,  eventType, handler)
+  2.1 创建store = dom.store = {onclick = handler}
+  2.2 事件委托到 document上：document[onclick] = dispatchEvent
+
+3 target触发事件 ==> 冒泡到document.onclick ==> 调用dispatchEvent(event)
+  3.1 切换为批量更新模式: updateQueue.isBatchingUpdate = true
+  3.2 创建合成事件：syntheticEvent=createSyntheticEvent(event)
+  3.3 从 DOM.store 的DOM事件中心中，获取对应当前事件的回调函数 + 执行回调 ==>  let handler = target.store[eventType] + handler.call(target, syntheticEvent)
+  3.4 循环冒泡事件 + 事件都执行完成 ==> updateQueue.isBatchingUpdate = false + updateQueue.batchUpdate()
+
+4 handler里调用了setState ==> addState(partialState, cb)
+  4.1 更新入队：pendingStates.push(partialState) + cbs.push(cb)
+  4.2 触发更新：this.emitUpdate()    
+
+4.2 this.emitUpdate() 
+  5.1 如果处于批量更新模式，就把此updater实例 入队到updateQueue ==>  updateQueue.updaters.push(this)
+  5.2 不处于批量更新模式/开始执行 updateQueue.batchUpdate，则让组件更新：this.updateComponent() ==>
+    shouldUpdate(classInstance, nextProps, this.getState())
+
+5.2 shouldUpdate(classInstance, nextProps, nextState)
+  6.1 getState ==> 合并更新 + 返回 最新的state对象值
+  6.2 按前置条件决定是否 `执行生命周期` + 是否更新视图：
+    - shouldComponentUpdate()
+    - componentWillUpdate()
+  6.3 无论视图是否更新，属性和状态的值都要更新为最新的：
+    - classInstance.props = nextProps
+    - classInstance.state = nextState
+  
+  6.4 如果要更新视图，则调用 classInstance.forceUpdate()
+
+6.4 classInstance.forceUpdate()   
+  7.1 获取上一次oldRenderVdom对应的真实DOM
+    - oldDOM = findDOM(this.oldRenderVdom)
+  7.2 基于新的属性和状态，计算新的虚拟DOM
+    - newRenderVdom = this.render()
+  7.3 通过DOM.diff策略，比较新老vdom + 更新视图真实DOM  
+    - compareTwoVdom(oldDOM.parentNode, this.oldRenderVdom, newRenderVdom)
+  7.4 更新classInstance.oldRenderVdom + 执行 `生命周期`
+    - this.oldRenderVdom = newRenderVdom
+    -  this.componentDidUpdate( this.props, this.state )
+
+7.3 compareTwoVdom(parentDOM, oldVdom, newVdom, nextDOM)
+  8.1 !oldVdom && !newVdom：无变化，什么都不做
+  8.2 oldVdom && (!newVdom)：销毁老组件 + `生命周期函数`
+    - currentDOM.parentNode.removeChild(currentDOM)
+    - oldVdom.classInstance.componentWillUnmount()
+  8.3 !oldVdom && newVdom：创建新DOM + `生命周期函数`
+    - parentDOM.insertBefore(newDOM, nextDOM) / parentDOM.appendChild(newDOM)
+    - newDOM.componentDidMount()
+  
+  8.4 新老都有 + DOM类型不同：删除老DOM，添加新DOM + `生命周期`
+    - oldDOM  = findDOM(oldVdom) + newDOM = createDOM(newVdom)
+    - oldDOM.parentNode.replaceChild(newDOM,oldDOM)
+    - oldVdom.classInstance.willUnmount() + newDOM.didMount()
+  
+  8.5 新老都有 + DOM类型相同：复用老节点，进行深度dom diff
+    9 updateElement(oldVdom,newVdom)
+
+9 updateElement (oldVdom,newVdom) 
+  10.1 文本类型组件，直接更新文本内容即可：
+    - let currentDOM = newVdom.dom = findDOM(oldVdom)
+    - currentDOM.textContent = newVdom.props.content
+  
+  10.2 其他原生DOM组件：
+    - let currentDOM = newVdom.dom = findDOM(oldVdom)
+    - 更新DOM的属性 ==>  updateProps(currentDOM, oldVdom.props, newVdom.props)
+    - 更新DOM的children ==> updateChildren(currentDOM, oldVdom.props.children, newVdom.props.children)
+  
+  10.3 类组件类型 ==> updateClassComponent(oldVdom,newVdom)
+  10.4 函数组件类型==> updateFunctionComponent(oldVdom,newVdom)
+
+
+10.2  updateChildren(parentDOM, oldVChildren, newVChildren)
+  - 把oldVChildren/newVChildren封装  为数组，获取较大的长度
+  - 找当前的虚拟DOM节点之后的 最近的一个真实DOM节点 ==> 
+     nextVNode = oldVChildren.find( (item,index) =>
+       index > i  && item && findDOM(item) )
+
+  - 递归逐个比较子元素并更新 ==> compareTwoVdom(
+    parentDOM, oldVChildren[i], newVChildren[i],
+    nextVNode && findDOM(nextVNode) )
+
+10.3 updateClassComponent(oldVdom,newVdom)
+  - classInstance.updater.emitUpdate(newVdom.props)
+
+
+10.4 updateFunctionComponent(oldVdom,newVdom)
+  -  获取 fnVdom的真实父容器DOM： parentDOM = findDOM(oldVdom).parentNode
+  -  获取新的 renderVdom：renderVdom = newVdom.type(props)
+  - compareTwoVdom(parentDOM, oldVdom.oldRenderVdom, renderVdom)
+  - newVdom.oldRenderVdom = renderVdom
+
+
+
