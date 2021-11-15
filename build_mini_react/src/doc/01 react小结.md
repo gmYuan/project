@@ -410,7 +410,6 @@ Q5 ref的实现原理
     6.3 根据vdom 生成真实vom ==> 递归执行 return createDOM(renderVdom)
 
   5.3 ......
-   
 
 ----------------
 Q6 生命周期实现原理
@@ -418,6 +417,7 @@ A：
 S1 init： constructor在创建类实例时自动执行
 S2 componentWillMount/render/componentDidMount：
   - reactDOM.mountClassComponent里调用钩子即可
+  - 对didMount需要进行特殊处理
 
 S3 componentWillUpdate / shouldComponentUpdate：
   - 在 react.Component里的 shouldUpdate函数里实现
