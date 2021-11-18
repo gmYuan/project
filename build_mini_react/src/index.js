@@ -1,5 +1,5 @@
-import React from './react';
-import ReactDOM from './react-dom';
+import React from 'react';
+import ReactDOM from 'react-dom';
 
 // S1 原生组件
 // let element = React.createElement("h1", 
@@ -117,55 +117,87 @@ import ReactDOM from './react-dom';
 
 // ---------------------
 // S7 生命周期的实现---- 见02 生命周期.js代码内容
-class ScrollList extends React.Component{
-    constructor(props){
-      super(props);
-      this.state = {messages:[]}
-      this.wrapper = React.createRef()
-    }
-    addMessage = ()=>{
-      this.setState(state=>({
-        messages:[ this.state.messages.length, ...state.messages ]
-      }));
-    }
-    componentDidMount(){
-      this.timer = setInterval(()=>{
-        this.addMessage()
-      },1000)
-    }
-    componentWillUnmount(){
-      clearInterval(this.timer)
-    }
-    getSnapshotBeforeUpdate(){
-      return {
-        prevScrollTop:this.wrapper.current.scrollTop,         
-        prevScrollHeight:this.wrapper.current.scrollHeight
-      }
-    }
-    componentDidUpdate(prevProps,prevState,{prevScrollTop,prevScrollHeight}){
-      const newHeight = this.wrapper.current.scrollHeight-prevScrollHeight
-      this.wrapper.current.scrollTop= prevScrollTop + newHeight
-    }
-    render(){
-      let style = {
-        height:'100px',
-        width:'200px',
-        border:'1px solid red',
-        overflow:'auto'
-      }
-      return (
-        <div style={style} ref={this.wrapper}>
-          {
-            this.state.messages.map((message,index)=>{
-              return <div key={index}>{message}</div>
-            })
-          }
+
+
+// ---------------------
+// S8 context的实现---- 见03 context.js代码内容
+let ThemeContext = React.createContext()
+//ThemeContext={ Provider,Consumer } Consumer一般用在函数组件中
+//contextType只能用在类组件里, Consumer可以在类组件和函数组件中使用
+
+
+class Page extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { color: 'red' };
+  }
+  changeColor = (color) => {
+    this.setState({ color });
+  }
+  render() {
+    let contextValue = { color: this.state.color, changeColor: this.changeColor };
+    return (
+      <ThemeContext.Provider value={contextValue}>
+        <div style={{ margin: '10px', border: `5px solid ${this.state.color}`, padding: '5px', width: '200px' }}>
+          主页
+           <Header />
+          <Main />
         </div>
-      )
-    }
+      </ThemeContext.Provider>
+    )
+  }
 }
-const element7 = <ScrollList />
+
+function Header(){
+  return (
+    <ThemeContext.Consumer>
+      {
+        value=>(
+          <div style={{ margin: '10px', border: `5px solid ${value.color}`, padding: '5px' }}>
+            头部
+            <Title />
+          </div>
+        )
+      }
+    </ThemeContext.Consumer>
+  )
+}
+class Title extends React.Component {
+  static contextType = ThemeContext
+  render() {
+    return (
+      <div style={{ margin: '10px', border: `5px solid ${this.context.color}`, padding: '5px' }}>
+        标题
+      </div>
+    )
+  }
+}
+
+class Main extends React.Component {
+  static contextType = ThemeContext
+  render() {
+    return (
+      <div style={{ margin: '10px', border: `5px solid ${this.context.color}`, padding: '5px' }}>
+        主体
+        <Content />
+      </div>
+    )
+  }
+}
+class Content extends React.Component {
+  static contextType = ThemeContext
+  render() {
+    return (
+      <div style={{ margin: '10px', border: `5px solid ${this.context.color}`, padding: '5px'}}>
+        内容
+        <button onClick={()=>this.context.changeColor('red')}>变红</button>
+        <button onClick={()=>this.context.changeColor('green')}>变绿</button>
+      </div>
+    )
+  }
+}
+const element8 = <Page />
 
 
 
-ReactDOM.render( element7,  document.getElementById('root'))
+ReactDOM.render( element8,  document.getElementById('root'))
