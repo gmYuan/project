@@ -513,7 +513,9 @@ A：
     - componentWillUpdate()
   6.3 无论视图是否更新，属性和状态的值都要更新为最新的：
     - classInstance.props = nextProps
+    - 挂上`生命周期钩子: getDerivedStateFromProps`
     - classInstance.state = nextState
+  
   
   6.4 如果要更新视图，则调用 classInstance.forceUpdate()
 

@@ -153,7 +153,7 @@ export function compareTwoVdom( parentDOM, oldVdom, newVdom, nextDOM ) {
   //   let oldDOM = findDOM(oldVdom)
   //   let newDOM = createDOM(newVdom)
   //   parentDOM.replaceChild(newDOM,oldDOM)
-  debugger
+  //   debugger
   
   if (!oldVdom && !newVdom) {
 	  //如果老的虚拟DOM是null, 新的虚拟DOM也是null

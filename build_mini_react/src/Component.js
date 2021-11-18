@@ -84,6 +84,9 @@ function shouldUpdate( classInstance, nextProps, nextState ){
 
   // 不管要不要更新视图，属性和状态的值 都要更新为最新的
   if (nextProps) classInstance.props = nextProps
+  
+  // getDerivedStateFromProps是类的静态方法
+  // 所以使用 classInstance.constructor
   if (classInstance.constructor.getDerivedStateFromProps) {
     let nextState = classInstance.constructor.getDerivedStateFromProps(nextProps,classInstance.state);
     if(nextState){

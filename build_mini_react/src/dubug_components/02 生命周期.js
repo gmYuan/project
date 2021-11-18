@@ -179,3 +179,47 @@ Child 3.componentDidMount
 Parent 7.componentDidUpdate
 
 **/
+
+
+// ----------------------------------
+// S3 getDerivedStateFromProps
+class Child extends React.Component {
+  state = { count:0 } 
+  static defaultProps = {
+    name:'Child'
+  }
+  //getDerivedStateFromProps是为了取代 componentWillReceiveProps
+  //因为很多人在使用componentWillReceiveProps会调用this.setState，经常引起死循环
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const {count} = nextProps;
+    //return null  //不修改状态
+    return { ...prevState , count:count*2 }   //新的状态对象
+  }
+  render(){
+    console.log('Child1. render');
+    return <div id="Child">Child:{this.state.count}</div>
+  }
+}
+class Counter extends React.Component{
+  static defaultProps = {// 1.设置默认属性
+    name:'Parenr'
+  }
+  constructor(props){
+    super(props)
+    this.state = { number:0}
+  }
+
+  handleClick = (event)=>{
+    this.setState({number:this.state.number+1})
+  }
+  render(){
+    console.log('Parenr. render');
+    return (
+      <div id="Parent">
+        <p>Counter:{this.state.number}</p>
+        <Child count={this.state.number}/>
+        <button onClick={this.handleClick}>+</button>
+      </div>
+    )
+  }
+}
