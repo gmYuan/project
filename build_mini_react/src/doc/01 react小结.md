@@ -524,6 +524,12 @@ A：
     - oldDOM = findDOM(this.oldRenderVdom)
   7.2 基于新的属性和状态，计算新的虚拟DOM
     - newRenderVdom = this.render()
+  
+  7.2 `执行生命周期钩子`
+    - extraArgs = this.getSnapshotBeforeUpdate()
+    - extraArgs 用于之后的 componentDidUpdate(newProps,newState, extraArgs)
+
+
   7.3 通过DOM.diff策略，比较新老vdom + 更新视图真实DOM  
     - compareTwoVdom(oldDOM.parentNode, this.oldRenderVdom, newRenderVdom)
   7.4 更新classInstance.oldRenderVdom + 执行 `生命周期`
@@ -561,7 +567,7 @@ A：
   10.4 函数组件类型==> updateFunctionComponent(oldVdom,newVdom)
 
 
-10.2  updateChildren(parentDOM, oldVChildren, newVChildren)
+10.2 updateChildren(parentDOM, oldVChildren, newVChildren)
   - 把oldVChildren/newVChildren封装  为数组，获取较大的长度
   - 找当前的虚拟DOM节点之后的 最近的一个真实DOM节点 ==> 
      nextVNode = oldVChildren.find( (item,index) =>

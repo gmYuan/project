@@ -84,7 +84,7 @@ function shouldUpdate( classInstance, nextProps, nextState ){
 
   // 不管要不要更新视图，属性和状态的值 都要更新为最新的
   if (nextProps) classInstance.props = nextProps
-  
+
   // getDerivedStateFromProps是类的静态方法
   // 所以使用 classInstance.constructor
   if (classInstance.constructor.getDerivedStateFromProps) {
@@ -124,11 +124,17 @@ export class Component {
     //然后基于新的属性和状态，计算新的虚拟DOM
     let newRenderVdom = this.render()
 
+    let extraArgs
+    if(this.getSnapshotBeforeUpdate){
+      extraArgs = this.getSnapshotBeforeUpdate()
+    }
+
+
     compareTwoVdom(oldDOM.parentNode, oldRenderVdom, newRenderVdom)
     this.oldRenderVdom = newRenderVdom
 
     if (this.componentDidUpdate) {
-      this.componentDidUpdate( this.props, this.state )
+      this.componentDidUpdate( this.props, this.state, extraArgs)
     } 
   }
 

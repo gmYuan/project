@@ -117,47 +117,54 @@ import ReactDOM from './react-dom';
 
 // ---------------------
 // S7 生命周期的实现---- 见02 生命周期.js代码内容
-class Child extends React.Component {
-    state = { count:0 } 
-    static defaultProps = {
-      name:'Child'
-    }
-    //getDerivedStateFromProps是为了取代 componentWillReceiveProps
-    //因为很多人在使用componentWillReceiveProps会调用this.setState，经常引起死循环
-    static getDerivedStateFromProps(nextProps, prevState) {
-      const {count} = nextProps;
-      //return null  //不修改状态
-      return { ...prevState , count:count*2 }   //新的状态对象
-    }
-    render(){
-      console.log('Child1. render');
-      return <div id="Child">Child:{this.state.count}</div>
-    }
-  }
-class Counter extends React.Component{
-    static defaultProps = {// 1.设置默认属性
-      name:'Parenr'
-    }
+class ScrollList extends React.Component{
     constructor(props){
-      super(props)
-      this.state = { number:0}
+      super(props);
+      this.state = {messages:[]}
+      this.wrapper = React.createRef()
     }
-  
-    handleClick = (event)=>{
-      this.setState({number:this.state.number+1})
+    addMessage = ()=>{
+      this.setState(state=>({
+        messages:[ this.state.messages.length, ...state.messages ]
+      }));
+    }
+    componentDidMount(){
+      this.timer = setInterval(()=>{
+        this.addMessage()
+      },1000)
+    }
+    componentWillUnmount(){
+      clearInterval(this.timer)
+    }
+    getSnapshotBeforeUpdate(){
+      return {
+        prevScrollTop:this.wrapper.current.scrollTop,         
+        prevScrollHeight:this.wrapper.current.scrollHeight
+      }
+    }
+    componentDidUpdate(prevProps,prevState,{prevScrollTop,prevScrollHeight}){
+      const newHeight = this.wrapper.current.scrollHeight-prevScrollHeight
+      this.wrapper.current.scrollTop= prevScrollTop + newHeight
     }
     render(){
-      console.log('Parenr. render');
+      let style = {
+        height:'100px',
+        width:'200px',
+        border:'1px solid red',
+        overflow:'auto'
+      }
       return (
-        <div id="Parent">
-          <p>Counter:{this.state.number}</p>
-          <Child count={this.state.number}/>
-          <button onClick={this.handleClick}>+</button>
+        <div style={style} ref={this.wrapper}>
+          {
+            this.state.messages.map((message,index)=>{
+              return <div key={index}>{message}</div>
+            })
+          }
         </div>
       )
     }
 }
-const element7 = <Counter />
+const element7 = <ScrollList />
 
 
 
