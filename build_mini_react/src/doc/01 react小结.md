@@ -587,5 +587,19 @@ A：
   - compareTwoVdom(parentDOM, oldVdom.oldRenderVdom, renderVdom)
   - newVdom.oldRenderVdom = renderVdom
 
+----------------
+Q7 Context实现原理
+
+A：
+1 React.createContext
+  - 1.1 返回一个 { Provider, Consumer }的对象
+  - 1.2 Provider/Consumer是函数，通过JSX调用时，会生成 函数类型的vdom
+  - 1.3 Provider创建了Provider._value，Consumer使用了/消费了 Provider._value
+
+2 处理类组件的 context
+  - 2.1 渲染时 ==> 类实例的context属性赋值为静态方法上的值  ` classInstance.context = type.contextType.Provider._value`
+  - 2.2 更新时 ==> 思路同上，语法细节略有不同 `this.context = this.constructor.contextType.Provider._value`
+  
+
 
 

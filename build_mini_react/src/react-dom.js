@@ -72,6 +72,10 @@ function mountClassComponent(vdom){
 	let { type, props, ref } = vdom
 	let defaultProps = type.defaultProps || {}
     let classInstance = new type( { ...defaultProps, ...props} )
+	// context实现：类组件类型的vdom中，type就是 被定义的class
+	if(type.contextType){
+        classInstance.context = type.contextType.Provider._value
+    }
 
 	vdom.classInstance = classInstance
     if (classInstance.componentWillMount) {

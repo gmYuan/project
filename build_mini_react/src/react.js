@@ -63,12 +63,31 @@ function forwardRef(render){
     }
 }
 
+function createContext(){
+    function Provider({value,children}){
+        Provider._value = value;
+        return children;
+    }
+    function Consumer({children}){
+       return children(Provider._value);
+    }
+    return {Provider,Consumer}
+} 
+
+// function createContext(){
+//     let context = {$$typeof: REACT_CONTEXT};
+//     context.Provider = {$$typeof: REACT_PROVIDER, _context: context};
+//     context.Consumer = {$$typeof: REACT_CONTEXT, _context: context};
+//     return context;
+// }
+
 
 const React = {
     createElement,
     Component,
     createRef,
-    forwardRef
+    forwardRef,
+    createContext
 }
 
 export default React;

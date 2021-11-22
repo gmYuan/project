@@ -121,6 +121,10 @@ export class Component {
     //获取 oldRenderVdom对应的真实DOM
     let oldDOM = findDOM(oldRenderVdom)
 
+    if (this.constructor.contextType) {
+      this.context = this.constructor.contextType.Provider._value
+    }
+
     //然后基于新的属性和状态，计算新的虚拟DOM
     let newRenderVdom = this.render()
 
