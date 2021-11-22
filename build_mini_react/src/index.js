@@ -140,7 +140,7 @@ class Page extends React.Component {
       <ThemeContext.Provider value={contextValue}>
         <div style={{ margin: '10px', border: `5px solid ${this.state.color}`, padding: '5px', width: '200px' }}>
           主页
-           {/* <Header /> */}
+           <Header />
           <Main />
         </div>
       </ThemeContext.Provider>
