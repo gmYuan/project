@@ -1,4 +1,9 @@
-import { REACT_TEXT, REACT_FORWARD_REF_TYPE } from './constants'
+import { 
+	REACT_TEXT,
+	REACT_FORWARD_REF_TYPE,
+	REACT_PROVIDER,
+	REACT_CONTEXT
+} from './constants'
 import { addEvent } from './event';
 
 
@@ -26,9 +31,11 @@ function createDOM(vdom){
 	//S1 即将创建并返回的 真实DOM元素
 	let dom  
 
-	if( type && type.$$typeof === REACT_FORWARD_REF_TYPE) {
+	if(type&&type.$$typeof===REACT_PROVIDER){
+        return mountProviderComponent(vdom)
+    } else if( type && type.$$typeof === REACT_FORWARD_REF_TYPE) {
 		return mountForwardComponent(vdom)
-  } else if (type === REACT_TEXT){
+    } else if (type === REACT_TEXT){
 		// 如果是一个文本元素，就创建一个文本节点
 		dom = document.createTextNode(props.content)
   } else if ( typeof type === 'function' ) {
@@ -61,6 +68,17 @@ function createDOM(vdom){
   return dom
 }
 
+function mountProviderComponent(vdom){
+    // type={ $$typeof: REACT_PROVIDER, _context: context}, props={value, children}
+    let { type,props } = vdom
+    //在渲染Provider组件的时候，拿到属性中的value，赋给context._currentValue
+    type._context._currentValue = props.value
+    let renderVdom = props.children
+    vdom.oldRenderVdom = renderVdom
+    return createDOM(renderVdom)
+}
+
+
 function mountForwardComponent(vdom){
 	let { type, props, ref } = vdom
 	let renderVdom = type.render(props, ref)
@@ -74,7 +92,8 @@ function mountClassComponent(vdom){
     let classInstance = new type( { ...defaultProps, ...props} )
 	// context实现：类组件类型的vdom中，type就是 被定义的class
 	if(type.contextType){
-        classInstance.context = type.contextType.Provider._value
+        // classInstance.context = type.contextType.Provider._value
+		classInstance.context = type.contextType._currentValue
     }
 
 	vdom.classInstance = classInstance

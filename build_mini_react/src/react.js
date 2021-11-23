@@ -1,6 +1,10 @@
 import { wrapToVdom } from './utils'
 import { Component } from './Component'
-import { REACT_FORWARD_REF_TYPE } from './constants'
+import { 
+    REACT_FORWARD_REF_TYPE, 
+    REACT_PROVIDER, 
+    REACT_CONTEXT 
+} from './constants'
 
 
 /** 
@@ -83,23 +87,23 @@ function forwardRef(render){
     }
 }
 
-function createContext(){
-    function Provider({value,children}){
-        Provider._value = value;
-        return children;
-    }
-    function Consumer({children}){
-       return children(Provider._value);
-    }
-    return {Provider,Consumer}
-} 
-
 // function createContext(){
-//     let context = {$$typeof: REACT_CONTEXT};
-//     context.Provider = {$$typeof: REACT_PROVIDER, _context: context};
-//     context.Consumer = {$$typeof: REACT_CONTEXT, _context: context};
-//     return context;
-// }
+//     function Provider({value,children}){
+//         Provider._value = value;
+//         return children;
+//     }
+//     function Consumer({children}){
+//        return children(Provider._value);
+//     }
+//     return {Provider,Consumer}
+// } 
+
+function createContext(){
+    let context = {$$typeof: REACT_CONTEXT};
+    context.Provider = {$$typeof: REACT_PROVIDER, _context: context}
+    context.Consumer = {$$typeof: REACT_CONTEXT, _context: context}
+    return context
+}
 
 
 const React = {
