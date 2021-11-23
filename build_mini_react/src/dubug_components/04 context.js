@@ -1,9 +1,8 @@
-import React from './react';
-import ReactDOM from './react-dom';
+import React from 'react';
+import ReactDOM from 'react-dom';
 let ThemeContext = React.createContext()
 //ThemeContext={ Provider,Consumer } Consumer一般用在函数组件中
 //contextType只能用在类组件里, Consumer可以在类组件和函数组件中使用
-
 
 class Page extends React.Component {
   constructor(props) {
@@ -76,4 +75,6 @@ class Content extends React.Component {
   }
 }
 
-ReactDOM.render(<Page />, document.getElementById('root'))
+
+const element8 = <Page />
+ReactDOM.render( element8,  document.getElementById('root'))

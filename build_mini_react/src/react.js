@@ -42,6 +42,26 @@ function createElement(type,config,children){
     return vdom
 }
 
+/**
+ * 根据一个老的元素，克隆出一个新的元素
+ * @param {*} oldElement 老元素
+ * @param {*} newProps 新属性
+ * @param {*} children 新的儿子们
+ */
+ function cloneElement(oldElement,newProps,children){
+    if(arguments.length>3){
+        children = Array.prototype.slice.call(arguments,2).map(wrapToVdom);
+    }else{
+        children = wrapToVdom(children);
+    }
+    let props = {...oldElement.props, ...newProps, children}
+    return { ...oldElement, props }
+}
+
+
+
+
+
 
 function createRef(){
     return {current:null};
@@ -84,6 +104,8 @@ function createContext(){
 
 const React = {
     createElement,
+    cloneElement,
+
     Component,
     createRef,
     forwardRef,
