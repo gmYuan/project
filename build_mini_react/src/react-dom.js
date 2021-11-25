@@ -29,9 +29,11 @@ function mount(vdom,container){
 function createDOM(vdom){
   let { type, props, ref } = vdom
 	//S1 即将创建并返回的 真实DOM元素
-	let dom  
+	let dom
 
-	if(type&&type.$$typeof===REACT_PROVIDER){
+	if (type&&type.$$typeof===REACT_CONTEXT){
+        return mountContextComponent(vdom)
+    } else if(type&&type.$$typeof===REACT_PROVIDER){
         return mountProviderComponent(vdom)
     } else if( type && type.$$typeof === REACT_FORWARD_REF_TYPE) {
 		return mountForwardComponent(vdom)
@@ -68,6 +70,15 @@ function createDOM(vdom){
   return dom
 }
 
+
+
+function mountContextComponent(vdom){
+    let {type,props} = vdom;
+    let renderVdom = props.children(type._context._currentValue)
+    vdom.oldRenderVdom = renderVdom;
+    return createDOM(renderVdom)
+}
+
 function mountProviderComponent(vdom){
     // type={ $$typeof: REACT_PROVIDER, _context: context}, props={value, children}
     let { type,props } = vdom
@@ -77,7 +88,6 @@ function mountProviderComponent(vdom){
     vdom.oldRenderVdom = renderVdom
     return createDOM(renderVdom)
 }
-
 
 function mountForwardComponent(vdom){
 	let { type, props, ref } = vdom
@@ -221,7 +231,12 @@ export function compareTwoVdom( parentDOM, oldVdom, newVdom, nextDOM ) {
 }
 
 function updateElement (oldVdom,newVdom) {
-	if(oldVdom.type === REACT_TEXT && newVdom.type === REACT_TEXT) {
+	if(oldVdom.type && oldVdom.type.$$typeof === REACT_PROVIDER) {
+        updateProviderComponent(oldVdom,newVdom)
+    }else if (oldVdom.type && oldVdom.type.$$typeof === REACT_CONTEXT) {
+        updateContextComponent(oldVdom,newVdom)
+
+    } else if (oldVdom.type === REACT_TEXT && newVdom.type === REACT_TEXT) {
         let currentDOM = newVdom.dom = findDOM(oldVdom)
         if (oldVdom.props.content !== newVdom.props.content) {
             currentDOM.textContent = newVdom.props.content
@@ -242,15 +257,22 @@ function updateElement (oldVdom,newVdom) {
     }
 }
 
-function updateClassComponent(oldVdom,newVdom){
-    let classInstance = newVdom.classInstance = oldVdom.classInstance
-    newVdom.oldRenderVdom = oldVdom.oldRenderVdom;
-    //因为此更新是由于父组件更新引起的
-	// 父组件在重新渲染的时候，给子组件传递新的属性
-    if(classInstance.componentWillReceiveProps){
-        classInstance.componentWillReceiveProps()
-    }
-    classInstance.updater.emitUpdate(newVdom.props)
+
+function updateProviderComponent(oldVdom,newVdom){
+    let parentDOM = findDOM(oldVdom).parentNode;
+    let {type,props} = newVdom;
+    type._context._currentValue = props.value
+    let renderVdom = props.children
+    compareTwoVdom(parentDOM,oldVdom.oldRenderVdom,renderVdom)
+    newVdom.oldRenderVdom = renderVdom;
+}
+
+function updateContextComponent(oldVdom,newVdom){
+    let parentDOM = findDOM(oldVdom).parentNode;
+    let {type,props} = newVdom;
+    let renderVdom = props.children(type._context._currentValue);
+    compareTwoVdom(parentDOM,oldVdom.oldRenderVdom,renderVdom);
+    newVdom.oldRenderVdom = renderVdom;
 }
 
 function updateFunctionComponent(oldVdom,newVdom){
@@ -261,6 +283,16 @@ function updateFunctionComponent(oldVdom,newVdom){
     newVdom.oldRenderVdom = renderVdom
 }
 
+function updateClassComponent(oldVdom,newVdom){
+    let classInstance = newVdom.classInstance = oldVdom.classInstance
+    newVdom.oldRenderVdom = oldVdom.oldRenderVdom;
+    //因为此更新是由于父组件更新引起的
+	// 父组件在重新渲染的时候，给子组件传递新的属性
+    if(classInstance.componentWillReceiveProps){
+        classInstance.componentWillReceiveProps()
+    }
+    classInstance.updater.emitUpdate(newVdom.props)
+}
 
 function updateChildren(parentDOM, oldVChildren, newVChildren){
 	oldVChildren = Array.isArray(oldVChildren) ? oldVChildren : [oldVChildren]

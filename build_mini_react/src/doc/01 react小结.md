@@ -606,11 +606,12 @@ A：
   - 1.1 返回一个 { Provider, Consumer }的对象
   - 1.2 Provider/Consumer是  {typeof: xxx,  _context: context } 的 循环引用对象
 
-2 处理context类型的vdom  ==>  mountProviderComponent：赋值_currentValue
+2 处理provider类型的vdom  ==>  mountProviderComponent：赋值_currentValue
 3 处理类组件的 context 
   - 渲染时： `classInstance.context = type.contextType._currentValue`
   - 更新时： `this.context = this.constructor.contextType._currentValue`
 
-
+4 处理context类型的vdom  ==> mountContextComponent：使用_currentValue
+   - 更新时： updateProviderComponent / updateContextComponent
 
 

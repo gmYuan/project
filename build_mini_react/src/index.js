@@ -22,6 +22,11 @@ import ReactDOM from './react-dom';
 // S9 高阶组件实现---- 见05 高阶组件.js代码
 
 
+// ---------------------
+// S10 多个context实现---- 见06 多个context.js代码
 
 
-// ReactDOM.render( element9,  document.getElementById('root'))
+
+
+
+// ReactDOM.render( element10,  document.getElementById('root'))
