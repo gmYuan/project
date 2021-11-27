@@ -18,23 +18,30 @@ export function wrapToVdom(element){
 }
 
 
-
-export function shallowEqual(obj1={},obj2={}){
+/**
+ * 浅比较 两个对象是否相等
+ * @param {*} obj1 
+ * @param {*} obj2 
+ */
+export function shallowEquals(obj1={},obj2={}){
+   // obj/obj2 是同一个引用地址直接赋值
    if(obj1 === obj2){
-      return true;
+      return true
    }
-   if(typeof obj1!== 'object'||obj1===null||typeof obj2!== 'object'||obj2===null){
-      return false;
+   // 基本类型的数据，在之前基础上说明肯定不相等
+   if(typeof obj1!== 'object' || obj1===null || typeof obj2!== 'object' || obj2===null){
+      return false
    }
-   let keys1 = Object.keys(obj1);
-   let keys2 = Object.keys(obj2);
+   // 对象类型进行浅比较
+   let keys1 = Object.keys(obj1)
+   let keys2 = Object.keys(obj2)
    if(keys1.length !== keys2.length){
-      return false;
+      return false
    }
    for(let key of keys1){
-      if(!obj2.hasOwnProperty(key) || obj1[key]!== obj2[key]){
-         return false;
+      if( !obj2.hasOwnProperty(key)  ||  obj1[key] !== obj2[key]) {
+         return false
       }
    }
-   return true;
+   return true
 }

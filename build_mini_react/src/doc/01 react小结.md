@@ -615,3 +615,42 @@ A：
    - 更新时： updateProviderComponent / updateContextComponent
 
 
+----------------------
+Q8 renderProps 实现原理
+
+A:
+  - 一种props的使用方法而已，用于复用组件功能
+  - props的 render属性的值是一个函数，该函数接收state + 返回子组件JSX
+  - 父组件调用  `this.props.render(state)`，从而渲染子组件内容
+
+
+--------------------------
+Q9 React.PureComponent / React.memo 实现原理
+
+A:
+
+S1 PureComponent特点
+  - 当组件的 state/props不发生变化时，就不重复更新组件，从而提升性能- - PureComponent对比时，是进行浅比较，而非是耗时的深比较
+
+S2 PureComponent 实现原理
+  - React.PureComponent返回的一个 覆盖shouldComponentUpdate方法的 类组件
+  - shouldComponentUpdate内通过 浅比较`shallowEquals`，从而判断组件的 state/props是否发生了变化
+
+S3 React.memo 实现原理
+  - 因为函数组件无法继承Component类，所以通过新的 React.memo实现浅比较
+  - React.memo 返回的是一个特殊对象memo  `{ $$typeof: Symbol(react.memo) , compare: null, type: FnCom }`
+  - memo作为JSX使用时，最后被 作为vdom.type返回
+  - 渲染阶段时，特殊处理vdom.type.$$type为memo的vdom ==> `mountMemo()`
+  - 更新阶段，处理memo类型的vdom ==> `updateMemo`
+
+
+--------------------------
+Q10 useState 实现原理
+
+A:
+  - 使用 hookState/hookIndex，分别存储多个 useState调用的引用
+  - 更新 hookState ==> `scheduleUpdate`：从根节点执行完整的diff  进行组件的更新
+  - compareTwoVdom (parentDOM, oldVdom, newVdom, nextDOM) ==> updateElement
+    ==> updateFunctionComponent ==> renderVdom = type(props)，再次执行了函数逻辑，从而从全局hookState里，获取到了最新的 state值，并生成于renderVdom内
+
+

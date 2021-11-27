@@ -27,51 +27,33 @@ import ReactDOM from './react-dom';
 
 
 //-------------------------
-//S11 renderProps
+//S11 renderProps-----  见07 renderProps.js代码
+  
 
-class Tracker extends React.Component {
-    state = { x: 0, y: 0 }
-    handleMouseMove = (event) => {
-      this.setState({
-        x: event.clientX,
-        y: event.clientY
-      })
-    }
-  
-    render() {
-      return (
-        <div onMouseMove={this.handleMouseMove} style={{ height: '100vh' }}>
-          { this.props.render(this.state) }
-        </div>
-      )
-    }
-  
+//--------------------------------------------------------------
+//S12 React.pureComponent / React.memo实现 ----- 见08 pure-memo.js代码
+
+
+//---------------------------------------------
+//S13 useState实现 -- 见09 useState测试.js代码
+
+function Counter(){
+  let [number, setNumber] = React.useState('Counter-number1')
+ 
+  let handleClick = ()=>{
+    debugger
+    setNumber(number+1)
   }
-  
-  function Cat({mouse}) {
-    return (
-        <div>
-          Cat的位置是left-- {`${mouse.x}`}, top--{`${mouse.y}`}
-      </div>
-    )
-  }
-  
-  
-  class CatTracker extends React.Component {
-    render() {
-      return (
-        <div>
-          <Tracker 
-            render = { mouse => ( <Cat mouse={mouse} /> ) }
-          />
-        </div>
-      )
-    }
-  }
-  const element11 = <CatTracker />
+
+  return (
+    <div>
+      <p>{number}</p>
+      <button onClick={handleClick}>+</button>
+    </div>
+  )
+}
+const element13 = <Counter />
 
 
 
-
-
-ReactDOM.render( element11,  document.getElementById('root'))
+ReactDOM.render( element13,  document.getElementById('root'))

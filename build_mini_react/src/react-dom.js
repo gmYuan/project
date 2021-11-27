@@ -2,17 +2,44 @@ import {
 	REACT_TEXT,
 	REACT_FORWARD_REF_TYPE,
 	REACT_PROVIDER,
-	REACT_CONTEXT
+	REACT_CONTEXT,
+	REACT_MEMO
 } from './constants'
 import { addEvent } from './event';
+
+// hooks相关 
+let scheduleUpdate
+let hookState = []  // 这是一个全局变量，用来记录hook的值
+let hookIndex = 0  //存放当前hook的索引值
+
+export function useState(initialState){
+	// useState是一个useReducer的语法糖，是一个简单的实现
+    // return useReducer(null,initialState)
+    hookState[hookIndex] = hookState[hookIndex] || initialState   //hookState[0]=10
+    let currentIndex = hookIndex
+    function setState(newState) {
+		// currentIndex指向hookIndex赋值的时候的那个值  0
+        hookState[currentIndex] = newState
+		//状态变化后，要执行调度更新任务
+        scheduleUpdate() 
+    }
+    return [ hookState[hookIndex++], setState ]
+}
+
 
 
 /**
  *  S1 把虚拟DOM转成真实DOM插入容器中
  *  S2 参数-  vdom：虚拟DOM    container：容器
  */
-function render(vdom,container){
-  mount(vdom,container);
+function render(vdom, container){
+	mount(vdom,container)
+    // 执行hooks更新
+  	scheduleUpdate = ()=>{
+		hookIndex = 0   //把索引重置为0
+		//从根节点执行完整的dom-diff 进行组件的更新，这里的vdom是 根vdom
+		compareTwoVdom(container, vdom, vdom)
+	}
 }
 
 function mount(vdom,container){
@@ -21,35 +48,36 @@ function mount(vdom,container){
   if (newDOM.componentDidMount) newDOM.componentDidMount()
 }
 
-
 /**
  *  S1 作用：把虚拟DOM转成真实DOM
  *  S2 参数：vdom  虚拟DOM
  */
 function createDOM(vdom){
-  let { type, props, ref } = vdom
+  	let { type, props, ref } = vdom
 	//S1 即将创建并返回的 真实DOM元素
 	let dom
 
-	if (type&&type.$$typeof===REACT_CONTEXT){
+	if (type && type.$$typeof === REACT_MEMO) {
+		return mountMemo(vdom)
+  	}  else if (type&&type.$$typeof===REACT_CONTEXT){
         return mountContextComponent(vdom)
-    } else if(type&&type.$$typeof===REACT_PROVIDER){
+    } else if (type&&type.$$typeof===REACT_PROVIDER){
         return mountProviderComponent(vdom)
-    } else if( type && type.$$typeof === REACT_FORWARD_REF_TYPE) {
+    } else if ( type && type.$$typeof === REACT_FORWARD_REF_TYPE) {
 		return mountForwardComponent(vdom)
     } else if (type === REACT_TEXT){
 		// 如果是一个文本元素，就创建一个文本节点
 		dom = document.createTextNode(props.content)
-  } else if ( typeof type === 'function' ) {
+  	} else if ( typeof type === 'function' ) {
 		if (type.isReactComponent) {
 			//说明它是一个类组件
 			return mountClassComponent(vdom);
-	  } else {
-		  //说明是React函数组件
+	  	} else {
+		  	//说明是React函数组件
 			return mountFunctionComponent(vdom);
-	  }
+	  	}
 
-	}  else {
+	}  else  {
 		// 原生DOM类型
 		dom = document.createElement(type) 
 	}
@@ -67,9 +95,19 @@ function createDOM(vdom){
 	vdom.dom = dom            // 让虚拟DOM的dom属性 指向它的真实DOM 
 	if(ref) ref.current = dom   // 让ref.current属性 指向真实DOM的实例
 
-  return dom
+  	return dom
 }
 
+
+
+function mountMemo(vdom){
+	// type = { $$typeof:REACT_MEMO,  type,//函数组件    compare  }
+	let { type, props } = vdom   // type.type 函数组件
+	let renderVdom = type.type(props)
+	vdom.prevProps= props      // 在vdom记录上一次的属性对象
+	vdom.oldRenderVdom = renderVdom
+	return createDOM(renderVdom)
+}
 
 
 function mountContextComponent(vdom){
@@ -173,7 +211,7 @@ function reconcileChildren(childrenVdom, parentDOM){
 	let dom
 	//原生的组件
 	if (typeof type === 'string' || type === REACT_TEXT){ 
-	 dom = vdom.dom
+	  dom = vdom.dom
 	} else {
 		// 可能函数组件 类组件 provider context forward
 	 dom = findDOM(vdom.oldRenderVdom);
@@ -183,57 +221,61 @@ function reconcileChildren(childrenVdom, parentDOM){
 
 
 export function compareTwoVdom( parentDOM, oldVdom, newVdom, nextDOM ) {
-  //   let oldDOM = findDOM(oldVdom)
-  //   let newDOM = createDOM(newVdom)
-  //   parentDOM.replaceChild(newDOM,oldDOM)
-  //   debugger
+  	//   let oldDOM = findDOM(oldVdom)
+  	//   let newDOM = createDOM(newVdom)
+  	//   parentDOM.replaceChild(newDOM,oldDOM)
+  	//   debugger
   
-  if (!oldVdom && !newVdom) {
-	  //如果老的虚拟DOM是null, 新的虚拟DOM也是null
-  } else if ( oldVdom && (!newVdom) ) {
-	//老的为不null + 新的为null, 销毁老组件
-	let currentDOM = findDOM(oldVdom)
-	//把老的真实DOM删除
-	currentDOM.parentNode.removeChild(currentDOM)
-	//执行组件卸载方法
-	if(oldVdom.classInstance&&oldVdom.classInstance.componentWillUnmount){
-		oldVdom.classInstance.componentWillUnmount()
-	}
-  } else if ( !oldVdom && newVdom ){
-	//如果老的没有+ 新的有，根据新组件创建新DOM并添加到父DOM中  
-	let newDOM = createDOM(newVdom)
-	if(nextDOM){
-		parentDOM.insertBefore(newDOM, nextDOM)
-	} else {
-		parentDOM.appendChild(newDOM)
-	}
+	if (!oldVdom && !newVdom) {
+		//如果老的虚拟DOM是null, 新的虚拟DOM也是null
+  	} else if ( oldVdom && (!newVdom) ) {
+		//老的为不null + 新的为null, 销毁老组件
+		let currentDOM = findDOM(oldVdom)
+	    //把老的真实DOM删除
+		currentDOM.parentNode.removeChild(currentDOM)
+		//执行组件卸载方法
+		if(oldVdom.classInstance&&oldVdom.classInstance.componentWillUnmount){
+			oldVdom.classInstance.componentWillUnmount()
+		}
+  	} else if ( !oldVdom && newVdom ){
+		//如果老的没有+ 新的有，根据新组件创建新DOM并添加到父DOM中  
+		let newDOM = createDOM(newVdom)
+		if(nextDOM){
+			parentDOM.insertBefore(newDOM, nextDOM)
+		} else {
+			parentDOM.appendChild(newDOM)
+		}
 
-	if (newDOM.componentDidMount) {
-		newDOM.componentDidMount()
-	}
-  // 新老都有，但是不同类型，也不能复用，则需要删除老的，添加新的	
-  } else if (oldVdom && newVdom && (oldVdom.type !== newVdom.type) ) {
-	let oldDOM  = findDOM(oldVdom)          // 先获取 老的真实DOM
-	let newDOM = createDOM(newVdom)     // 创建新的真实DOM
-	oldDOM.parentNode.replaceChild(newDOM,oldDOM)
-	//执行组件卸载方法
-	if(oldVdom.classInstance&&oldVdom.classInstance.componentWillUnmount) {
-		oldVdom.classInstance.componentWillUnmount()
-	}
-	if (newDOM.componentDidMount) { 
-		newDOM.componentDidMount()
-	}
+		if (newDOM.componentDidMount) {
+			newDOM.componentDidMount()
+		}
 
-  } else {
-	//老的有，新的也有，类型也一样，需要复用老节点，进行深度dom diff
-	updateElement(oldVdom,newVdom)
-  }
+  	// 新老都有，但是不同类型，也不能复用，则需要删除老的，添加新的	
+  	} else if (oldVdom && newVdom && (oldVdom.type !== newVdom.type) ) {
+		let oldDOM  = findDOM(oldVdom)          // 先获取 老的真实DOM
+		let newDOM = createDOM(newVdom)     // 创建新的真实DOM
+		oldDOM.parentNode.replaceChild(newDOM,oldDOM)
+		//执行组件卸载方法
+		if(oldVdom.classInstance&&oldVdom.classInstance.componentWillUnmount) {
+			oldVdom.classInstance.componentWillUnmount()
+		}
+		if (newDOM.componentDidMount) { 
+			newDOM.componentDidMount()
+		}
+
+  	} else {
+		//老的有，新的也有，类型也一样，需要复用老节点，进行深度dom diff
+		updateElement(oldVdom,newVdom)
+  	}
 }
 
 function updateElement (oldVdom,newVdom) {
-	if(oldVdom.type && oldVdom.type.$$typeof === REACT_PROVIDER) {
+	if(oldVdom.type.$$typeof === REACT_MEMO){
+		updateMemo(oldVdom, newVdom)
+
+	} else if (oldVdom.type && oldVdom.type.$$typeof === REACT_PROVIDER) {
         updateProviderComponent(oldVdom,newVdom)
-    }else if (oldVdom.type && oldVdom.type.$$typeof === REACT_CONTEXT) {
+    } else if (oldVdom.type && oldVdom.type.$$typeof === REACT_CONTEXT) {
         updateContextComponent(oldVdom,newVdom)
 
     } else if (oldVdom.type === REACT_TEXT && newVdom.type === REACT_TEXT) {
@@ -241,6 +283,7 @@ function updateElement (oldVdom,newVdom) {
         if (oldVdom.props.content !== newVdom.props.content) {
             currentDOM.textContent = newVdom.props.content
 		}
+
 	// 说明是原生组件 div		
     } else if ( typeof oldVdom.type === 'string' ){
 		//让新的虚拟DOM的 真实DOM属性  等于 老的虚拟DOM对应的 那个真实DOM
@@ -255,6 +298,23 @@ function updateElement (oldVdom,newVdom) {
             updateFunctionComponent(oldVdom,newVdom);
         }
     }
+}
+
+
+function updateMemo(oldVdom, newVdom) {
+	debugger
+    let {type,prevProps} = oldVdom
+    //比较结果是相等,就不需要重新渲染 render
+    let renderVdom=oldVdom.oldRenderVdom
+    if(!type.compare(prevProps,newVdom.props)){
+        let currentDOM = findDOM(oldVdom);
+        let parentDOM = currentDOM.parentNode
+        let {type,props} = newVdom;
+        renderVdom = type.type(props)
+        compareTwoVdom(parentDOM,oldVdom.oldRenderVdom,renderVdom)
+    }
+    newVdom.prevProps = newVdom.props;
+    newVdom.oldRenderVdom = renderVdom;
 }
 
 

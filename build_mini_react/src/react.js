@@ -1,10 +1,15 @@
-import { wrapToVdom } from './utils'
+import { wrapToVdom, shallowEquals } from './utils'
 import { Component } from './Component'
 import { 
     REACT_FORWARD_REF_TYPE, 
     REACT_PROVIDER, 
-    REACT_CONTEXT 
+    REACT_CONTEXT,
+    REACT_MEMO, 
 } from './constants'
+
+import { 
+    useState
+} from './react-dom'
 
 
 /** 
@@ -63,10 +68,6 @@ function createElement(type,config,children){
 }
 
 
-
-
-
-
 function createRef(){
     return {current:null};
 }
@@ -87,6 +88,7 @@ function forwardRef(render){
     }
 }
 
+
 // function createContext(){
 //     function Provider({value,children}){
 //         Provider._value = value;
@@ -105,6 +107,23 @@ function createContext(){
     return context
 }
 
+class PureComponent extends Component {
+    shouldComponentUpdate(nextProps,nextState){
+        //只要属性和状态对象，有任意一个属性变了，就会进行更新
+        // 如果全相等，才不更新
+        return !shallowEquals(this.props, nextProps) || !shallowEquals(this.state, nextState)
+    }
+}
+function memo(type, compare=shallowEquals) {
+    return {
+        $$typeof: REACT_MEMO,
+        type, //函数组件
+        compare
+    }
+}
+
+
+
 
 const React = {
     createElement,
@@ -113,7 +132,12 @@ const React = {
     Component,
     createRef,
     forwardRef,
-    createContext
+    createContext,
+
+    PureComponent,
+    memo,
+
+    useState,
 }
 
 export default React;
