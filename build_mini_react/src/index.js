@@ -37,23 +37,38 @@ import ReactDOM from './react-dom';
 //---------------------------------------------
 //S13 useState实现 -- 见09 useState测试.js代码
 
-function Counter(){
-  let [number, setNumber] = React.useState('Counter-number1')
- 
-  let handleClick = ()=>{
-    debugger
-    setNumber(number+1)
-  }
+
+//---------------------------------------------
+//S14 useCallback/useMemo实现 -- 见10 useCallback.js代码
+function Child({data,handleClick}) {
+  console.log('Child render')
+  return <button onClick={handleClick}>{data.number}</button>
+}
+//可缓存的Child,如果一个组件它的属性没有变化，就不会重新渲染
+let MemoChild = React.memo(Child)
+
+function App(){
+  console.log('App render')
+  const [name,setName] = React.useState('zhufeng')
+  const [number,setNumber] = React.useState(0)
+
+  // 缓存对象的 第1个参数是创建对象的工厂函数，第2个参数是依赖变量的数组
+  // 依赖数组中任何一个变量改变，就会重新调用工厂方法创建新的对象，否则就会重用上次对象
+  // 如果不使用React.useMemo/React.useCallback 由于每次更新都会创新新的data/handleClick
+  //  ==> 即使子组件使用了MemoChild， 也会导致子组件重复渲染
+  let data = React.useMemo( () => ({number}), [number] )
+  let handleClick = React.useCallback( ()=> setNumber(number+1), [number] )
+
 
   return (
     <div>
-      <p>{number}</p>
-      <button onClick={handleClick}>+</button>
+      <input type="text" value={name} onChange={event=>setName(event.target.value)}/>
+      <MemoChild data={data} handleClick={handleClick}/>
     </div>
   )
 }
-const element13 = <Counter />
+const element14 = <App/>
 
 
 
-ReactDOM.render( element13,  document.getElementById('root'))
+ReactDOM.render( element14,  document.getElementById('root'))

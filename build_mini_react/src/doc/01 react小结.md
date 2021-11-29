@@ -654,3 +654,10 @@ A:
     ==> updateFunctionComponent ==> renderVdom = type(props)，再次执行了函数逻辑，从而从全局hookState里，获取到了最新的 state值，并生成于renderVdom内
 
 
+--------------------------
+Q11 useCallback/useMemo 实现原理
+
+A:
+  - 使用 hookState/hookIndex，分别存储多个 hook的引用
+  - 更新state ==> scheduleUpdate ==> renderVdom = type(props)，再次执行了函数逻辑
+  - 通过浅比较对比 deps的每一项依赖，决定是重新执行函数，还是使用之前旧值

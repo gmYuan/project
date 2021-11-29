@@ -8,7 +8,9 @@ import {
 } from './constants'
 
 import { 
-    useState
+    useState,
+    useCallback,
+    useMemo,
 } from './react-dom'
 
 
@@ -138,6 +140,8 @@ const React = {
     memo,
 
     useState,
+    useCallback,
+    useMemo
 }
 
 export default React;
