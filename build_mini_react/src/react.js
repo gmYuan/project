@@ -11,6 +11,7 @@ import {
     useState,
     useCallback,
     useMemo,
+    useReducer,
 } from './react-dom'
 
 
@@ -141,7 +142,8 @@ const React = {
 
     useState,
     useCallback,
-    useMemo
+    useMemo,
+    useReducer,
 }
 
 export default React;

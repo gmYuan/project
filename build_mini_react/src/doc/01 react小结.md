@@ -645,8 +645,7 @@ S3 React.memo 实现原理
 
 
 --------------------------
-Q10 useState 实现原理
-
+Q10 useState实现原理
 A:
   - 使用 hookState/hookIndex，分别存储多个 useState调用的引用
   - 更新 hookState ==> `scheduleUpdate`：从根节点执行完整的diff  进行组件的更新
@@ -656,8 +655,21 @@ A:
 
 --------------------------
 Q11 useCallback/useMemo 实现原理
-
 A:
   - 使用 hookState/hookIndex，分别存储多个 hook的引用
   - 更新state ==> scheduleUpdate ==> renderVdom = type(props)，再次执行了函数逻辑
   - 通过浅比较对比 deps的每一项依赖，决定是重新执行函数，还是使用之前旧值
+
+
+----------------------
+Q11 useReducer 实现原理   
+A：
+S1 实现流程
+  1. const [state, dispatch] = React.useReducer( reducer, initialState )
+  2. 通过 useReducer()， 从而让 state保存在  hookState[hookIndex] 对应位置
+  3. dispatch(action)  ==> reducer(hookState[currentIndex], action)
+  4. reducer(state,action) ==> 更新之前的 hookState[currentIndex] 的值
+  5. scheduleUpdate() ==> renderVdom = type(props)，再次执行了函数逻辑，从而从全局hookState里，获取到了最新的 state值，并生成于renderVdom内
+
+S2 useState是useRef的语法糖
+  1. useState  ===  useReducer(null,initialState)

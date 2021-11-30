@@ -12,9 +12,25 @@ let scheduleUpdate
 let hookState = []  // 这是一个全局变量，用来记录hook的值
 let hookIndex = 0  //存放当前hook的索引值
 
+
+export function useReducer(reducer, initialState ) {
+    hookState[hookIndex]= hookState[hookIndex] || initialState  //hookState[0]=10
+    let currentIndex = hookIndex
+    function dispatch(action) {
+        action = typeof action === 'function'? action(hookState[currentIndex]) : action
+        hookState[currentIndex] = reducer ? reducer(hookState[currentIndex], action) : action
+        scheduleUpdate()  //状态变化后，要执行调度更新任务
+    }
+    return [ hookState[hookIndex++], dispatch]
+}
+
+
 export function useState(initialState){
-	// useState是一个useReducer的语法糖，是一个简单的实现
-    // return useReducer(null,initialState)
+	return useReducer(null,initialState)
+ }
+
+ /** 
+export function useState(initialState){
     hookState[hookIndex] = hookState[hookIndex] || initialState   //hookState[0]=10
     let currentIndex = hookIndex
     function setState(newState) {
@@ -25,6 +41,8 @@ export function useState(initialState){
     }
     return [ hookState[hookIndex++], setState ]
 }
+*/
+
 
 export function useMemo(factory,deps) {
 	if(hookState[hookIndex]) {  //说明不是第一次是更新
