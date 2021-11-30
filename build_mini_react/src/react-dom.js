@@ -80,6 +80,33 @@ export function useCallback(callback,deps){
 	}
 }
 
+/**
+ * @param {*} callback 当前渲染完成之后下一个宏任务
+ * @param {*} deps 依赖数组，
+ */
+ export function useEffect(callback,deps){
+	if (hookState[hookIndex]) {
+			let [destroy,lastDeps] = hookState[hookIndex];
+			let everySame = deps.every((item,index)=>item === lastDeps[index]);
+			if(everySame){
+				hookIndex++;
+			}else {
+					//销毁函数每次都是在下一次执行的时候才会触发执行 
+					destroy && destroy() 
+					setTimeout(()=>{
+						let destroy = callback();
+						hookState[hookIndex++]=[destroy,deps]
+					})
+			}
+	}else{
+			//初次渲染的时候，开启一个宏任务，在宏任务里执行callback,保存销毁函数和依赖数组
+			setTimeout(()=>{
+					let destroy = callback()
+					hookState[hookIndex++] = [destroy,deps]
+			});
+	}
+}
+
 
 /**
  *  S1 把虚拟DOM转成真实DOM插入容器中

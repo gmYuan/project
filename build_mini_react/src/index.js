@@ -1,5 +1,5 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from './react';
+import ReactDOM from './react-dom';
 
 // S1 vdom生成， 具体见 01 vdom渲染
 // S2 组件的更新，具体见 01 vdom渲染
@@ -49,39 +49,51 @@ import ReactDOM from 'react-dom';
 //---------------------------------------
 //S16 useContext实现 -- 见12 useContext.js代码
 
-let CounterContext = React.createContext()
-function reducer(state,action){
-   switch(action.type){
-     case 'ADD':
-       return {number:state.number+1};
-     case 'MINUS':
-       return {number:state.number-1};  
-     default:
-       return state;  
-   }
-}
 
-function Parent(){
-  const [state,dispatch] = React.useReducer(reducer,{number:0});
-  return (
-   <CounterContext.Provider value={ {state, dispatch} }>
-     <Counter/>
-   </CounterContext.Provider>
-  )
-}
-
-
+//---------------------------------------
+//S17 useEffect实现 -- 见13 useEffect.js代码
 function Counter(){
-  let { state,dispatch } = React.useContext(CounterContext)
-  return (
-    <div>
-      <p>{state.number}</p>
-      <button onClick={ ()=>dispatch( {type:"ADD"} ) }>+</button>
-      <button onClick={ ()=>dispatch( {type:"MINUS"} ) }>-</button>
-    </div>
-  )
+  const [number,setNumber] = React.useState(0)
+  
+  // effect函数会在当前的组件渲染到DOM 后执行
+  React.useEffect ( ()=>{
+    debugger
+    console.log('开启一个新的定时器')
+    const timer = setInterval( ()=>{
+      console.log('执行了定时器', number)
+      setNumber(number => number+1)
+    },1000)
+
+    return ()=>{
+      clearInterval(timer);
+    } 
+  }, [])
+
+  return <p>{number}</p>
 }
 
-const element16 = <Parent />
+function Counter2(){
+  const [number,setNumber] = React.useState(0)
+  
+  React.useEffect ( ()=>{
+    debugger
+    console.log('开启一个新的定时器')
+    const timer = setInterval( ()=>{
+      setNumber(number+1)
+    },1000)
 
-ReactDOM.render( element16,  document.getElementById('root'))
+    return ()=>{
+      clearInterval(timer);
+    } 
+  }, [number])
+  return <p>{number}</p>
+}
+
+
+// const element17 = <Counter />
+const element17 = <Counter2 />
+
+
+
+
+ReactDOM.render( element17,  document.getElementById('root'))

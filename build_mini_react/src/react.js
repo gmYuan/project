@@ -12,6 +12,7 @@ import {
     useCallback,
     useMemo,
     useReducer,
+    useEffect,
 } from './react-dom'
 
 
@@ -149,6 +150,7 @@ const React = {
     useMemo,
     useReducer,
     useContext,
+    useEffect,
 }
 
 export default React;

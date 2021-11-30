@@ -1,6 +1,3 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-
 let CounterContext = React.createContext()
 function reducer(state,action){
    switch(action.type){
@@ -13,7 +10,7 @@ function reducer(state,action){
    }
 }
 
-function App(){
+function Parent(){
   const [state,dispatch] = React.useReducer(reducer,{number:0});
   return (
    <CounterContext.Provider value={ {state, dispatch} }>
@@ -21,7 +18,6 @@ function App(){
    </CounterContext.Provider>
   )
 }
-
 
 function Counter(){
   let { state,dispatch } = React.useContext(CounterContext)
@@ -34,6 +30,5 @@ function Counter(){
   )
 }
 
-ReactDOM.render(
-<App />
-, document.getElementById('root'));
+const element16 = <Parent />
+ReactDOM.render( element16,  document.getElementById('root'))
