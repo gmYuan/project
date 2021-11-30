@@ -110,6 +110,10 @@ function createContext(){
     return context
 }
 
+function useContext(context){
+    return context._currentValue
+}
+
 class PureComponent extends Component {
     shouldComponentUpdate(nextProps,nextState){
         //只要属性和状态对象，有任意一个属性变了，就会进行更新
@@ -144,6 +148,7 @@ const React = {
     useCallback,
     useMemo,
     useReducer,
+    useContext,
 }
 
 export default React;
