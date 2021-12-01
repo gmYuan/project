@@ -673,3 +673,32 @@ S1 实现流程
 
 S2 useState是useRef的语法糖
   1. useState  ===  useReducer(null,initialState)
+
+
+----------------------
+Q11 useEffect 实现原理   
+A：
+S1 实现流程
+  1. 执行cb + `hookState[hookIndex++] = [destroy,deps]`
+  2. 更新时，对比 新旧deps，从而决定是否执行 destroy和cb
+
+S2 useEffect + useState结合使用的注意事项
+  1. useState不依赖num + setNum(num + 1) ==> 
+    - 更新hookState[hookIndex] 的值：0 ==> 1
+    - scheduleUpdate ==>....  ==>  let renderVdom = type(props)
+    - 再次执行useState(num) ==> 读取hookState[hookIndex]值
+    - 依赖项无变化，不再执行useEffect里的 cb
+    - 页面渲染： num  = 1
+  
+    - interval定时器执行，num为定义时的num值，所以num = 0
+    - useState内部会直接使用传入的action值，所以还是 0 ==> 1
+
+  2. useState不依赖num + setNum(num => num + 1) 
+    - 基本同上，但是当action为函数时，useState内部会读取之前 hookState中保存的值，之后调用 action ==> num会依次变为 0/1/2/3......
+
+  3. useState依赖num + setNum(num + 1) 
+    - 更新hookState[hookIndex] 的值：0 ==> 1
+    - scheduleUpdate ==> .....  ==>  let renderVdom = type(props)
+    - 再次执行useState(num) ==> 读取hookState[hookIndex]值
+    - `依赖项发生变化` ==> 执行destory + 异步  再次执行cb + 在异步过程中，进行了页面更新渲染 num = 1
+    - 真正执行了cb + 由于deps引用了最新的num值，所以定时器读取的是最新值

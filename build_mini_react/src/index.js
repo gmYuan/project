@@ -57,11 +57,12 @@ function Counter(){
   
   // effect函数会在当前的组件渲染到DOM 后执行
   React.useEffect ( ()=>{
-    debugger
+    // debugger
     console.log('开启一个新的定时器')
     const timer = setInterval( ()=>{
-      console.log('执行了定时器', number)
-      setNumber(number => number+1)
+      console.log('执行了定时器')
+      setNumber(number+1)
+      // setNumber(number => number+1)
     },1000)
 
     return ()=>{
@@ -79,6 +80,7 @@ function Counter2(){
     debugger
     console.log('开启一个新的定时器')
     const timer = setInterval( ()=>{
+      console.log('执行了定时器')
       setNumber(number+1)
     },1000)
 
@@ -89,10 +91,7 @@ function Counter2(){
   return <p>{number}</p>
 }
 
-
-// const element17 = <Counter />
-const element17 = <Counter2 />
-
+const element17 = <Counter />
 
 
 

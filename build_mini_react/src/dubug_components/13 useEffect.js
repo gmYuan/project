@@ -1,15 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom'
 
-// 例1- useEffect基本使用
 function Counter(){
   const [number,setNumber] = React.useState(0)
   
+  // effect函数会在当前的组件渲染到DOM 后执行
   React.useEffect ( ()=>{
     // debugger
     console.log('开启一个新的定时器')
     const timer = setInterval( ()=>{
-      // setNumber(number+1)
+      console.log('执行了定时器')
+      setNumber(number+1)
       // setNumber(number => number+1)
     },1000)
 
@@ -17,17 +18,18 @@ function Counter(){
       clearInterval(timer);
     } 
   }, [])
+
   return <p>{number}</p>
 }
 
-// 例2- useEffect的依赖项
-function Counter(){
+function Counter2(){
   const [number,setNumber] = React.useState(0)
   
   React.useEffect ( ()=>{
-    // debugger
+    debugger
     console.log('开启一个新的定时器')
     const timer = setInterval( ()=>{
+      console.log('执行了定时器')
       setNumber(number+1)
     },1000)
 
@@ -37,6 +39,8 @@ function Counter(){
   }, [number])
   return <p>{number}</p>
 }
+
+const element17 = <Counter2 />
 
 
 
