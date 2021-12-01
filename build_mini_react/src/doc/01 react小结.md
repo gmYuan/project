@@ -684,21 +684,29 @@ S1 实现流程
 
 S2 useEffect + useState结合使用的注意事项
   1. useState不依赖num + setNum(num + 1) ==> 
+    - 初始化useState(num)，计作a1
+    - 第一次调用useEffect ==> 执行cb
     - 更新hookState[hookIndex] 的值：0 ==> 1
     - scheduleUpdate ==>....  ==>  let renderVdom = type(props)
-    - 再次执行useState(num) ==> 读取hookState[hookIndex]值
+    - 重新生成新的 useState(num) ==> 读取hookState[hookIndex]值，计作a2
     - 依赖项无变化，不再执行useEffect里的 cb
     - 页面渲染： num  = 1
   
-    - interval定时器执行，num为定义时的num值，所以num = 0
+    - interval定时器执行，读取的还是创建时的state a1，即num = 0
     - useState内部会直接使用传入的action值，所以还是 0 ==> 1
 
   2. useState不依赖num + setNum(num => num + 1) 
     - 基本同上，但是当action为函数时，useState内部会读取之前 hookState中保存的值，之后调用 action ==> num会依次变为 0/1/2/3......
 
   3. useState依赖num + setNum(num + 1) 
+    - 初始化useState(num)，计作a1
+    - 第一次调用useEffect ==> 执行cb
     - 更新hookState[hookIndex] 的值：0 ==> 1
     - scheduleUpdate ==> .....  ==>  let renderVdom = type(props)
-    - 再次执行useState(num) ==> 读取hookState[hookIndex]值
-    - `依赖项发生变化` ==> 执行destory + 异步  再次执行cb + 在异步过程中，进行了页面更新渲染 num = 1
-    - 真正执行了cb + 由于deps引用了最新的num值，所以定时器读取的是最新值
+    - 重新生成新的 useState(num) ==> 读取hookState[hookIndex]值，计作a2
+  
+    - `a2 和 a1不相同，即 依赖项发生变化` ==> 执行destory + 异步  再次执行cb + 在异步过程中，进行了页面更新渲染 num = 1
+    - 真正执行了cb + 由于创建了新的cb 和 定时器，所以此时定时器内指向了a2
+
+具体参考文章：
+[useeffct里获取不到state最新值](https://segmentfault.com/a/1190000039054862)
