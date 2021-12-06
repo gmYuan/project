@@ -80,6 +80,16 @@ export function useCallback(callback,deps){
 	}
 }
 
+export function useRef(){
+	if (hookState[hookIndex]) {
+		return hookState[hookIndex++]
+	} else {
+		hookState[hookIndex]={ current:null }
+		return hookState[hookIndex++]
+	}
+}
+
+
 /**
  * @param {*} callback 当前渲染完成之后下一个宏任务
  * @param {*} deps 依赖数组，
@@ -104,6 +114,28 @@ export function useCallback(callback,deps){
 					let destroy = callback()
 					hookState[hookIndex++] = [destroy,deps]
 			});
+	}
+}
+
+
+export function useLayoutEffect(callback,deps){
+	if(hookState[hookIndex]){
+		let [destroy,lastDeps] = hookState[hookIndex]
+		let everySame = deps.every((item,index)=>item === lastDeps[index])
+		if(everySame){
+			hookIndex++;
+		} else {
+			destroy&&destroy()//先执行销毁函数
+			queueMicrotask(()=>{
+				let destroy = callback();
+				hookState[hookIndex++]=[destroy,deps]
+			})
+		}
+	}else{
+		queueMicrotask(()=>{
+			let destroy = callback();
+			hookState[hookIndex++]=[destroy,deps];
+		})
 	}
 }
 

@@ -710,3 +710,24 @@ S2 useEffect + useState结合使用的注意事项
 
 具体参考文章：
 [useeffct里获取不到state最新值](https://segmentfault.com/a/1190000039054862)
+
+
+----------------------
+Q11 useLayoutEffect 实现原理   
+A：
+S1 实现流程
+  1. 基本同useEffect，不过useEffect是在组件渲染后执行，而useLayoutEffect是在渲染前就执行了
+
+
+----------------------
+Q12 useRef 实现原理   
+A：
+S1 实现流程
+  1. 基本同React.createRef
+
+
+----------------------
+Q13 React.forwardRef/React.useImperativeHandle 实现原理   
+A：
+S1 实现流程
+  1. `ref.current = factory()`：让转发过来的ref指向特定劫持的一个对象

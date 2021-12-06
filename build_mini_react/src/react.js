@@ -13,6 +13,8 @@ import {
     useMemo,
     useReducer,
     useEffect,
+    useLayoutEffect,
+    useRef,
 } from './react-dom'
 
 
@@ -122,6 +124,7 @@ class PureComponent extends Component {
         return !shallowEquals(this.props, nextProps) || !shallowEquals(this.state, nextState)
     }
 }
+
 function memo(type, compare=shallowEquals) {
     return {
         $$typeof: REACT_MEMO,
@@ -130,7 +133,9 @@ function memo(type, compare=shallowEquals) {
     }
 }
 
-
+function useImperativeHandle(ref,factory){
+    ref.current = factory();
+ }
 
 
 const React = {
@@ -151,6 +156,10 @@ const React = {
     useReducer,
     useContext,
     useEffect,
+    useLayoutEffect,
+    useRef,
+
+    useImperativeHandle,
 }
 
 export default React;

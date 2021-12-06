@@ -52,47 +52,46 @@ import ReactDOM from './react-dom';
 
 //---------------------------------------
 //S17 useEffect实现 -- 见13 useEffect.js代码
-function Counter(){
-  const [number,setNumber] = React.useState(0)
-  
-  // effect函数会在当前的组件渲染到DOM 后执行
-  React.useEffect ( ()=>{
-    // debugger
-    console.log('开启一个新的定时器')
-    const timer = setInterval( ()=>{
-      console.log('执行了定时器')
-      setNumber(number+1)
-      // setNumber(number => number+1)
-    },1000)
 
-    return ()=>{
-      clearInterval(timer);
-    } 
-  }, [])
 
-  return <p>{number}</p>
+//---------------------------------------
+//S18 uselayoutEffect实现 -- 见14 uselayoutEffect.js代码
+
+
+//--------------------------
+//S19 useImperativeHandle实现-- 见15 useImperativeHandle.js代码
+
+function Parent(){
+  //let [number,setNumber]=React.useState();
+  let inputRef = React.useRef();
+  const getFocus = ()=>{
+    inputRef.current.focus();
+    inputRef.current.print();
+  }
+  return (
+    <div>
+      <ForwardChild ref={inputRef}/>
+      <button onClick={getFocus}>焦点</button>
+    </div>
+  )
 }
 
-function Counter2(){
-  const [number,setNumber] = React.useState(0)
-  
-  React.useEffect ( ()=>{
-    debugger
-    console.log('开启一个新的定时器')
-    const timer = setInterval( ()=>{
-      console.log('执行了定时器')
-      setNumber(number+1)
-    },1000)
-
-    return ()=>{
-      clearInterval(timer);
-    } 
-  }, [number])
-  return <p>{number}</p>
+function Child(props,ref){
+  const childRef = React.useRef();
+  //函数组件自定义暴露给父组件ref对象
+  React.useImperativeHandle(ref,()=>({
+    focus(){
+      childRef.current.focus();
+    },
+    print(){
+      console.log('print');
+    }
+  }))
+  return <input ref={childRef}/>
 }
+let ForwardChild = React.forwardRef(Child);
 
-const element17 = <Counter />
+const element19 = <Parent />
 
 
-
-ReactDOM.render( element17,  document.getElementById('root'))
+ReactDOM.render( element19,  document.getElementById('root'))
