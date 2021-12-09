@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+
 function Parent(){
   //let [number,setNumber]=React.useState();
   let inputRef = React.useRef();
