@@ -15,7 +15,7 @@
       //如果当前的历史栈指针 发生变化的话会触发popstate事件，执行对应的回调函数
       // pushState 默认不会触发popstate监听
       window.addEventListener('popstate', (event) => {
-        console.log( event.type, event.state )
+        console.log('popState----', event.type, event.state )
         root.innerHTML = window.location.pathname   //当前的路径
       })
 
@@ -37,7 +37,7 @@
         }
       })(historyObj)
 
-      
+
       setTimeout( ()=>{
         // 调用pushState会修改当前的路径
         historyObj.pushState( {page:1}, null, '/page1')
@@ -51,6 +51,21 @@
         historyObj.pushState( {page:3}, null, '/page3')
         console.log('page3后增加的历史栈数量', historyObj.length - startLength)
       },3000)
+
+      setTimeout(()=>{
+        historyObj.back()
+        console.log('page3后回退的历史栈数量', historyObj.length - startLength)
+      },4000)
+
+      setTimeout(()=>{
+        historyObj.pushState({page:4},null,'/page4');
+        console.log('进到page4后的历史栈数量', historyObj.length - startLength)
+      },5000)
+
+      setTimeout(()=>{
+        historyObj.go(1)
+        console.log('page4 go1后的历史栈数量', historyObj.length - startLength)
+      },6000)
 
 
 
