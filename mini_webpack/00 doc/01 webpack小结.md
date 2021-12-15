@@ -13,7 +13,15 @@ Q2 webpack 有哪些核心概念
 
 A:
 S1 入口(entry)：主执行文件， 依赖图起点
-S1 输出(output)：定义/配置 输出bundle(多个 module集合)的 相关信息
+S2 输出(output)：定义/配置 输出bundle(多个 module集合)的 相关信息
+S3 loader：
+  1. webpack 只能理解 JS 和 JSON 文件
+  2. loader 用于把其他类型的文件 转化为Webpack的 有效模块，并添加到依赖图中
+  3. loader 本质上是一个输出JS模块的 函数
+  
+S4 插件(plugin):
+
+
 
 
 具体配置参考，见

@@ -1,1 +1,3 @@
-console.log('hello world')
+const hello = require('./title.txt')
+
+console.log(hello)
