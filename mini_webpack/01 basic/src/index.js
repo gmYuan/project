@@ -1,3 +1,3 @@
-const hello = require('./title.txt')
+const hello = require('./title.txt').default
 
 console.log(hello)

@@ -1,7 +1,9 @@
 const { resolve } = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+
 
 module.exports = (env) => ({
-  mode: 'development',
+  mode: 'production',
   entry: './src/index.js',
   output: {
     path: resolve(__dirname, 'dist'),
@@ -9,10 +11,15 @@ module.exports = (env) => ({
   },
   module: {
     rules: [
-        { test: /\.txt$/,  use: resolve(__dirname, './loaders/raw-loader.js') },
-        // { test: /\.txt$/,  use: 'raw-loader' },
-        
+        // { test: /\.txt$/,  use: resolve(__dirname, './loaders/raw-loader.js') },
+        { test: /\.txt$/,  use: 'raw-loader' },
     ]
   },
+
+  plugins: [
+    new HtmlWebpackPlugin(
+      { template: './src/index.html' }
+    )
+  ],
 
 })
