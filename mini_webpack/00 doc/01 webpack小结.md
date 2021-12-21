@@ -26,8 +26,29 @@ S4 插件(plugin):
 S5 模式(mode):
   1. 开启webpack在不同环境下的 优化设置
 
-
-
-
 具体配置参考，见
 [官方文档- 概念](https://webpack.docschina.org/concepts/)
+
+---------------------------------------
+Q3 如何配置本地开发服务器
+
+A:
+S1 使用 webpack-dev-server
+S2 运行在内存中--> 内存文件系统: memory-fs
+S3 output文件访问路径-->
+  http://[devServer.host]:[devServer.port]/[output.publicPath]/[output.filename]
+S4 devServer的static配置==> 待继续学习
+
+具体配置参考，见
+[官方- 指南 - 开发环境](https://webpack.docschina.org/guides/development/)
+[官方- 配置 - DevServer](https://webpack.docschina.org/configuration/dev-server/)
+
+
+---------------------------------------
+Q3 如何
+
+A:
+
+
+
+
