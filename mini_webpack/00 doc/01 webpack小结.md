@@ -51,6 +51,12 @@ A:
 S1 使用步骤为：安装 --> 配置 --> 使用
 
 S1 处理less/css等 样式文件的引入：less-loader/ css-loader/ style-loader
+S2 处理图片的引入
+  1. file-loader/ url-loader/ html-loader/ asset module(内置模块)
+  2. 
+
+
+[官方- 指南- 管理资源](https://webpack.docschina.org/guides/asset-management/)
 
 
 

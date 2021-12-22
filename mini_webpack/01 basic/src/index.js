@@ -1,5 +1,12 @@
-const hello = require('./title.txt').default
+const hello = require('./assets/title.txt').default
+import logo from './assets/images/logo.png'
 import './index.css'
 import './less.less'
 
-document.body.innerHTML = `${hello}`
+let rootEle = document.body.querySelector('#root')
+const txtEle = document.createTextNode(hello)
+rootEle.appendChild(txtEle)
+
+const imgEle = new Image()
+imgEle.src = logo
+rootEle.appendChild(imgEle)

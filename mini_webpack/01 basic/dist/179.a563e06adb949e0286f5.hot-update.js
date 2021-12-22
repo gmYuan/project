@@ -1,1 +1,0 @@
-"use strict";self.webpackHotUpdate_1_basic(179,{424:(e,n,c)=>{c.r(n),c.d(n,{default:()=>o});var b=c(81),t=c.n(b),a=c(645),d=c.n(a)()(t());d.push([e.id,"body{\n    background:yellowgreen;\n}",""]);const o=d}},(function(e){e.h=()=>"eb7fb75cb71e670821c1"}));
