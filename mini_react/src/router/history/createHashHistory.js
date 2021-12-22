@@ -14,21 +14,7 @@ function createHashHistory(){
             listeners = listeners.filter(item=>item!==listener);
         }
     }
-    function go(n){
-        action = 'POP';
-        index+=n;//更改栈顶的指针
-        let nextLocation = stack[index];//取出指定索引对应的路径对象
-        state= nextLocation.state;//取出此location对应的状态 
-        window.location.hash = nextLocation.pathname;//修改hash值 ，从而修改当前的路径
-    }
-    let hashChangeHandler = ()=>{
-        let pathname = window.location.hash.slice(1);//取出最新的hash值对应的路径  #/user
-        Object.assign(history,{action,location:{pathname,state}});
-        if(action === 'PUSH'){//说明是调用push方法，需要往历史栈中添加新的条目 
-            stack[++index]=history.location;
-        }
-        listeners.forEach(listener=>listener(history.location));
-    }
+
     function push(pathname,nextState){
         action = 'PUSH';
         if(typeof pathname ==='object'){
@@ -39,14 +25,33 @@ function createHashHistory(){
         }
         window.location.hash = pathname;
     }
-    //当hash发生变化的话，会执行回调
-    window.addEventListener('hashchange',hashChangeHandler);
+
+    function go(n){
+        action = 'POP';
+        index+=n;//更改栈顶的指针
+        let nextLocation = stack[index];//取出指定索引对应的路径对象
+        state= nextLocation.state;//取出此location对应的状态 
+        window.location.hash = nextLocation.pathname;//修改hash值 ，从而修改当前的路径
+    }
+
     function goBack(){
         go(-1);
     }
     function goForward(){
         go(1);
     }
+
+    //当hash发生变化的话，会执行回调
+    window.addEventListener('hashchange',hashChangeHandler);
+    function hashChangeHandler() {
+        let pathname = window.location.hash.slice(1);//取出最新的hash值对应的路径  #/user
+        Object.assign(history,{action,location:{pathname,state}});
+        if(action === 'PUSH'){//说明是调用push方法，需要往历史栈中添加新的条目 
+            stack[++index]=history.location;
+        }
+        listeners.forEach(listener=>listener(history.location));
+    }
+ 
     const history = {
         action:'POP',
         go,
