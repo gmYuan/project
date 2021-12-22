@@ -45,9 +45,12 @@ S4 devServer的static配置==> 待继续学习
 
 
 ---------------------------------------
-Q3 如何
+Q4 有哪些常用的loader
 
 A:
+S1 使用步骤为：安装 --> 配置 --> 使用
+
+S1 处理less/css等 样式文件的引入：less-loader/ css-loader/ style-loader
 
 
 

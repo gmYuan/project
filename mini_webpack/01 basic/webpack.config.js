@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 
 module.exports = (env) => ({
-  mode: 'development',
+  mode: 'production',
   entry: './src/index.js',
   output: {
     path: resolve(__dirname, 'dist'),
@@ -14,7 +14,7 @@ module.exports = (env) => ({
     port: 8080, 
     open: true, 
     devMiddleware: {
-      writeToDisk: true,
+      // writeToDisk: true,
     },
     static: {
       directory: join(__dirname, 'assets'),
@@ -24,7 +24,18 @@ module.exports = (env) => ({
   module: {
     rules: [
         // { test: /\.txt$/,  use: resolve(__dirname, './loaders/raw-loader.js') },
-        { test: /\.txt$/,  use: 'raw-loader' },
+        {
+          test: /\.txt$/,  
+          use: 'raw-loader' 
+        },
+        {
+          test: /\.css$/,
+          use: ['style-loader', 'css-loader'],
+        },
+        {
+          test: /\.less$/,
+          use: [ 'style-loader', 'css-loader', 'less-loader' ],
+        },
     ]
   },
 
