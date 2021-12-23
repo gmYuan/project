@@ -8,10 +8,9 @@ module.exports = (env) => ({
   output: {
     path: resolve(__dirname, 'dist'),
     filename: 'main.js',
-    publicPath: '/',
   },
   devServer: {
-    port: 8080, 
+    port: 6061, 
     open: true, 
     devMiddleware: {
       writeToDisk: true,
@@ -36,6 +35,16 @@ module.exports = (env) => ({
           }
         },
         { test: /\.html$/, loader: "html-loader" },
+        {
+          test: /\.jsx?$/,
+          use: {
+            loader: 'babel-loader',
+            options: {
+              presets: ['@babel/preset-env', '@babel/preset-react'],
+            }
+          }
+        },
+
     ]
   },
 

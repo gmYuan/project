@@ -10,3 +10,6 @@ rootEle.appendChild(txtEle)
 const imgEle = new Image()
 imgEle.src = logo
 rootEle.appendChild(imgEle)
+
+const add = (a,b) => a + b
+console.log('add', add(3, 6))

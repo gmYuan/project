@@ -43,9 +43,8 @@ S4 devServer的static配置==> 待继续学习
 [官方- 指南 - 开发环境](https://webpack.docschina.org/guides/development/)
 [官方- 配置 - DevServer](https://webpack.docschina.org/configuration/dev-server/)
 
-
 ---------------------------------------
-Q4 有哪些常用的loader
+Q4 如何配置 图片资源引入
 
 A:
 S1 使用步骤为：安装 --> 配置 --> 使用
@@ -55,9 +54,27 @@ S2 处理图片的引入
   1. file-loader/ url-loader/ html-loader/ asset module(内置模块)
   2. file-loader处理内容：拷贝图片 + 把图片模块 变成JS模块
 
-
 [官方- 指南- 管理资源](https://webpack.docschina.org/guides/asset-management/)
 
+---------------------------------------
+Q5 如何配置转化 ES6/ES7等语法
 
+A:
+S1 安装loader、预设、集成、插件：
+  1. npm install -D babel-loader @babel/core @babel/preset-env
+  2. npm install --save-dev @babel/preset-react
+  3. npm install --save @babel/polyfill
+  4.1  npm install --save-dev @babel/plugin-proposal-decorators
+  4.2 npm install --save-dev @babel/plugin-proposal-class-properties
+
+S2 loader/ 预设/ 插件的功能
+  1. babel-loader：使用/依赖 babelCore，来进行内容转化，它的作用 就是调用babelCore
+  2. babelCore：本身只是提供一个过程管理功能
+  
+
+
+
+[官方- Loader- babel-loader](https://webpack.docschina.org/loaders/babel-loader/)
+[babel官方- 插件](https://www.babeljs.cn/docs/plugins-list)
 
 
