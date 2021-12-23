@@ -12,11 +12,10 @@ class Router  extends React.Component {
       //监听路径变化，当路径发生变化 后执行回调，并传入最新的路径
       this.unlisten = props.history.listen( (location)=>{
           console.log('路径变化cb', location)
-          debugger
           this.setState( {location} )     //状态改变会引起组件刷新
       })
   }
-  componentWillUnmount(){
+  componentWillUnmount() {
     this.unlisten()
   }
 

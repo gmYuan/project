@@ -16,11 +16,14 @@ import Profile from './router/components/Profile'
 
 
 const element20  = 
-<Router>
+<>
+  <Router>
     <Route path="/" exact  component={Home} />
     <Route path="/user" component={User} />
     <Route path="/profile" component={Profile} />
-</Router>
+  </Router>
+</>
+
 
 
 ReactDOM.render( element20,  document.getElementById('root'))

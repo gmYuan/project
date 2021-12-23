@@ -15,15 +15,17 @@ function createHashHistory(){
         }
     }
 
-    function push(pathname,nextState){
+    function push(path,nextState){
         action = 'PUSH';
+        let pathname
         if(typeof pathname ==='object'){
-            state = pathname.state;
-            pathname = pathname.pathname
+            state = path.state;
+            pathname = path.pathname
         }else{
             state = nextState;
+            pathname = path
         }
-        window.location.hash = pathname;
+        window.location.hash = pathname
     }
 
     function go(n){
@@ -45,9 +47,9 @@ function createHashHistory(){
     window.addEventListener('hashchange',hashChangeHandler);
     function hashChangeHandler() {
         let pathname = window.location.hash.slice(1);//取出最新的hash值对应的路径  #/user
-        Object.assign(history,{action,location:{pathname,state}});
-        if(action === 'PUSH'){//说明是调用push方法，需要往历史栈中添加新的条目 
-            stack[++index]=history.location;
+        Object.assign( history, { action, location: {pathname,state} })
+        if(action === 'PUSH'){   //说明是调用push方法，需要往历史栈中添加新的条目 
+            stack[++index]=history.location
         }
         listeners.forEach(listener=>listener(history.location));
     }
