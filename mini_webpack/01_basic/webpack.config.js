@@ -37,6 +37,7 @@ module.exports = (env) => ({
         { test: /\.html$/, loader: "html-loader" },
         {
           test: /\.jsx?$/,
+          exclude:/node_modules/,
           use: {
             loader: 'babel-loader',
             options: {

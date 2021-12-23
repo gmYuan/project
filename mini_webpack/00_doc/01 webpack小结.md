@@ -67,9 +67,10 @@ S1 安装loader、预设、集成、插件：
   4.1  npm install --save-dev @babel/plugin-proposal-decorators
   4.2 npm install --save-dev @babel/plugin-proposal-class-properties
 
-S2 loader/ 预设/ 插件的功能
+S2 loader/ 预设/ 的功能
   1. babel-loader：使用/依赖 babelCore，来进行内容转化，它的作用 就是调用babelCore
-  2. babelCore：本身只是提供一个过程管理功能
+  2. babelCore：只负责 代码 <==> 抽象语法树的双向转化，只是提供一个过程管理功能
+  3. presetEnv：把ES6语法树，按一定的规则 转化成 ES5语法树
   
 
 
