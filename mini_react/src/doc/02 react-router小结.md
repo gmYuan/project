@@ -46,3 +46,7 @@ S1 方法1: 严格相等匹配 location.pathname===props.path
 
 S2 方法2：正则匹配
   - path-to-regexp库 + 捕获分组生成路由params
+  - 实现路由匹配 工具函数：matchPath(pathname,options)
+
+S2.2 matchPath(pathname,options)实现流程
+  - 
