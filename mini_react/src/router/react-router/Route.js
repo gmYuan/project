@@ -8,11 +8,13 @@ class Route  extends React.Component{
   render(){
       let { history, location} = this.context
       let {component: RouteComponent, path, computedMatch, render, children} = this.props
+      // debugger
       const match = matchPath( location.pathname, this.props)
 
       let routeProps = { history, location }
       let renderElement = null
       if (match) {
+        routeProps.match = match
         renderElement = <RouteComponent {...routeProps}  />
       }
 

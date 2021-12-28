@@ -3,9 +3,10 @@ import { pathToRegexp } from 'path-to-regexp'
 function compilePath(path,options){
     const keys = []
     const regexp = pathToRegexp(path, keys, options)
-    return {regexp,keys};
+    return { regexp, keys }
 }
 function matchPath(pathname,options = {}){
+    // debugger
     const { path="/", exact = false, strict = false, sensitive = false } = options
     const {regexp, keys} = compilePath( path,{ end:exact,  strict,  sensitive})
     const match = regexp.exec(pathname)
