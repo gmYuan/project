@@ -38,4 +38,11 @@ S5.2 history ==> createHashHistory步骤
   2. push方法 ==> 获取最新的 path和state + window.location.hash = pathname
   3. hashchange回调监听 ==>  类似于notify()
      
-       
+-------
+Q3: location.pathname 和 path值做路由比对，具体是如何进行比对的
+A:
+S1 方法1: 严格相等匹配 location.pathname===props.path
+  - 缺点是 无法支持 非精准匹配功能
+
+S2 方法2：正则匹配
+  - path-to-regexp库 + 捕获分组生成路由params
