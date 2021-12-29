@@ -78,7 +78,23 @@ S2 loader/ 预设/插件 的功能
 [babel官方- 插件](https://www.babeljs.cn/docs/plugins-list)
 
 ---------------------------------------
-Q6 如何
+Q6 如何配置 eslint规校验
 
 A:
-S1
+S1 安装esllint/ eslint-loader/ @babel/eslint
+  - eslint-loader已被替换为 eslint-webpack-plugin
+  - @babel/eslint已被替换为 @babel/eslint-parser
+  1. npm install eslint eslint-webpack-plugin --save-dev
+  2. npm install @babel/eslint-parser --save-dev
+
+S2 配置规则
+  1. eslint-loader：
+    - loader: 'eslint-loader', // 先进行代码校验，然后再编译代码
+    - enforce: 'pre',        // 强制指定顺序  pre normal inline post
+    - options: { fix: true },    // 启动自动修复
+    - include: resolve(__dirname, 'src'),    // 白名单
+    - exclude:/node_modules/               // 黑名单
+  2. 
+
+[官方- plugin- EslintWebpackPlugin](https://webpack.docschina.org/plugins/eslint-webpack-plugin/)
+[@babel/eslint-parser](https://www.npmjs.com/package/@babel/eslint-parser)
