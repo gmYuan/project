@@ -21,12 +21,14 @@ function readonly(target, key, desc) {
     desc.writable = false
 }
 class Person{
-    @readonly PI = 3.14
+    // @readonly PI = 3.14
+    PI = 3.14
 }
 
 let p = new Person()
 p.PI = 3.15
 console.log(p)
+console.log('3333')
 
 
 /**

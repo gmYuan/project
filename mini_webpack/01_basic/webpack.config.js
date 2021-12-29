@@ -24,7 +24,6 @@ module.exports = (env) => ({
 
   module: {
     rules: [
-        // { test: /\.txt$/,  use: resolve(__dirname, './loaders/raw-loader.js') },
         { test: /\.txt$/,  use: 'raw-loader' },
         { test: /\.css$/, use: ['style-loader', 'css-loader'] },
         { test: /\.less$/, use: [ 'style-loader', 'css-loader', 'less-loader' ] },
@@ -59,7 +58,7 @@ module.exports = (env) => ({
       template: './src/index.html'
     }),
     new ESLintPlugin({
-      // extensions: ['js', 'jsx'],
+      extensions: ['js', 'jsx'],
       // fix: true,
     }),
   ],
