@@ -49,4 +49,6 @@ S2 方法2：正则匹配
   - 实现路由匹配 工具函数：matchPath(pathname,options)
 
 S2.2 matchPath(pathname,options)实现流程
-  - 
+  - 通过 const regexp = pathToRegexp(path, keys, options) 生成路径对应的正则
+  -  const match = regexp.exec(pathname)判断 是否匹配路由
+  -  返回 { path, url, isExact, params }对象，作为 routeProps.match值
