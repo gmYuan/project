@@ -94,7 +94,10 @@ S2 配置规则
     - options: { fix: true },    // 启动自动修复
     - include: resolve(__dirname, 'src'),    // 白名单
     - exclude:/node_modules/               // 黑名单
-  2. 
+  
+  2. 新增配置文件.eslintrc.js
+    - 配置 parser/rules等规则
+
 
 [官方- plugin- EslintWebpackPlugin](https://webpack.docschina.org/plugins/eslint-webpack-plugin/)
 [@babel/eslint-parser](https://www.npmjs.com/package/@babel/eslint-parser)
