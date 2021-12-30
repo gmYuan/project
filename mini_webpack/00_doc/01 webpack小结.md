@@ -77,6 +77,7 @@ S2 loader/ 预设/插件 的功能
 [官方- Loader- babel-loader](https://webpack.docschina.org/loaders/babel-loader/)
 [babel官方- 插件](https://www.babeljs.cn/docs/plugins-list)
 
+
 ---------------------------------------
 Q6 如何配置 eslint规校验
 
@@ -98,6 +99,15 @@ S2 配置规则
   2. 新增配置文件.eslintrc.js
     - 配置 parser/rules等规则
 
+S3 引入规范化的规则集合
+  1. 安装eslint-config-airbnb: 
+    - npx install-peerdeps --dev eslint-config-airbnb
+  2. eslintrc.js 配置： ` extends: 'airbnb' `
+  3. 自动修复设置：IDE功能配置文件
 
 [官方- plugin- EslintWebpackPlugin](https://webpack.docschina.org/plugins/eslint-webpack-plugin/)
 [@babel/eslint-parser](https://www.npmjs.com/package/@babel/eslint-parser)
+
+
+---------------------------------------
+Q7 如何配置 
