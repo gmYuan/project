@@ -13,7 +13,7 @@ function matchPath(pathname,options = {}){
     if(!match) return null
     const [url, ...values] = match
     const isExact = pathname === url
-    //如果希望精确，但其实不精确
+    //如果希望精确，但其实不精确的时候，就要返回null
     if(exact && !isExact) return null 
 
     return {
