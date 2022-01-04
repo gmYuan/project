@@ -124,3 +124,14 @@ S2 最佳实践配置
   - 生产环境：`devtool: hidden-source-map`
 
 [官方- 配置- Devtool](https://webpack.docschina.org/configuration/devtool/)
+
+
+---------------------------------------
+Q8 如何加载第三方组件
+A:
+S1 加载方式
+  1. import/ require 直接引用：痛点是比较麻烦，每次使用都要引入
+  2. webpack.ProvidePlugin组件引入
+    - 优点是 不需要手动引用了，直接 就能使用
+    - 缺点是 无法在全局下使用
+  3. expose-loader引入
