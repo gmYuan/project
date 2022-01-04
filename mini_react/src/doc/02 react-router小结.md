@@ -52,3 +52,12 @@ S2.2 matchPath(pathname,options)实现流程
   - 通过 const regexp = pathToRegexp(path, keys, options) 生成路径对应的正则
   -  const match = regexp.exec(pathname)判断 是否匹配路由
   -  返回 { path, url, isExact, params }对象，作为 routeProps.match值
+
+-----------------------------
+Q4: 如何实现switch
+A：
+S1 遍历React.chilren，通过matchPath 查找匹配的route
+  - React.Children.forEach
+
+S2 返回匹配的 route/null
+  - React.cloneElement( element,{computedMatch:match} ) / null

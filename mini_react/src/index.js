@@ -8,7 +8,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Route } from './router/react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from './router/react-router-dom';
 
 import Home from './router/components/Home'
 import User from './router/components/User'
@@ -18,9 +18,11 @@ import Profile from './router/components/Profile'
 const element20  = 
 <>
   <Router>
-    <Route path="/" exact  component={Home} />
-    <Route path="/user" component={User} />
-    <Route path="/profile" component={Profile} />
+    <Switch>
+      <Route path="/" exact  component={Home} />
+      <Route path="/user" component={User} />
+      <Route path="/profile" component={Profile} />
+    </Switch>
   </Router>
 </>
 
