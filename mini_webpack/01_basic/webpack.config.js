@@ -5,6 +5,7 @@ const ESLintPlugin = require('eslint-webpack-plugin');
 
 module.exports = (env) => ({
   mode: 'development',
+  devtool: 'eval-cheap-module-source-map',
   entry: './src/index.js',
   output: {
     path: resolve(__dirname, 'dist'),
