@@ -8,7 +8,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Switch, Route } from './router/react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Link } from './router/react-router-dom';
 
 import Home from './router/components/Home'
 import User from './router/components/User'
@@ -16,15 +16,19 @@ import Profile from './router/components/Profile'
 
 
 const element20  = 
-<>
-  <Router>
-    <Switch>
-      <Route path="/" exact  component={Home} />
-      <Route path="/user" component={User} />
-      <Route path="/profile" component={Profile} />
-    </Switch>
-  </Router>
-</>
+
+<Router>
+  <ul>
+    <li> <Link to="/">首页</Link> </li>
+    <li> <Link to="/user">用户管理</Link> </li>
+    <li> <Link to="/profile">个人中心</Link> </li>
+  </ul>
+  <Switch>
+    <Route path="/" exact  component={Home} />
+    <Route path="/user" component={User} />
+    <Route path="/profile" component={Profile} />
+  </Switch>
+</Router>
 
 
 
