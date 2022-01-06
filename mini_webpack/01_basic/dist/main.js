@@ -27,7 +27,7 @@ eval("\n\nmodule.exports = ansiHTML\n\n// Reference to https://github.com/sindre
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ \"./node_modules/lodash/lodash-exposed.js\");\n/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);\n\n\nvar res = lodash__WEBPACK_IMPORTED_MODULE_0___default().union([2], [1, 2]);\n\nconsole.log('res22', res); // => [2, 1]//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9zcmMvaW5kZXguanMuanMiLCJtYXBwaW5ncyI6Ijs7O0FBQUE7O0FBRUE7O0FBQ0EiLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly8xLmJhc2ljLy4vc3JjL2luZGV4LmpzP2I2MzUiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IF8gZnJvbSBcImxvZGFzaFwiO1xuXG5jb25zdCByZXMgPSBfLnVuaW9uKFsyXSwgWzEsIDJdKTtcbmNvbnNvbGUubG9nKCdyZXMyMicsIHJlcyk7IC8vID0+IFsyLCAxXVxuIl0sIm5hbWVzIjpbXSwic291cmNlUm9vdCI6IiJ9\n//# sourceURL=webpack-internal:///./src/index.js\n");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ \"./node_modules/lodash/lodash-exposed.js\");\n/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);\n\n\nvar res = _.union([2], [1, 2]);\n\nconsole.log('res22', res); // => [2, 1]//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9zcmMvaW5kZXguanMuanMiLCJtYXBwaW5ncyI6Ijs7O0FBQUE7O0FBRUE7O0FBQ0EiLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly8xLmJhc2ljLy4vc3JjL2luZGV4LmpzP2I2MzUiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IFwibG9kYXNoXCI7XG5cbmNvbnN0IHJlcyA9IF8udW5pb24oWzJdLCBbMSwgMl0pO1xuY29uc29sZS5sb2coJ3JlczIyJywgcmVzKTsgLy8gPT4gWzIsIDFdXG4iXSwibmFtZXMiOltdLCJzb3VyY2VSb290IjoiIn0=\n//# sourceURL=webpack-internal:///./src/index.js\n");
 
 /***/ }),
 
@@ -440,7 +440,7 @@ eval("var logLevel = \"info\";\n\nfunction dummy() {}\n\nfunction shouldLog(leve
 /******/ 	
 /******/ 	/* webpack/runtime/getFullHash */
 /******/ 	(() => {
-/******/ 		__webpack_require__.h = () => ("bcaf3b1bf880915c59dc")
+/******/ 		__webpack_require__.h = () => ("76197eb5976e8095d1ac")
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/global */
