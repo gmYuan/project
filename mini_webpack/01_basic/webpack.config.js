@@ -21,6 +21,9 @@ module.exports = (env) => ({
       // publicPath: '/static',
     },
   },
+  externals: {
+    lodash: '_',
+  },
 
   module: {
     rules: [

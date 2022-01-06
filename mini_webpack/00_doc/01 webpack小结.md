@@ -125,7 +125,6 @@ S2 最佳实践配置
 
 [官方- 配置- Devtool](https://webpack.docschina.org/configuration/devtool/)
 
-
 ---------------------------------------
 Q8 如何加载第三方组件
 A:
@@ -136,3 +135,9 @@ S1 加载方式
     - 缺点是 无法在全局下使用
   3. expose-loader引入
     - 配置内容为：exposes: { globalName: "_", override: true }
+  4. CDN 
+    - 手动导入 CDN插件脚本
+    - 执行后 会被挂在到全局对象上
+    - 配置 externals排除依赖
+    - 缺点：需要手动插入脚本 + 不管代码里用到没有用到，都会引入
+  5. webpack-
