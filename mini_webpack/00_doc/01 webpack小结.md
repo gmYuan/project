@@ -135,3 +135,4 @@ S1 加载方式
     - 优点是 不需要手动引用了，直接 就能使用
     - 缺点是 无法在全局下使用
   3. expose-loader引入
+    - 配置内容为：exposes: { globalName: "_", override: true }

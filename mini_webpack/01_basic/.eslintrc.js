@@ -20,5 +20,6 @@ module.exports = {
         quotes: "off", // 引号类型
         "no-console": "off", // 禁止使用console
         "no-unused-vars": "off",
+        "no-undef": "off",
     },
 };

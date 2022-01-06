@@ -24,11 +24,21 @@ module.exports = (env) => ({
 
   module: {
     rules: [
+        {
+          test: require.resolve("lodash"),
+          loader: "expose-loader",
+          options: {
+              exposes: {
+                globalName: "_",
+                override: true,
+              },
+          },
+        },
         { test: /\.txt$/, use: 'raw-loader' },
         { test: /\.css$/, use: ['style-loader', 'css-loader'] },
         { test: /\.less$/, use: ['style-loader', 'css-loader', 'less-loader'] },
         {
- test: /\.(png|svg|jpg|jpeg|gif)$/,
+          test: /\.(png|svg|jpg|jpeg|gif)$/,
           type: 'asset',
           generator: { filename: 'assets/[hash:10][ext]' },
           parser: {
