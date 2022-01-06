@@ -61,3 +61,9 @@ S1 遍历React.chilren，通过matchPath 查找匹配的route
 
 S2 返回匹配的 route/null
   - React.cloneElement( element,{computedMatch:match} ) / null
+
+
+-----------------------------
+Q5: 如何实现 <Link>内置组件
+A：
+S1 <a>组件 +  history.push(props.to)
