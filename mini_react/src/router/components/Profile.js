@@ -9,11 +9,11 @@ class Profile extends React.Component{
     render(){
         return (
             <div>
-                <ul>
+                {/* <ul>
                     <li onClick={() => this.handleChange('')}>home</li>
                     <li onClick={() => this.handleChange('user')}>user</li>
                     <li onClick={() => this.handleChange('profile')}>profile</li>
-                </ul>
+                </ul> */}
                 <div>Profile</div>
             </div>
         )

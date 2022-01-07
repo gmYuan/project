@@ -67,3 +67,10 @@ S2 返回匹配的 route/null
 Q5: 如何实现 <Link>内置组件
 A：
 S1 <a>组件 +  history.push(props.to)
+  - 不直接使用a组件，是因为<a>组件只支持字符串，而<Link>的to属性 可以支持传递对象
+
+S2 history兼容 path传入的是 对象
+  - createHashHistory/createBrowserHistory.push(path, nextState)
+
+S3 实现嵌套路由
+  1. 

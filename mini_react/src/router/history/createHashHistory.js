@@ -18,10 +18,10 @@ function createHashHistory(){
     function push(path,nextState){
         action = 'PUSH';
         let pathname
-        if(typeof pathname ==='object'){
+        if (typeof pathname ==='object') {
             state = path.state;
             pathname = path.pathname
-        }else{
+        } else {
             state = nextState;
             pathname = path
         }

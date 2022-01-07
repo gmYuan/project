@@ -20,14 +20,14 @@ function createBrowserHistory(){
         go(1);
     }
 
-    function push(path,nextState){
+    function push(path, nextState){
         const action = 'PUSH'  //action表示是由于什么样的动作引起了路径的变更
         let pathname
         if(typeof path === 'object'){
             state = path.state;
             pathname = path.pathname;
-        }else {
-            state=nextState
+        } else {
+            state = nextState
             pathname = path
         }
         if(message){

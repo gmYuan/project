@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from "../react-router-dom";
 
 class User extends React.Component{
   constructor(props) {
@@ -14,12 +15,16 @@ class User extends React.Component{
     render(){
         return (
             <div>
-                <ul>
+                {/* <ul>
                     <li onClick={() => this.handleChange('')}>home</li>
                     <li onClick={() => this.handleChange('user')}>user</li>
                     <li onClick={() => this.handleChange('profile')}>profile</li>
-                </ul>
-                <div>User</div>
+                </ul> */}
+                {/* <div>User</div> */}
+
+                <Link to={ {pathname: '/user/detail', state:{id: 1, name: '章三'} } }> 
+                    User1 
+                </Link>
             </div>
         )
     }
