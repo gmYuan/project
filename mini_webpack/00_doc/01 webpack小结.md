@@ -125,6 +125,7 @@ S2 最佳实践配置
 
 [官方- 配置- Devtool](https://webpack.docschina.org/configuration/devtool/)
 
+
 ---------------------------------------
 Q8 如何加载第三方组件
 A:
@@ -140,4 +141,16 @@ S1 加载方式
     - 执行后 会被挂在到全局对象上
     - 配置 externals排除依赖
     - 缺点：需要手动插入脚本 + 不管代码里用到没有用到，都会引入
-  5. webpack-
+  5. html-webpack-extenrals-plugin
+    - 自动导入 CDN等脚本
+    - 只会用到时才 按需引入
+
+[官方- loader- expose-loader](https://webpack.docschina.org/loaders/expose-loader/)
+
+[npm- htmlWebpackExternalsPlugin](https://www.npmjs.com/package/html-webpack-externals-plugin)
+
+
+---------------------------------------
+Q9 如何实现
+A:
+S1 

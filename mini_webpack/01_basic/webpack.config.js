@@ -1,6 +1,7 @@
 const { resolve, join } = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
+const HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin');
 
 module.exports = (env) => ({
   mode: 'development',
@@ -27,16 +28,17 @@ module.exports = (env) => ({
 
   module: {
     rules: [
-        {
-          test: require.resolve("lodash"),
-          loader: "expose-loader",
-          options: {
-              exposes: {
-                globalName: "_",
-                override: true,
-              },
-          },
-        },
+        /**  可被HtmlWebpackExternalsPlugin替换 * */
+        // {
+        //   test: require.resolve("lodash"),
+        //   loader: "expose-loader",
+        //   options: {
+        //       exposes: {
+        //         globalName: "_",
+        //         override: true,
+        //       },
+        //   },
+        // },
         { test: /\.txt$/, use: 'raw-loader' },
         { test: /\.css$/, use: ['style-loader', 'css-loader'] },
         { test: /\.less$/, use: ['style-loader', 'css-loader', 'less-loader'] },
@@ -75,6 +77,15 @@ module.exports = (env) => ({
       extensions: ['js', 'jsx'],
       // fix: true,
     }),
-  ],
 
+    new HtmlWebpackExternalsPlugin({
+      externals: [
+        {
+          module: 'lodash',
+          entry: 'https://cdn.bootcdn.net/ajax/libs/lodash.js/4.17.21/lodash.min.js',
+          global: '_',
+        },
+      ],
+    }),
+  ],
 });
