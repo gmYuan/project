@@ -13,6 +13,8 @@ import { BrowserRouter as Router, Switch, Route, Link } from './router/react-rou
 import Home from './router/components/Home'
 import User from './router/components/User'
 import Profile from './router/components/Profile'
+import Protected from './router/components/Protected.js'
+import Login from './router/components/Login'
 
 
 const element20  = 
@@ -26,7 +28,8 @@ const element20  =
   <Switch>
     <Route path="/" exact  component={Home} />
     <Route path="/user" component={User} />
-    <Route path="/profile" component={Profile} />
+    <Protected path="/profile" component={Profile} />
+    <Route path="/login" component={Login}  />
   </Switch>
 </Router>
 

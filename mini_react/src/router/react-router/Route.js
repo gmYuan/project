@@ -15,10 +15,26 @@ class Route  extends React.Component{
       let renderElement = null
       if (match) {
         routeProps.match = match
-        renderElement = <RouteComponent {...routeProps}  />
-      }
 
-      return renderElement
+        if (RouteComponent) {  //如果传递了 component属性，优先渲染component
+          renderElement = <RouteComponent {...routeProps}/>
+        } else if (render) {
+          renderElement = render(routeProps)
+        } else if (children) {
+          renderElement = children(routeProps)
+        } else {
+          renderElement=null
+        } 
+      } else {
+        if (children) {
+          renderElement=children(routeProps)
+        } else {
+          renderElement=null
+        }
+    }
+
+    return renderElement
   }
 }
+
 export default Route;
