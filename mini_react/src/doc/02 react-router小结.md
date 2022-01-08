@@ -73,4 +73,12 @@ S2 history兼容 path传入的是 对象
   - createHashHistory/createBrowserHistory.push(path, nextState)
 
 S3 实现嵌套路由
-  1. 
+  1.  使用 <route>定义 路径和组件的对应关系
+  2. 父子组件之间，任意嵌套使用 <Link>来 进行路径的跳转
+  3. 利用 <Switch> 和 <Router> 传递的公有信息，来获取路径的变量值
+
+
+-----------------------------
+Q6: 如何实现 
+A：
+S1 

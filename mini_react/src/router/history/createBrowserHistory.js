@@ -50,7 +50,7 @@ function createBrowserHistory(){
 
     function notify(newState){
         //把newState上的属性赋值到history对象上
-        Object.assign(history,newState);
+        Object.assign(history, newState);
         history.length = globalHistory.length;//路由历史栈中历史条目的长度
         listeners.forEach(listener=>listener(history.location));//通知监听函数执行,参数是新的location
     }
