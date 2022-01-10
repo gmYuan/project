@@ -151,6 +151,17 @@ S1 加载方式
 
 
 ---------------------------------------
-Q9 如何实现
+Q9 如何实现 webpack环境配置
 A:
-S1 
+S1 设置webpack-cli的env值，会被传入到webpack.config.js的函数里
+  -  scripts里配置 "dev": "webpack --env develop"
+
+S2 使用cross-env配置 NODE_ENV变量
+  -  scripts里配置  "wt2": "cross-env NODE_ENV=wt2 webpack"
+
+S3 如何在全局里拿到 NODE_ENV变量
+
+
+[官方-API- cli](https://webpack.docschina.org/api/cli/#env)
+
+[cross-env介绍](https://www.npmjs.com/package/cross-env)

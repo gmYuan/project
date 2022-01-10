@@ -1,10 +1,15 @@
 const { resolve, join } = require('path');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin');
 
-module.exports = (env) => ({
-  mode: 'development',
+console.log('process.env----', process.env.NODE_ENV);
+
+module.exports = (webpackEnv) => {
+  console.log('webpackEnv---', webpackEnv);
+  return {
+  mode: process.env.NODE_ENV === 'prod' ? 'production' : 'development',
   devtool: 'eval-cheap-module-source-map',
   entry: './src/index.js',
   output: {
@@ -87,5 +92,14 @@ module.exports = (env) => ({
         },
       ],
     }),
+
+    // 区分环境
+    new webpack.DefinePlugin({
+      'process.env': {
+        MY_NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+      },
+    }),
+
   ],
-});
+};
+};
