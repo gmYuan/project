@@ -96,7 +96,7 @@ module.exports = (webpackEnv) => {
     // 区分环境
     new webpack.DefinePlugin({
       'process.env': {
-        MY_NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+        APP_ENV: JSON.stringify(process.env.NODE_ENV),
       },
     }),
 

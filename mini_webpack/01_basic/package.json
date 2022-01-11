@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev": "cross-env NODE_ENV=dev  webpack serve",
     "wt2": "cross-env NODE_ENV=wt2  webpack serve",
     "build-dev": "webpack --env develop",
     "build-wt2": "cross-env NODE_ENV=wt2 webpack",

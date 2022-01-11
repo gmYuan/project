@@ -153,15 +153,30 @@ S1 加载方式
 ---------------------------------------
 Q9 如何实现 webpack环境配置
 A:
+
 S1 设置webpack-cli的env值，会被传入到webpack.config.js的函数里
-  -  scripts里配置 "dev": "webpack --env develop"
+  -  scripts里配置 "webpack --env develop"
+  -  --env只能给webpack配置文件自己使用
 
 S2 使用cross-env配置 NODE_ENV变量
   -  scripts里配置  "wt2": "cross-env NODE_ENV=wt2 webpack"
+  -  通过cross-env，可以设置 node环境中的process.env.NODE_ENV值
+  
+S3 设置webpack-cli的mode值
+  - scripts里配置 webpack --mode=development
+  - mode ==> 关联了 其他JS文件内的 process.env.NODE_ENV变量值
+  - webpack mode默认值是production
 
-S3 如何在全局里拿到 NODE_ENV变量
-
+S4 如何在全局里拿到 NODE_ENV变量
+  - 设置webpack.DefinePlugin：定义全局变量的插件
+  - 通过webpack.DefinePlugin，可以在浏览器中模拟 NODE_ENV变量
 
 [官方-API- cli](https://webpack.docschina.org/api/cli/#env)
 
 [cross-env介绍](https://www.npmjs.com/package/cross-env)
+
+
+---------------------------------------
+Q10 如何实现 
+A:
+S1

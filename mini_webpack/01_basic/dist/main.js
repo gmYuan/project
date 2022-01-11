@@ -27,7 +27,7 @@ eval("\n\nmodule.exports = ansiHTML\n\n// Reference to https://github.com/sindre
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ \"lodash\");\n/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);\n\n\nvar res = _.union([2], [1, 2]);\n\nconsole.log('res22', res); // => [2, 1]\n\nconsole.log('当前环境是--', \"wt2\");//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9zcmMvaW5kZXguanMuanMiLCJtYXBwaW5ncyI6Ijs7O0FBQUE7O0FBRUE7O0FBQ0E7O0FBRUEiLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly8xLmJhc2ljLy4vc3JjL2luZGV4LmpzP2I2MzUiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IFwibG9kYXNoXCI7XG5cbmNvbnN0IHJlcyA9IF8udW5pb24oWzJdLCBbMSwgMl0pO1xuY29uc29sZS5sb2coJ3JlczIyJywgcmVzKTsgLy8gPT4gWzIsIDFdXG5cbmNvbnNvbGUubG9nKCflvZPliY3njq/looPmmK8tLScsIHByb2Nlc3MuZW52Lk1ZX05PREVfRU5WKTtcbiJdLCJuYW1lcyI6W10sInNvdXJjZVJvb3QiOiIifQ==\n//# sourceURL=webpack-internal:///./src/index.js\n");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ \"lodash\");\n/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);\n\n\nvar res = _.union([2], [1, 2]);\n\nconsole.log('res22', res); // => [2, 1]\n\nconsole.log('当前环境的NODE_ENV是--', \"development\");\nconsole.log('当前环境的APP_ENV是--', \"wt2\");//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9zcmMvaW5kZXguanMuanMiLCJtYXBwaW5ncyI6Ijs7O0FBQUE7O0FBRUE7O0FBQ0E7O0FBRUE7QUFDQSIsInNvdXJjZXMiOlsid2VicGFjazovLzEuYmFzaWMvLi9zcmMvaW5kZXguanM/YjYzNSJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgXCJsb2Rhc2hcIjtcblxuY29uc3QgcmVzID0gXy51bmlvbihbMl0sIFsxLCAyXSk7XG5jb25zb2xlLmxvZygncmVzMjInLCByZXMpOyAvLyA9PiBbMiwgMV1cblxuY29uc29sZS5sb2coJ+W9k+WJjeeOr+Wig+eahE5PREVfRU5W5pivLS0nLCBwcm9jZXNzLmVudi5OT0RFX0VOVik7XG5jb25zb2xlLmxvZygn5b2T5YmN546v5aKD55qEQVBQX0VOVuaYry0tJywgcHJvY2Vzcy5lbnYuQVBQX0VOVik7XG4iXSwibmFtZXMiOltdLCJzb3VyY2VSb290IjoiIn0=\n//# sourceURL=webpack-internal:///./src/index.js\n");
 
 /***/ }),
 
@@ -420,7 +420,7 @@ module.exports = _;
 /******/ 	
 /******/ 	/* webpack/runtime/getFullHash */
 /******/ 	(() => {
-/******/ 		__webpack_require__.h = () => ("d404fac8c41068b0464c")
+/******/ 		__webpack_require__.h = () => ("e48eb76042a7301f2c9e")
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/global */
