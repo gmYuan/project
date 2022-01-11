@@ -33,8 +33,9 @@ function createBrowserHistory(){
         if(message){
             let confirmMessage = message({pathname});
             let allow = window.confirm(confirmMessage);
-            if(!allow)
-                return;
+            if(!allow)  {
+                return
+            }
         }
         globalHistory.pushState(state, null, pathname) //我们已经 跳转路径
         let location = { state, pathname }

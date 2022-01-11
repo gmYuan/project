@@ -104,4 +104,12 @@ S2 实现流程：
 -----------------------------
 Q9: 如何实现prompt
 A：
-S1 
+S1 使用方法：`<Prompt when={xxx} message={yyy} />`
+
+S2 实现流程
+  1. 获取 React.useContext(RouterContext)
+  2. 调用 history.block(message)以显示 确认弹窗
+     - block方法：赋值/清空 message值
+     - push方法里存在 message时，就 显示弹窗 + 根据结果 阻止跳转 
+  3. 卸载组件时，去除message信息
+
