@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin');
+const FileManagerPlugin = require('filemanager-webpack-plugin');
 
 console.log('process.env----', process.env.NODE_ENV);
 
@@ -112,6 +113,25 @@ module.exports = (webpackEnv) => {
     new webpack.DefinePlugin({
       'process.env': {
         APP_ENV: JSON.stringify(process.env.NODE_ENV),
+      },
+    }),
+
+    // 增加调试sourceMap
+    new webpack.SourceMapDevToolPlugin({
+      filename: '[file].map',
+       append: "\n//# sourceMappingURL=http://localhost:6061/[url]",
+    }),
+    new FileManagerPlugin({
+      events: {
+        onEnd: {
+          copy: [
+            {
+              source: './dist/**/*.map',
+              destination: '/Users/gongba/Documents/write/myproj/project/mini_webpack/01_basic/sourcemap',
+            },
+          ],
+          delete: ['./dist/*.map'],
+        },
       },
     }),
 

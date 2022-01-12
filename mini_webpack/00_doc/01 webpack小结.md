@@ -114,7 +114,7 @@ Q7 如何配置 sourceMap
 A：
 S1 明确各类型取值的含义
   - source-map：生成单独的 .map文件 + 包含行列映射 + 包含loader的map
-  - eval：每个模块都使用 eval() 执行 + 不包含行映射 + 可以缓存以提高性能
+  - eval：模块级别的sourceMap + 每个模块都使用 eval() 执行 + 不包含行映射 + 可以缓存以提高性能
   - cheap：不包含列映射 + 忽略 loader的 source map
   - module：包含loader的 souce map
   - inline：source map转换为 DataUrl后添加到bundle中，不生成单独的.map
@@ -123,8 +123,12 @@ S2 最佳实践配置
   - 开发环境：`devtool: eval-cheap-module-source-map`
   - 生产环境：`devtool: hidden-source-map`
 
+S3 更细化配置sourceMap方法
+   - 使用 SourceMapDevToolPlugin
+
 [官方- 配置- Devtool](https://webpack.docschina.org/configuration/devtool/)
 
+[官方- plugin- SourceMapDevToolPlugin](https://webpack.docschina.org/plugins/source-map-dev-tool-plugin/)
 
 ---------------------------------------
 Q8 如何加载第三方组件
