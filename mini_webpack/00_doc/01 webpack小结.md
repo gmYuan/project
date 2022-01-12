@@ -177,6 +177,36 @@ S4 如何在全局里拿到 NODE_ENV变量
 
 
 ---------------------------------------
-Q10 如何实现 
+Q10 babel-loader的具体功能
 A:
-S1
+S1 babel-loader的presets
+  - "@babel/preset-env"：只能转化ES6的语法，不能转化新的API
+
+S2 babel-loader的polyfill => options: {useBuiltIns: 'xxx'}
+  1. "@babel/polyfill"：用于转化ES6 新的API(属性方法等)
+  2. 设置 presets:  ` [  ['@babel/preset-env',    { useBuiltIns: 'xxx' },  ]  ......]`
+
+  3. 全量引入所有的polyfill：{ useBuiltIns: 'entry' } + 使用模块中引入 `require('@babel/polyfill')`
+  4. 按需使用 polyfill：{ useBuiltIns: 'useage' } 
+  5. 缺点：污染了全局对象和变量
+
+S3 babel-runtime库：提供编译模块的 工具函数
+  1. 优点：不会污染 全局空间污染
+  2. 缺点：每次使用时，都需要在使用模块中 手动引入所需工具函数
+  3. 安装：`npm install --save @babel/runtime`
+  4. 使用：在a.js中直接引入`require('babel-runtime/core-js/promise')`即可
+
+S4 @babel/plugin-transform-runtime插件
+  1. 按需自动引入babel-runtime工具函数(babel-runtime/core-js、babel-runtime/regenerator)
+  2. 移除内联的babel helpers，替换使用 babel-runtime/helpers
+
+S5 babel-runtime适合在组件/类库项目中使用；babel-polyfill 适合在业务项目中使用
+
+[@babel/plugin-transform-runtime 到底是什么](https://zhuanlan.zhihu.com/p/147083132)
+
+[@babel/plugin-transform-runtime官方文档](https://babeljs.io/docs/en/babel-plugin-transform-runtime)
+                 
+                      
+---------------------------------------
+Q11 如何
+A:                  

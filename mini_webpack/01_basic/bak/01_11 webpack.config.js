@@ -62,25 +62,10 @@ module.exports = (webpackEnv) => {
           use: {
             loader: 'babel-loader',
             options: {
-              presets: [
-                ['@babel/preset-env', {
-                    // useBuiltIns: 'entry',
-                    // corejs: { version: 3 },
-                    // targets: ">0.25%",
-                    // useBuiltIns: 'usage',
-                  },
-                ],
-                ["@babel/preset-react"],
-              ],
+              presets: ['@babel/preset-env', '@babel/preset-react'],
               plugins: [
-                [
-                  "@babel/plugin-transform-runtime",
-                  {
-                    corejs: 3,
-                  },
-                ],
-                // ["@babel/plugin-proposal-decorators", { legacy: true }],
-                // ["@babel/plugin-proposal-class-properties", { loose: true }],
+                ["@babel/plugin-proposal-decorators", { legacy: true }],
+                ["@babel/plugin-proposal-class-properties", { loose: true }],
               ],
             },
           },

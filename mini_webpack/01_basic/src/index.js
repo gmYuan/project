@@ -3,5 +3,11 @@ import "lodash";
 const res = _.union([2], [1, 2]);
 console.log('res22', res); // => [2, 1]
 
-console.log('当前环境的NODE_ENV是--', process.env.NODE_ENV);
-console.log('当前环境的APP_ENV是--', process.env.APP_ENV);
+function sum() {
+    const res2 = Array.from(arguments);
+    return res2;
+}
+console.log(sum(1, 2));
+
+const p1 = Promise.resolve('promise结果');
+console.log('p1是', p1);
