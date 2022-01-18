@@ -229,7 +229,6 @@ S1 chunk：模块a及其依赖模块b/c... 的集合，叫做chunk
 S2 bundle：chunk打包后生成的资源文件，叫做bunlde
   - webpack 没有bundle概念，而是叫做 assets (产出的资源文件)
 
-
 ---------------------------------------
 Q13 如何设置代理
 A:             
@@ -238,5 +237,13 @@ S2 dev-server.js ==> webpack-dev-middleware + express
   - nodemon dev-server.js
 
 [官方- 配置- proxy](https://webpack.docschina.org/configuration/dev-server/#devserverproxy)
+  
+[webpack-dev-middleware](https://www.npmjs.com/package/webpack-dev-middleware) 
+
+---------------------------------------
+Q13 如何设置 生产环境的webpack配置
+A:             
+S1 MiniCssExtractPlugin：抽取CSS文件，以并行下载样式文件
+
   
 [webpack-dev-middleware](https://www.npmjs.com/package/webpack-dev-middleware) 

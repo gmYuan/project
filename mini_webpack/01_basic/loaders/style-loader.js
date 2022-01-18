@@ -1,5 +1,4 @@
-
-function loader(cssSource){
+function loader(cssSource) {
     return `
         let style=document.createElement('style');
         style.innerHTML = ${cssSource};

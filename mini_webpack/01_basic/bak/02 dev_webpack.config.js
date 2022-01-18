@@ -6,7 +6,6 @@ const HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin');
 const FileManagerPlugin = require('filemanager-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 console.log('process.env----', process.env.NODE_ENV);
 
@@ -178,7 +177,7 @@ module.exports = (webpackEnv) => {
     // 清空之前的打包内容
     new CleanWebpackPlugin({
       cleanOnceBeforeBuildPatterns: ["**/*"],
-    }),
+  }),
 
   ],
 };
