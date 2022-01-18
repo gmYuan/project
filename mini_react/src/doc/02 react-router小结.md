@@ -113,3 +113,18 @@ S2 实现流程
      - push方法里存在 message时，就 显示弹窗 + 根据结果 阻止跳转 
   3. 卸载组件时，去除message信息
 
+-----------------------------
+Q10: 如何实现useHistory等 hooks
+A:
+S1 获取 React.useContext(RouterContext)里的history... 即可
+
+
+-----------------------------
+Q11: 如何实现路由懒加载
+A:
+S1 let LazyXXX = React.lazy(() => import('xxx'))
+S2 <React.Suspense>  <LazyXXX /> </React.Suspense>
+
+S3 () => import('xxx')是JS原生实现
+  - webpack会识别这个写法，作为代码分割的天然分割点
+  - 打包时，会把这些模块打包为 单独的模块

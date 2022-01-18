@@ -8,4 +8,4 @@ export {default as Redirect} from './Redirect';
 export {default as withRouter} from './withRouter';
 export {default as Prompt} from './Prompt';
 
-// export {useHistory,useLocation,useRouteMatch,useParams} from './hooks';
+export {useHistory,useLocation,useRouteMatch,useParams} from './hooks';
