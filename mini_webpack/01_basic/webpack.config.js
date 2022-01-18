@@ -4,6 +4,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin');
 const FileManagerPlugin = require('filemanager-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 console.log('process.env----', process.env.NODE_ENV);
 
@@ -15,8 +17,15 @@ module.exports = (webpackEnv) => {
   entry: './src/index.js',
   output: {
     path: resolve(__dirname, 'dist'),
-    filename: 'main.js',
+    filename: '[name].[hash:10].js', // 输出的文件名
   },
+  watch: false,
+  watchOptions: { // 监听选项
+    ignored: /node_modules/, // 不监听哪些文件夹
+    aggregateTimeout: 300, // 监听到文件发生变化后延迟300毫秒才去重新编译
+    poll: 1000, // 1秒问1000次，数字越大，越敏感，数字越小，越延迟
+  },
+
   devServer: {
     port: 6061,
     open: true,
@@ -27,7 +36,26 @@ module.exports = (webpackEnv) => {
       // directory: join(__dirname, 'static'),
       // publicPath: '/static',
     },
+    // 请求代理
+    // create-react-app支持你把代理写在package.json
+    // proxy: {
+    //   '/api': { // http://localhost:8080 /users
+    //     target: 'http://localhost:3000',
+    //     pathRewrite: {
+    //       "^/api": "",
+    //     },
+    //   },
+    // },
+
+    // 不是启动一个新服务器，而是给原来老的8080服务器添加了一个路由
+    // before(app) {
+    //   // webpack-dev-sever就是一个express服务器 express();
+    //   app.get('/api/users', (req, res) => { // 可以在这里定义路由
+    //     res.json([{ id: 1, name: 'zhufeng' }]);
+    //   });
+    // },
   },
+
   externals: {
     lodash: '_',
   },
@@ -116,24 +144,40 @@ module.exports = (webpackEnv) => {
       },
     }),
 
-    // 增加调试sourceMap
-    new webpack.SourceMapDevToolPlugin({
-      filename: '[file].map',
-       append: "\n//# sourceMappingURL=http://localhost:6061/[url]",
-    }),
-    new FileManagerPlugin({
-      events: {
-        onEnd: {
-          copy: [
-            {
-              source: './dist/**/*.map',
-              destination: '/Users/gongba/Documents/write/myproj/project/mini_webpack/01_basic/sourcemap',
-            },
-          ],
-          delete: ['./dist/*.map'],
+    // 调试sourceMap
+    // new webpack.SourceMapDevToolPlugin({
+    //   filename: '[file].map',
+    //    append: "\n//# sourceMappingURL=http://localhost:6061/[url]",
+    // }),
+    // new FileManagerPlugin({
+    //   events: {
+    //     onEnd: {
+    //       copy: [
+    //         {
+    //           source: './dist/**/*.map',
+    // eslint-disable-next-line max-len
+    //           destination: '/Users/gongba/Documents/write/myproj/project/mini_webpack/01_basic/sourcemap',
+    //         },
+    //       ],
+    //       delete: ['./dist/*.map'],
+    //     },
+    //   },
+    // }),
+
+    // 复制文件内容
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: resolve(__dirname, 'src/documents'),
+          to: resolve(__dirname, 'dist/documents'),
         },
-      },
+      ],
     }),
+
+    // 清空之前的打包内容
+    new CleanWebpackPlugin({
+      cleanOnceBeforeBuildPatterns: ["**/*"],
+  }),
 
   ],
 };
