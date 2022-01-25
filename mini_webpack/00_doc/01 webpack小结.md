@@ -229,6 +229,10 @@ S1 chunk：模块a及其依赖模块b/c... 的集合，叫做chunk
 S2 bundle：chunk打包后生成的资源文件，叫做bunlde
   - webpack 没有bundle概念，而是叫做 assets (产出的资源文件)
 
+S3 filename & chunkfilename
+  - 入口代码块的名称 /  非入口代码块的名称配置项
+  - import()：动态代码分割，生成一个独立的代码块
+
 ---------------------------------------
 Q13 如何设置代理
 A:             

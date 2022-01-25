@@ -18,8 +18,15 @@ module.exports = (webpackEnv) => {
   entry: './src/index.js',
   output: {
     path: resolve(__dirname, 'dist'),
-    filename: '[name].[hash:10].js', // 输出的文件名
+     // 入口代码块的名称，如main    输出的文件名
+    filename: '[name].[hash:10].js',
+    // 非入口代码块的名称配置项
+    // 非入口代码块有两个来源1.代码分割 vendor common
+    // 懒加载  import方法加载模块
+    chunkFilename: '[name].[hash:10].js',
+    publicPath: '/',
   },
+
   watch: false,
   watchOptions: { // 监听选项
     ignored: /node_modules/, // 不监听哪些文件夹
