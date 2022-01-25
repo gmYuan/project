@@ -244,6 +244,9 @@ S2 dev-server.js ==> webpack-dev-middleware + express
 Q13 如何设置 生产环境的webpack配置
 A:             
 S1 MiniCssExtractPlugin：抽取CSS文件，以并行下载样式文件
+  - 用MiniCssExtractPlugin.loader替换掉style-loader
+  - 把收集到的所有的CSS样式都写入到main.css
+  - HtmlWebpackPlugin把此资源插入到HTML（webpack在打包后 会把所有的产出的资源放在assets对象上）
 
   
-[webpack-dev-middleware](https://www.npmjs.com/package/webpack-dev-middleware) 
+[MiniCssExtractPlugin](https://webpack.docschina.org/plugins/mini-css-extract-plugin#root) 

@@ -57,9 +57,9 @@ module.exports = (webpackEnv) => {
     // },
   },
 
-  externals: {
-    lodash: '_',
-  },
+  // externals: {
+  //   lodash: '_',
+  // },
 
   module: {
     rules: [
@@ -75,8 +75,11 @@ module.exports = (webpackEnv) => {
         //   },
         // },
         { test: /\.txt$/, use: 'raw-loader' },
-        { test: /\.css$/, use: ['style-loader', 'css-loader'] },
-        { test: /\.less$/, use: ['style-loader', 'css-loader', 'less-loader'] },
+        // 用MiniCssExtractPlugin.loader替换掉style-loader
+        // 把所有的css样式先收集起来
+        // { test: /\.css$/, use: ['style-loader', 'css-loader'] },
+        { test: /\.css$/, use: [MiniCssExtractPlugin.loader, 'css-loader'] },
+        { test: /\.less$/, use: [MiniCssExtractPlugin.loader, 'css-loader', 'less-loader'] },
         {
           test: /\.(png|svg|jpg|jpeg|gif)$/,
           type: 'asset',
@@ -120,23 +123,32 @@ module.exports = (webpackEnv) => {
   },
 
   plugins: [
+     // webpack在打包之会把所有的产出的资源放在一个assets对象上
     new HtmlWebpackPlugin({
       template: './src/index.html',
-    }),
-    new ESLintPlugin({
-      extensions: ['js', 'jsx'],
-      // fix: true,
+      chunks: ['main'],
     }),
 
-    new HtmlWebpackExternalsPlugin({
-      externals: [
-        {
-          module: 'lodash',
-          entry: 'https://cdn.bootcdn.net/ajax/libs/lodash.js/4.17.21/lodash.min.js',
-          global: '_',
-        },
-      ],
+    // 把收集到的所有的CSS样式都写入到main.css,然后把此资源插入到HTML
+    new MiniCssExtractPlugin({
+      // 只要CSS内容不变，contenthash就不会变
+      filename: '[name].[contenthash:5].css',
     }),
+
+    // new ESLintPlugin({
+    //   extensions: ['js', 'jsx'],
+    //   // fix: true,
+    // }),
+
+    // new HtmlWebpackExternalsPlugin({
+    //   externals: [
+    //     {
+    //       module: 'lodash',
+    //       entry: 'https://cdn.bootcdn.net/ajax/libs/lodash.js/4.17.21/lodash.min.js',
+    //       global: '_',
+    //     },
+    //   ],
+    // }),
 
     // 区分环境
     new webpack.DefinePlugin({
