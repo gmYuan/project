@@ -252,5 +252,8 @@ S1 MiniCssExtractPlugin：抽取CSS文件，以并行下载样式文件
   - 把收集到的所有的CSS样式都写入到main.css
   - HtmlWebpackPlugin把此资源插入到HTML（webpack在打包后 会把所有的产出的资源放在assets对象上）
 
+S2 图片资源等打包到单独的文件夹内
+  - 
+
   
 [MiniCssExtractPlugin](https://webpack.docschina.org/plugins/mini-css-extract-plugin#root) 
