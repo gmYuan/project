@@ -92,7 +92,7 @@ module.exports = (webpackEnv) => {
           type: 'asset',
           generator: { filename: 'assets/[hash:10][ext]' },
           parser: {
-            dataUrlCondition: { maxSize: 4 * 1024 },
+            dataUrlCondition: { maxSize: 0 * 1024 },
           },
         },
         { test: /\.html$/, loader: "html-loader" },
@@ -139,7 +139,7 @@ module.exports = (webpackEnv) => {
     // 把收集到的所有的CSS样式都写入到main.css,然后把此资源插入到HTML
     new MiniCssExtractPlugin({
       // 只要CSS内容不变，contenthash就不会变
-      filename: '[name].[contenthash:5].css',
+      filename: 'assets/[name].[contenthash:5].css',
     }),
 
     // new ESLintPlugin({

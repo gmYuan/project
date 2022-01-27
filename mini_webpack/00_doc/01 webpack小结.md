@@ -253,7 +253,25 @@ S1 MiniCssExtractPlugin：抽取CSS文件，以并行下载样式文件
   - HtmlWebpackPlugin把此资源插入到HTML（webpack在打包后 会把所有的产出的资源放在assets对象上）
 
 S2 图片资源等打包到单独的文件夹内
-  - 
+  -  filename: 'assets/[name].[contenthash:5].css',
+  - url-loader配置 outputPath + publicPath
 
+S3 hash相关
+  - hash是"文件内容指纹"，当文件内容发生改变时，hash值才会随之改变
+  - hash一般用于配合CDN缓存使用
+  - chunkHash：根据chunk生成hash，来源于同一个chunk，则hash值一样
+  - contentHash：根据内容生成hash，文件内容相同，则hash值一样
+
+S4 配置项里, [name]的值如何确定的
+  - 对于入口chunkn来说，name就是 entry的key, 字符串就是默认值 main
+  - 对于非入口来说 
+      懒加载时：import('./src/title.js') ==> src_title_js
+      代码分割:  vendor common  是由人为指定的
   
 [MiniCssExtractPlugin](https://webpack.docschina.org/plugins/mini-css-extract-plugin#root) 
+
+
+---------------------------------------
+Q16 如何设
+A:             
+S1 
