@@ -22,5 +22,6 @@ module.exports = {
         "no-unused-vars": "off",
         "no-undef": "off",
         "prefer-rest-params": "off",
+        "import/no-extraneous-dependencies": 'off',
     },
 };

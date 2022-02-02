@@ -272,6 +272,11 @@ S4 配置项里, [name]的值如何确定的
 
 
 ---------------------------------------
-Q16 如何设
-A:             
-S1 
+Q16 如何配置 自动兼容CSS样式 / 压缩CSS&JS文件
+A:         
+
+S1 [postcss-loader](https://webpack.docschina.org/loaders/postcss-loader/#postcss-options)
+
+S2 [OptimizeCssAssetsWebpackPlugin](https://webpack.docschina.org/plugins/css-minimizer-webpack-plugin/)
+
+S3 [TerserWebpackPlugin](https://webpack.docschina.org/plugins/terser-webpack-plugin/)
