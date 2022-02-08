@@ -289,7 +289,20 @@ A:
 S1 多对象
 
 ---------------------------------------
-Q19 如何配置 多入口页面
+Q19 如何配置 hash使用
 A:         
 
-S1 多对象即可
+![19_1.png](https://imgtu.com/i/H1HAr6)
+![19_2.png](https://s4.ax1x.com/2022/02/08/H1HUiQ.png)
+![19_3.png](https://s4.ax1x.com/2022/02/08/H1HqFe.png)
+![19_4.png](https://s4.ax1x.com/2022/02/08/H1beO0.png)
+
+---------------------------------------
+Q20 如何配置 dotenv
+A:  
+
+S1 [dotenv](https://www.npmjs.com/package/dotenv)
+
+---------------------------------------
+Q21 如何配置 
+A:  

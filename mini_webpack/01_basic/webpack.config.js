@@ -12,37 +12,21 @@ const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plug
 const TerserPlugin = require('terser-webpack-plugin');
 // UglifyJsPlugin 已经废弃，不再使用
 
-// 配置多入口entry
-const pagesRoot = resolve(__dirname, 'src', 'pages');
-const pages = fs.readdirSync(pagesRoot);
-const htmlWebpackPlugins = [];
-const entry = pages.reduce((entry2, fileName) => {
-  // entry['page1']=
-  const entryName = basename(fileName, '.js');
-  // eslint-disable-next-line no-param-reassign
-  entry2[entryName] = join(pagesRoot, fileName);
-  htmlWebpackPlugins.push(new HtmlWebpackPlugin({
-      template: './src/index.html',
-      filename: `${entryName === 'page1' ? 'index' : entryName}.html`,
-      chunks: [entryName],
-      minify: { // 启动HTML压缩
-          collapseWhitespace: true,
-          removeComments: true,
-      },
-  }));
-  return entry2;
-}, {});
-console.log(entry);
+// console.log('process.env----', process.env.NODE_ENV);
+// dotenv
+require('dotenv').config({
+   path: resolve(__dirname, '.env'),
+});
 
-console.log('process.env----', process.env.NODE_ENV);
+console.log('999999-----', process.env.NODE_ENV);
+// console.log('process.env.NODE_ENV', process.env);
 
 module.exports = (env) => {
   console.log('webpackEnv---', env);
   return {
     mode: process.env.NODE_ENV === 'prod' ? 'production' : 'development',
     devtool: 'eval-cheap-module-source-map',
-    // entry: './src/index.js',
-    entry,
+    entry: './src/index.js',
     optimization: {
       minimize: process.env.NODE_ENV === 'production', // 如果是生产环境才开启压缩
       minimizer: (env && env.production) ? [
@@ -53,11 +37,11 @@ module.exports = (env) => {
     output: {
       path: resolve(__dirname, 'dist'),
       // 入口代码块的名称，如main    输出的文件名
-      filename: '[name].[hash:10].js',
+      filename: '[name].[hash:5].js',
       // 非入口代码块的名称配置项
       // 非入口代码块有两个来源1.代码分割 vendor common
       // 懒加载  import方法加载模块
-      chunkFilename: '[name].[hash:10].js',
+      chunkFilename: '[name].[hash:3].js',
       publicPath: '/',
     },
 
@@ -165,17 +149,16 @@ module.exports = (env) => {
 
     plugins: [
       // webpack在打包之会把所有的产出的资源放在一个assets对象上
-      // new HtmlWebpackPlugin({
-      //   template: './src/index.html',
-      //   chunks: ['main'],
-      // }),
-
-      ...htmlWebpackPlugins,
+      new HtmlWebpackPlugin({
+        template: './src/index.html',
+        filename: 'index.html',
+        // chunks: ['main'],
+      }),
 
       // 把收集到的所有的CSS样式都写入到main.css,然后把此资源插入到HTML
       new MiniCssExtractPlugin({
         // 只要CSS内容不变，contenthash就不会变
-        filename: 'assets/[name].[contenthash:5].css',
+        filename: 'assets/[name].[contenthash:2].css',
       }),
 
       // new ESLintPlugin({

@@ -1,0 +1,25 @@
+/*!***********************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/postcss-loader/dist/cjs.js!./src/index.css ***!
+  \***********************************************************************************************************/
+body{
+    background:yellowgreen;
+}
+
+.logo {
+    width: 100px;
+    height: 200px;
+    -o-object-fit: cover;
+       object-fit: cover;
+}
+
+::-moz-placeholder{
+    color:red;
+}
+
+:-ms-input-placeholder{
+    color:red;
+}
+
+::placeholder{
+    color:red;
+}
