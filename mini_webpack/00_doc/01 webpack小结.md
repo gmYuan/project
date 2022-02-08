@@ -280,3 +280,16 @@ S1 [postcss-loader](https://webpack.docschina.org/loaders/postcss-loader/#postcs
 S2 [OptimizeCssAssetsWebpackPlugin](https://webpack.docschina.org/plugins/css-minimizer-webpack-plugin/)
 
 S3 [TerserWebpackPlugin](https://webpack.docschina.org/plugins/terser-webpack-plugin/)
+
+
+---------------------------------------
+Q18 如何配置 多入口页面
+A:         
+
+S1 多对象
+
+---------------------------------------
+Q19 如何配置 多入口页面
+A:         
+
+S1 多对象即可
