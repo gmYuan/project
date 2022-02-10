@@ -298,11 +298,16 @@ A:
 ![19_4.png](https://s4.ax1x.com/2022/02/08/H1beO0.png)
 
 ---------------------------------------
-Q20 如何配置 dotenv
+Q21 如何配置 dotenv
 A:  
-
 S1 [dotenv](https://www.npmjs.com/package/dotenv)
 
 ---------------------------------------
-Q21 如何配置 
+Q22 webpack 同步加载打包文件分析 的流程
 A:  
+S1 具体见[02_bundle/1.sync/main.js]分析流程
+
+---------------------------------------
+Q23 webpack 兼容流程实现
+A:  
+S1 
