@@ -16,6 +16,7 @@ function bindActionCreator(actionCreator,dispatch){
  * @param {*} dispatch 派发动作的方法
  */
 export default function bindActionCreators(actionCreators,dispatch){
+    // debugger
     if(typeof actionCreators === 'function'){
         return bindActionCreator(actionCreators,dispatch);
     }
