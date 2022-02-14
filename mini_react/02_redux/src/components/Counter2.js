@@ -28,17 +28,21 @@ function Counter2(){
     )
 }
 export default Counter2;
-//把总状态映射出来一个新状态，state.counter1将会成为Counter1的属性对象 
-///输入把仓库中的状态输入到组件中
-/* let mapStateToProps = (state)=>state.counter2;
+
+// 把总状态映射出来一个新状态，state.counter1将会成为Counter1的属性对象 
+// 输入把仓库中的状态输入到组件中
+
+/* 
+let mapStateToProps = (state)=>state.counter2;
 //把动作进行派发到仓库中，改变状态的值
 let mapDispatchToProps = actions;//经过绑定后也会成为Counter1的属性对象 
 // Counter1.props = {...state.counter1,...boundActions};
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(Counter2); */
-//redux-persist
+)(Counter2); 
+*/
+
 /**
  * 组件在使用仓库的时候
  * 1 输入 从仓库的状态中取数据，在组件中进行显示

@@ -9,7 +9,7 @@ import { bindActionCreators } from '../redux';
  * @param {*} mapStateToProps 把仓库中状态映射为当前的组件的属性
  * @param {*} mapDispatchToProps 把派发动作的方法映射为组件的属性
  */
-function connect(mapStateToProps, mapDispatchToProps) {
+function connect1(mapStateToProps, mapDispatchToProps) {
     return function (OldComponent) {
         return class extends React.Component {
             static contextType = ReactReduxContext;
@@ -47,9 +47,10 @@ function connect(mapStateToProps, mapDispatchToProps) {
  * 2.dispatch映射属性
  * 3.状态变化监听，让组件刷新
  */
-function connect2(mapStateToProps, mapDispatchToProps) {
+function connect(mapStateToProps, mapDispatchToProps) {
     return function (OldComponent) {
         return function (props) {//返回的Counter1组件
+            // debugger
             const { store } = useContext(ReactReduxContext);
             const { getState, dispatch, subscribe } = store;
             const prevState = getState();

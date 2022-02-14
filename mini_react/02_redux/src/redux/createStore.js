@@ -3,6 +3,7 @@
  * @param {*} reducer 根据老状态，和动作计算下一个新状态
  */
 const createStore = (reducer, preloadedState, enhancer) => {
+  // debugger
   if (typeof enhancer !== 'undefined') {
     //applyMiddleware(thunk, promise, logger)(createStore)(combinedReducer,initialState);
     return enhancer(createStore)(reducer,preloadedState);
