@@ -7,15 +7,17 @@ import compose from './compose';
 function applyMiddleware(...middlewares) {
     return function (createStore) {
         return function (reducer,preloadedState) {
-            //是创建计算改造后的store.dispatch的过程
+            //是创建计算改造后的 store.dispatch的过程
             let store = createStore(reducer,preloadedState);//先创建一个仓库
             let dispatch;
             let middlewareAPI = {
                 getState: store.getState,
                 dispatch: (action) => dispatch(action)
             }
-            //chain=[promise,thunk,logger]
             let chain = middlewares.map(middleware => middleware(middlewareAPI));
+            // debugger
+            // let temp  = compose(...chain)
+            // dispatch = temp(store.dispatch)
             dispatch = compose(...chain)(store.dispatch);
             return {
                 ...store,
