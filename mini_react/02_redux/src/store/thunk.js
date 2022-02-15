@@ -5,6 +5,7 @@
  function thunk({getState,dispatch}){
     return function(next){//为了实现中间件的级联，调用下一个中间件
       return function(action){//这才就是我们改造后的dispatch方法了
+         // debugger
          if(typeof action === 'function'){
             return action(dispatch,getState);
          }

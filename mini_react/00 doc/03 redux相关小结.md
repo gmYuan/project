@@ -35,15 +35,26 @@ A:
 Q5：如何实现 middleware中间件
 
 A:
-![redux_44_01]()
-
-
 S1    store/index ==> 执行了A(...middles) ==> 返回了enhancer/B
 S2.1  createStore ==> 执行了B(createStore) ==> 返回了C
 S2.2 C(reducer,initState) ==>  return { ...store, dispatch }，具体流程：
-  S3.1 let chain = [ middleware(api1), middleware(api2) .... ] ==>  [nextFn1, nextFn2..]  
+
+  S3.1 let chain = [ middleware(api1), middleware(api2) .... ] ==>  [nextFn3, nextFn2..]  
   S3.2 dispatch = compose(...chain)(store.dispatch) ==> 
-    S4.1 compose(...chain) ==> 难点reduce理解，结果为
+    S4.1 compose(...chain) ==> Fn1 =  (...args)=> next3( next2(...args) ) ==> 
+    即 `retrun temp = (...args) => Fn1( next1(...args) )`
+    
+      S5.1 temp(store.dispatch) ==> Fn1( next1(dispatch) ) ==> Fn1(action1)
+      S5.2 Fn1(action1) ==> next3( next2(action1) ) ==> next3(action2) ==> action3Fn
 
+  S3.3 所以最后的返回结果就是 { ...store, dispatch: action3函数 }
 
+S4 所有当配置了中间件后，store/index ==> 返回值是改造了dispatch的 store对象 { ...store, dispatch: action3函数 }
 
+S5 当dispatch(action)时，实际是调用 middleware_action3(action)
+  S6.1 当满足了mid3的执行条件时，就会触发dispatch(已被改为 mid_action3) 再次执行
+  S6.2 当不满足mid3的执行条件 ==> return next(action) ==> action2(action) ==> action1(store.dispatch)
+
+![redux_44_01](https://s4.ax1x.com/2022/02/15/H2N60I.png)
+![redux_44_02](https://s4.ax1x.com/2022/02/15/H2N7Bn.png)
+![redux_44_03](https://s4.ax1x.com/2022/02/15/H2Nxc4.jpg)

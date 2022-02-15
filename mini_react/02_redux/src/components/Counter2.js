@@ -15,14 +15,19 @@ import {useSelector,useBoundDispatch} from '../react-redux';
     }
 } */
 function Counter2(){
+    // debugger
     let {number} = useSelector((state)=>state.counter2);
     let boundActions = useBoundDispatch(actions);
     //let dispatch = useDispatch();
     //let boundActions = bindActionCreators(actions,dispatch);
+
+    function handleAdd() {
+        boundActions.add2()
+    }
     return (
         <div>
             <p>{number}</p>
-            <button onClick={boundActions.add2}>+</button>
+            <button onClick={handleAdd}>+</button>
             <button onClick={boundActions.minus2}>-</button>
         </div>
     )
