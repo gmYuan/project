@@ -7,6 +7,7 @@ import {Provider} from 'react-redux';
 import history from './history';
 import Home from './components/Home';
 import Counter from './components/Counter';
+
 ReactDOM.render(
   <Provider store={store}>
     <ConnectedRouter history={history}>
