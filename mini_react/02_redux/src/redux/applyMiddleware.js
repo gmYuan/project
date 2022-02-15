@@ -14,6 +14,7 @@ function applyMiddleware(...middlewares) {
                 getState: store.getState,
                 dispatch: (action) => dispatch(action)
             }
+            debugger
             //chain=[promise,thunk,logger]
             let chain = middlewares.map(middleware => middleware(middlewareAPI));
             dispatch = compose(...chain)(store.dispatch);

@@ -36,3 +36,14 @@ Q5：如何实现 middleware中间件
 
 A:
 ![redux_44_01]()
+
+
+S1    store/index ==> 执行了A(...middles) ==> 返回了enhancer/B
+S2.1  createStore ==> 执行了B(createStore) ==> 返回了C
+S2.2 C(reducer,initState) ==>  return { ...store, dispatch }，具体流程：
+  S3.1 let chain = [ middleware(api1), middleware(api2) .... ] ==>  [nextFn1, nextFn2..]  
+  S3.2 dispatch = compose(...chain)(store.dispatch) ==> 
+    S4.1 compose(...chain) ==> 难点reduce理解，结果为
+
+
+
