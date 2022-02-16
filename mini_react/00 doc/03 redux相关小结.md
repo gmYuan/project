@@ -67,7 +67,7 @@ S1 作用：
   - 作用1：可以实现 通过派发动作的方式 修改路径
   - 作用2：可以把当前最新的路由信息，存储到 store中
 
-S2 实现流程
+S2 初始化流程
 1.1  React-redux.Provider ==> store = applyMiddleware(routerMiddleware(history))(createStore)(combinedReducer)
   1.2 routerMiddleware(history) ==> 返回 A = function (middlewareAPI){}
   1.3 Redux.applyMiddleware(A) ==> 返回 B = function (createStore) {}
@@ -82,8 +82,21 @@ S2 实现流程
 
 3.1 <ConnectedRouter history /> ==> 
   - 返回 <Router history={history}>包裹子组件，以支持如Link等的 路由组件
-  - 
+  - history.listen监听路由发生变化 + dispatch( onLocationChange(location, action) )
+  - dispatch(onLocationChange)会被 reducers.router处理
 
 
+S3 Counter组件内事件流程
+4.1 connent(state, acitons)(Counter) ==>  bindActionCreators(mapDispatchToProps, dispatch);
+  4.2 bindActionCreators(actions, dispatch) ==> 返回A = { goto: fnB(...args) } +           actionCreator = goto 且  dispatch = store.dispatch
 
+4.3 handleGo ==> this.props.goto('/') ==> fnB('/') ==> 返回C = dispatch( goto('/') )
+  4.4 goto('/') ==> return push('/') ==> 返回D = { type:xxx, payload: yyy }的 特定action对象
+即 `C = dispatch(D)`
+
+4.5 dispatch已经被绑定了中间件，所以会执行中间件相关逻辑 ==> history.xxxx()等方法
+ 
+
+ -----------------------------
+Q7
 

@@ -10,8 +10,6 @@ export const onLocationChange = (location,action)=>(
     }
 )
 
-
-
 export const CALL_HISTORY_METHOD = '@@router/CALL_HISTORY_METHOD';
 //方法核心就是生成一个action对象，type
 const updateLocation = (method)=>{
