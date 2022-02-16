@@ -58,3 +58,32 @@ S5 当dispatch(action)时，实际是调用 middleware_action3(action)
 ![redux_44_01](https://s4.ax1x.com/2022/02/15/H2N60I.png)
 ![redux_44_02](https://s4.ax1x.com/2022/02/15/H2N7Bn.png)
 ![redux_44_03](https://s4.ax1x.com/2022/02/15/H2Nxc4.jpg)
+
+-----------------------------
+Q6：如何实现 connect-react-router
+
+A:
+S1 作用：
+  - 作用1：可以实现 通过派发动作的方式 修改路径
+  - 作用2：可以把当前最新的路由信息，存储到 store中
+
+S2 实现流程
+1.1  React-redux.Provider ==> store = applyMiddleware(routerMiddleware(history))(createStore)(combinedReducer)
+  1.2 routerMiddleware(history) ==> 返回 A = function (middlewareAPI){}
+  1.3 Redux.applyMiddleware(A) ==> 返回 B = function (createStore) {}
+  1.4 B(createStore) ==> 返回 C = function (reducer,preloadedState) {}
+  1.5 C(combinedReducer) ==> 返回 store = D =  { ...store, dispatch }
+
+2.1 C(combinedReducer) ==> middlewares = [A]
+  2.2 A(middlewareAPI) ==> 返回 next1 =  function (next){}, 即 E = [next1, next2]
+  2.3 compose(...chain) ==> 返回 F = (...args)=>acc(cur(...args))) = next1()
+  2.4 F(store.dispatch) ==> 返会 dispatch = G =  function(action){}
+
+
+3.1 <ConnectedRouter history /> ==> 
+  - 返回 <Router history={history}>包裹子组件，以支持如Link等的 路由组件
+  - 
+
+
+
+
