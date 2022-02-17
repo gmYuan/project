@@ -1,11 +1,13 @@
 
 import * as effectTypes from './effectTypes';
 import {TASK_CANCEL} from './symbols';
+
 function runSaga(env, saga,callback) {
-    let task = {cancel:()=>next(TASK_CANCEL)};
+    let task = { cancel: ()=> next(TASK_CANCEL) }
     let { channel, dispatch } = env;
     //saga可能是一个生成器，也可能是一个迭代器
-    let it =  typeof saga[Symbol.iterator] === 'function'?saga:saga();
+    let it =  typeof saga[Symbol.iterator] === 'function' ? saga : saga()
+
     function next(val,isError) {
         let result;
         if(isError){

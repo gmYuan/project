@@ -20,8 +20,8 @@ export default function* rootSaga() {
    yield addListener();
 }
 
-/* 
 
+/*
 //worker saga
 function* add() {
     yield put({ type: actionTypes.ADD });
@@ -44,4 +44,6 @@ export default function* rootSaga(){
         yield put({type:actionTypes.MINUS});
     }
     console.log('到达最大值，再点没有用了');
-} */
+} 
+
+*/

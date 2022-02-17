@@ -8,7 +8,7 @@ function stdChannel(){
      * @param {*} taker 等到之后执行处理函数 next
      */
     function once(actionType,next){
-        next.actionType  = actionType;//ASYNC_ADD
+        next.actionType  = actionType;  //ASYNC_ADD
         next.cancel = ()=>{
             nexts = nexts.filter(item=>item!==next);
         }
