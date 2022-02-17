@@ -114,5 +114,15 @@ S2.1  boundRunSaga = runSaga.bind( null,{channel,dispatch,getState} )
   - dispatch 指向的是 改造后的 fnA的aciton代理函数
 
 S2.2 boundRunSaga(rootSaga) ==> runSaga(env, saga)
+  - S3.1  next1() ==>  take(ASYNC_ADD) ==> 返回 effect = { type: 'TAKE',  actionType: 'ASYNC_ADD' } ==> S3.2 effect.type分发
+
+  - S3.2 effect.type === 'TAKE' ==>   channel.once(effect.actionType, next);
+
+  - S3.3channel.once(effect.actionType, next) ==> 定义next.actionType + 入队
   
+S4.1 触发事件 ==> channel.trigger(action) ==> 只要next.actionType ===  action.type ===>  再次调用 next(action)，继续执行generator ==>  put( {type: 'ADD'} ) ==> 返回 C = { {type: 'PUT' , {type: 'ADD'} } ==> 
+
+S4.2 effect.type === 'PUT' ==> dispatch(effect.action) ==> reducer()
+
+
 

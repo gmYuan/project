@@ -10,8 +10,9 @@ function createSagaMiddleware(){
     function sagaMiddleware({getState,dispatch}){
         boundRunSaga = runSaga.bind(null,{channel,dispatch,getState});
         return function(nextDispatch){  //原生的或者说原始的store.dispatch
-            
+
             return function(action){//这就改造后的store.dispatch
+                debugger
                 const result = nextDispatch(action);
                 channel.trigger(action);
                 return result;

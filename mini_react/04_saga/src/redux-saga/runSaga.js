@@ -15,9 +15,10 @@ function runSaga(env, saga,callback) {
         }else if(val===TASK_CANCEL){
             result=it.return(val);//立刻停止saga
         }else{
-            result = it.next(val);;
+            result = it.next(val);
         }
         let { value: effect, done } = result;
+        debugger
         if (!done) {
             if (typeof effect[Symbol.iterator] === 'function') {
                 runSaga(env, effect);//开始了一个子进行执行worker saga,当前saga继续执行
