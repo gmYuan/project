@@ -30,6 +30,7 @@ function* add() {
 function* minus() {
     yield put({ type: actionTypes.MINUS });
 }
+
 export default function* rootSaga(){
     console.log('rootSaga开始执行');
     for(let i=0;i<3;i++){

@@ -10,7 +10,7 @@ function createSagaMiddleware(){
     function sagaMiddleware({getState,dispatch}){
         boundRunSaga = runSaga.bind(null,{channel,dispatch,getState});
         return function(nextDispatch){  //原生的或者说原始的store.dispatch
-            //如果你调用store.dispatch 肯定会走nextDispatch
+            
             return function(action){//这就改造后的store.dispatch
                 const result = nextDispatch(action);
                 channel.trigger(action);

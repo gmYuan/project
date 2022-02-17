@@ -97,5 +97,22 @@ S3 Counter组件内事件流程
 4.5 dispatch已经被绑定了中间件，所以会执行中间件相关逻辑 ==> history.xxxx()等方法
  
  -----------------------------
-Q7 
+Q7 如何实现 redux-saga
+
+A：
+S1.1  src/index ==> <Provider store={store}> ==> store/index ==> fnA = createSagaMiddleware() 
+S1.2  store = applyMiddleware(sagaMiddleware)(createStore)(reducer) 
+  - S2.1 boundRunSaga = runSaga.bind( null,{channel,dispatch,getState} )
+  - 更新覆盖 原生dispatch
+
+S1.3 sagaMiddleware.run(rootSaga) + rootSaga是一个generator
+  - S2.2  fnA.run(rootSaga) ==> boundRunSaga(rootSaga)
+
+
+S2.1  boundRunSaga = runSaga.bind( null,{channel,dispatch,getState} )
+  - channel = stdChannel() ==> return B = {once,trigger}
+  - dispatch 指向的是 改造后的 fnA的aciton代理函数
+
+S2.2 boundRunSaga(rootSaga) ==> runSaga(env, saga)
+  
 
