@@ -125,4 +125,28 @@ S4.1 触发事件 ==> channel.trigger(action) ==> 只要next.actionType ===  act
 S4.2 effect.type === 'PUT' ==> dispatch(effect.action) ==> reducer()
 
 
+ -----------------------------
+Q7 如何实现 redux-saga的 takeEvery
+
+A：
+1.1 sagaMiddleware.run = (saga)=>boundRunSaga(saga) ==> runSaga({channel, dispatch}, rootSaga, cb) + 调用 next() ===> 
+1.2 resA = yield addListener()，即 resA={value: itB, done: false } ==> itB为迭代器，递归调用runSaga 
+
+  2.1 runSaga(env, itB) ==> next() ==> 返回 resC = yield takeEvery(actionTypes.ASYNC_ADD, addWorker)
+  2.2 takeEvery("ASYNC_ADD", workSage) ==> fork(takeEveryHelper) = { type: effectTypes.FORK, takeEveryHelper }
+  2.3 即 resC = {'FORK', takeEveryHelper} +  type为FORK ===>
+  2.4 resD = runSaga(env, takeEveryHelper)
+
+    3.1 runSaga(env, takeEveryHelper) ==>  next() ==> 返回resE =  yield take(actionType)
+    3.2 take(actionType) ==> 即 resE = { done: false, value: {actionType: "ASYNC_ADD", type: "TAKE"} }
+    3.3 type为 TAKE ==>  channel.once(resE.actionType, next) 入队
+    3.4 return task ==> 3.X 的runSage结束
+
+  2.5 继续执行 next(forkTask)
+  2.6 return task ==> 2.X 的runSage结束
+
+1.3 return task ==> 1.X 的runSage结束
+
+
+
 

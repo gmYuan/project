@@ -28,10 +28,12 @@ export function fork(saga){
 export function takeEvery(actionType,saga){
     function * takeEveryHelper(){
         while(true){
-            let action = yield take(actionType);//监听或者 说等待actionType动作被派发
-            yield fork(function*(){
-                yield saga(action);
-            });//开启一个新的孙子进程执行saga
+            // let action = yield take(actionType);//监听或者 说等待actionType动作被派发
+            // yield fork(function*(){
+            //     yield saga(action);
+            // });  //开启一个新的孙子进程执行saga
+            yield take(actionType)
+            yield fork(saga)
         }
     }
     return fork(takeEveryHelper);
