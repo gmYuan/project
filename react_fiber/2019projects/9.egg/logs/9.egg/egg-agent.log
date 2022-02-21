@@ -1,0 +1,5 @@
+2019-08-04 18:31:09,072 INFO 17560 [egg:logger] init all loggers with options: {"dir":"C:\\vipdata\\vipproject\\2019projects\\9.egg\\logs\\9.egg","encoding":"utf8","env":"unittest","level":"INFO","consoleLevel":"WARN","disableConsoleAfterReady":false,"outputJSON":false,"buffer":false,"appLogName":"9.egg-web.log","coreLogName":"egg-web.log","agentLogName":"egg-agent.log","errorLogName":"common-error.log","coreLogger":{},"allowDebugAtProd":false,"type":"agent"}
+2019-08-04 18:31:09,543 INFO 17560 [egg:core] dump config after load, 8ms
+2019-08-04 18:31:09,585 INFO 17560 [egg-watcher:agent] watcher start success
+2019-08-04 18:31:09,623 INFO 17560 [egg-sequelize](2ms) Executed (default): SELECT 1+1 AS result
+2019-08-04 18:31:09,629 INFO 17560 [egg:core] dump config after ready, 4ms

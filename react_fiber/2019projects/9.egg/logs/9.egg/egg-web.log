@@ -1,0 +1,16 @@
+2019-08-04 18:31:09,863 INFO 17560 [egg:logger] init all loggers with options: {"dir":"C:\\vipdata\\vipproject\\2019projects\\9.egg\\logs\\9.egg","encoding":"utf8","env":"unittest","level":"INFO","consoleLevel":"WARN","disableConsoleAfterReady":false,"outputJSON":false,"buffer":false,"appLogName":"9.egg-web.log","coreLogName":"egg-web.log","agentLogName":"egg-agent.log","errorLogName":"common-error.log","coreLogger":{},"allowDebugAtProd":false,"type":"application"}
+2019-08-04 18:31:09,873 INFO 17560 [egg-multipart] stream mode enable
+2019-08-04 18:31:09,875 INFO 17560 [egg-mysql] connecting root@localhost:3306/cms-development
+2019-08-04 18:31:10,076 INFO 17560 [egg-static] starting static serve /public/ -> C:\vipdata\vipproject\2019projects\9.egg\app\public
+2019-08-04 18:31:10,081 INFO 17560 [egg-security] use csrf middleware
+2019-08-04 18:31:10,083 INFO 17560 [egg-security] use methodnoallow middleware
+2019-08-04 18:31:10,084 INFO 17560 [egg-security] use noopen middleware
+2019-08-04 18:31:10,087 INFO 17560 [egg-security] use nosniff middleware
+2019-08-04 18:31:10,088 INFO 17560 [egg-security] use xssProtection middleware
+2019-08-04 18:31:10,089 INFO 17560 [egg-security] use xframe middleware
+2019-08-04 18:31:10,090 INFO 17560 [egg-security] use dta middleware
+2019-08-04 18:31:10,090 INFO 17560 [egg-security] compose 7 middlewares into one security middleware
+2019-08-04 18:31:10,106 INFO 17560 [egg:core] dump config after load, 10ms
+2019-08-04 18:31:10,131 INFO 17560 [egg-watcher:application] watcher start success
+2019-08-04 18:31:10,136 INFO 17560 [egg-mysql] instance[0] status OK, rds currentTime: Sun Aug 04 2019 18:31:10 GMT+0800 (GMT+08:00)
+2019-08-04 18:31:10,156 INFO 17560 [egg:core] dump config after ready, 5ms

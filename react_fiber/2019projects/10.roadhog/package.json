@@ -1,0 +1,18 @@
+{
+  "name": "10.roadhog",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "roadhog build",
+    "dev":"roadhog server",
+    "test":"roadhog test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0"
+  }
+}

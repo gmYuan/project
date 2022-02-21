@@ -1,0 +1,302 @@
+{
+  "keys": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\config\\config.default.js",
+  "middleware": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\config\\config.default.js",
+  "security": {
+    "csrf": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\config\\config.default.js",
+    "domainWhiteList": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\config\\config.default.js",
+    "protocolWhiteList": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-security@2.6.1@egg-security\\config\\config.default.js",
+    "defaultMiddleware": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-security@2.6.1@egg-security\\config\\config.default.js",
+    "xframe": {
+      "enable": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-security@2.6.1@egg-security\\config\\config.default.js",
+      "value": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-security@2.6.1@egg-security\\config\\config.default.js"
+    },
+    "hsts": {
+      "enable": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-security@2.6.1@egg-security\\config\\config.local.js",
+      "maxAge": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-security@2.6.1@egg-security\\config\\config.default.js",
+      "includeSubdomains": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-security@2.6.1@egg-security\\config\\config.default.js"
+    },
+    "dta": {
+      "enable": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-security@2.6.1@egg-security\\config\\config.default.js"
+    },
+    "methodnoallow": {
+      "enable": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-security@2.6.1@egg-security\\config\\config.default.js"
+    },
+    "noopen": {
+      "enable": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-security@2.6.1@egg-security\\config\\config.default.js"
+    },
+    "nosniff": {
+      "enable": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-security@2.6.1@egg-security\\config\\config.default.js"
+    },
+    "referrerPolicy": {
+      "enable": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-security@2.6.1@egg-security\\config\\config.default.js",
+      "value": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-security@2.6.1@egg-security\\config\\config.default.js"
+    },
+    "xssProtection": {
+      "enable": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-security@2.6.1@egg-security\\config\\config.default.js",
+      "value": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-security@2.6.1@egg-security\\config\\config.default.js"
+    },
+    "csp": {
+      "enable": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-security@2.6.1@egg-security\\config\\config.default.js",
+      "policy": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-security@2.6.1@egg-security\\config\\config.default.js"
+    },
+    "ssrf": {
+      "ipBlackList": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-security@2.6.1@egg-security\\config\\config.default.js",
+      "checkAddress": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-security@2.6.1@egg-security\\config\\config.default.js"
+    }
+  },
+  "cors": {
+    "credentials": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\config\\config.default.js"
+  },
+  "JWT_SECRET": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\config\\config.default.js",
+  "mysql": {
+    "client": {
+      "host": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\config\\config.default.js",
+      "port": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\config\\config.default.js",
+      "user": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\config\\config.default.js",
+      "password": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\config\\config.default.js",
+      "database": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\config\\config.default.js"
+    },
+    "default": {
+      "database": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-mysql@3.0.0@egg-mysql\\config\\config.default.js",
+      "connectionLimit": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-mysql@3.0.0@egg-mysql\\config\\config.default.js"
+    },
+    "app": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-mysql@3.0.0@egg-mysql\\config\\config.default.js",
+    "agent": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-mysql@3.0.0@egg-mysql\\config\\config.default.js"
+  },
+  "session": {
+    "maxAge": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-session@3.1.0@egg-session\\config\\config.default.js",
+    "key": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-session@3.1.0@egg-session\\config\\config.default.js",
+    "httpOnly": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-session@3.1.0@egg-session\\config\\config.default.js",
+    "encrypt": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-session@3.1.0@egg-session\\config\\config.default.js"
+  },
+  "helper": {
+    "shtml": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-security@2.6.1@egg-security\\config\\config.default.js"
+  },
+  "jsonp": {
+    "limit": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-jsonp@2.0.0@egg-jsonp\\config\\config.default.js",
+    "callback": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-jsonp@2.0.0@egg-jsonp\\config\\config.default.js",
+    "csrf": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-jsonp@2.0.0@egg-jsonp\\config\\config.default.js"
+  },
+  "onerror": {
+    "errorPageUrl": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-onerror@2.1.0@egg-onerror\\config\\config.default.js",
+    "appErrorFilter": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-onerror@2.1.0@egg-onerror\\config\\config.default.js",
+    "templatePath": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-onerror@2.1.0@egg-onerror\\config\\config.default.js"
+  },
+  "i18n": {
+    "defaultLocale": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-i18n@2.1.1@egg-i18n\\config\\config.default.js",
+    "dirs": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-i18n@2.1.1@egg-i18n\\config\\config.default.js",
+    "queryField": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-i18n@2.1.1@egg-i18n\\config\\config.default.js",
+    "cookieField": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-i18n@2.1.1@egg-i18n\\config\\config.default.js",
+    "cookieDomain": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-i18n@2.1.1@egg-i18n\\config\\config.default.js",
+    "cookieMaxAge": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-i18n@2.1.1@egg-i18n\\config\\config.default.js"
+  },
+  "watcher": {
+    "type": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-watcher@3.1.0@egg-watcher\\config\\config.local.js",
+    "eventSources": {
+      "default": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-watcher@3.1.0@egg-watcher\\config\\config.default.js",
+      "development": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-watcher@3.1.0@egg-watcher\\config\\config.default.js"
+    }
+  },
+  "customLogger": {
+    "scheduleLogger": {
+      "consoleLevel": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-schedule@3.6.4@egg-schedule\\config\\config.default.js",
+      "file": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-schedule@3.6.4@egg-schedule\\config\\config.default.js"
+    }
+  },
+  "schedule": {
+    "directory": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-schedule@3.6.4@egg-schedule\\config\\config.default.js"
+  },
+  "multipart": {
+    "mode": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-multipart@2.9.0@egg-multipart\\config\\config.default.js",
+    "autoFields": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-multipart@2.9.0@egg-multipart\\config\\config.default.js",
+    "defaultCharset": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-multipart@2.9.0@egg-multipart\\config\\config.default.js",
+    "fieldNameSize": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-multipart@2.9.0@egg-multipart\\config\\config.default.js",
+    "fieldSize": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-multipart@2.9.0@egg-multipart\\config\\config.default.js",
+    "fields": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-multipart@2.9.0@egg-multipart\\config\\config.default.js",
+    "fileSize": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-multipart@2.9.0@egg-multipart\\config\\config.default.js",
+    "files": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-multipart@2.9.0@egg-multipart\\config\\config.default.js",
+    "fileExtensions": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-multipart@2.9.0@egg-multipart\\config\\config.default.js",
+    "whitelist": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-multipart@2.9.0@egg-multipart\\config\\config.default.js",
+    "tmpdir": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-multipart@2.9.0@egg-multipart\\config\\config.default.js",
+    "cleanSchedule": {
+      "cron": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-multipart@2.9.0@egg-multipart\\config\\config.default.js"
+    }
+  },
+  "development": {
+    "watchDirs": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-development@2.4.3@egg-development\\config\\config.default.js",
+    "ignoreDirs": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-development@2.4.3@egg-development\\config\\config.default.js",
+    "fastReady": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-development@2.4.3@egg-development\\config\\config.default.js",
+    "reloadOnDebug": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-development@2.4.3@egg-development\\config\\config.default.js",
+    "overrideDefault": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-development@2.4.3@egg-development\\config\\config.default.js"
+  },
+  "logrotator": {
+    "filesRotateByHour": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-logrotator@3.1.0@egg-logrotator\\config\\config.default.js",
+    "hourDelimiter": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-logrotator@3.1.0@egg-logrotator\\config\\config.default.js",
+    "filesRotateBySize": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-logrotator@3.1.0@egg-logrotator\\config\\config.default.js",
+    "maxFileSize": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-logrotator@3.1.0@egg-logrotator\\config\\config.default.js",
+    "maxFiles": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-logrotator@3.1.0@egg-logrotator\\config\\config.default.js",
+    "rotateDuration": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-logrotator@3.1.0@egg-logrotator\\config\\config.default.js",
+    "maxDays": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-logrotator@3.1.0@egg-logrotator\\config\\config.default.js"
+  },
+  "static": {
+    "prefix": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-static@2.2.0@egg-static\\config\\config.default.js",
+    "dir": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-static@2.2.0@egg-static\\config\\config.default.js",
+    "dynamic": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-static@2.2.0@egg-static\\config\\config.default.js",
+    "preload": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-static@2.2.0@egg-static\\config\\config.default.js",
+    "buffer": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-static@2.2.0@egg-static\\config\\config.default.js",
+    "maxFiles": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-static@2.2.0@egg-static\\config\\config.default.js"
+  },
+  "view": {
+    "root": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-view@2.1.2@egg-view\\config\\config.default.js",
+    "cache": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-view@2.1.2@egg-view\\config\\config.local.js",
+    "defaultExtension": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-view@2.1.2@egg-view\\config\\config.default.js",
+    "defaultViewEngine": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-view@2.1.2@egg-view\\config\\config.default.js",
+    "mapping": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg-view@2.1.2@egg-view\\config\\config.default.js"
+  },
+  "env": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+  "name": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+  "proxy": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+  "maxProxyCount": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+  "protocolHeaders": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+  "ipHeaders": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+  "hostHeaders": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+  "pkg": {
+    "name": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+    "version": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+    "description": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+    "private": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+    "egg": {
+      "declarations": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js"
+    },
+    "dependencies": {
+      "egg": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+      "egg-cors": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+      "egg-mysql": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+      "egg-scripts": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+      "jsonwebtoken": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+      "svg-captcha": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js"
+    },
+    "devDependencies": {
+      "autod": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+      "autod-egg": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+      "egg-bin": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+      "egg-ci": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+      "egg-mock": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+      "eslint": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+      "eslint-config-egg": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js"
+    },
+    "engines": {
+      "node": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js"
+    },
+    "scripts": {
+      "start": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+      "stop": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+      "dev": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+      "debug": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+      "test": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+      "test-local": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+      "cov": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+      "lint": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+      "ci": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+      "autod": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js"
+    },
+    "ci": {
+      "version": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js"
+    },
+    "repository": {
+      "type": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+      "url": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js"
+    },
+    "author": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+    "license": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js"
+  },
+  "baseDir": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+  "HOME": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+  "rundir": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+  "dump": {
+    "ignore": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js"
+  },
+  "confusedConfigurations": {
+    "bodyparser": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+    "notFound": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+    "sitefile": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+    "middlewares": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+    "httpClient": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js"
+  },
+  "notfound": {
+    "pageUrl": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js"
+  },
+  "siteFile": {
+    "/favicon.ico": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js"
+  },
+  "bodyParser": {
+    "enable": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+    "encoding": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+    "formLimit": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+    "jsonLimit": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+    "strict": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+    "queryString": {
+      "arrayLimit": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+      "depth": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+      "parameterLimit": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js"
+    },
+    "onerror": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js"
+  },
+  "logger": {
+    "dir": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+    "encoding": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+    "env": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+    "level": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+    "consoleLevel": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+    "disableConsoleAfterReady": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+    "outputJSON": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+    "buffer": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+    "appLogName": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+    "coreLogName": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+    "agentLogName": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+    "errorLogName": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+    "coreLogger": {
+      "consoleLevel": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.local.js"
+    },
+    "allowDebugAtProd": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js"
+  },
+  "httpclient": {
+    "enableDNSCache": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+    "dnsCacheLookupInterval": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+    "dnsCacheMaxLength": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+    "request": {
+      "timeout": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js"
+    },
+    "httpAgent": {
+      "keepAlive": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+      "freeSocketTimeout": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+      "maxSockets": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+      "maxFreeSockets": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js"
+    },
+    "httpsAgent": {
+      "keepAlive": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+      "freeSocketTimeout": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+      "maxSockets": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+      "maxFreeSockets": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js"
+    }
+  },
+  "meta": {
+    "enable": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+    "logging": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js"
+  },
+  "coreMiddleware": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+  "workerStartTimeout": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+  "serverTimeout": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+  "cluster": {
+    "listen": {
+      "path": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+      "port": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+      "hostname": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js"
+    }
+  },
+  "clusterClient": {
+    "maxWaitTime": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js",
+    "responseTimeout": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js"
+  },
+  "onClientError": "C:\\vipdata\\vipproject\\2019projects\\cms-api\\node_modules\\_egg@2.23.0@egg\\config\\config.default.js"
+}

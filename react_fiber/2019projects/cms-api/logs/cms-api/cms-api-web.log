@@ -1,0 +1,521 @@
+2019-08-07 20:22:32,258 WARN 56432 [-/127.0.0.1/-/16ms POST /api/user] invalid csrf token. See https://eggjs.org/zh-cn/core/security.html#安全威胁csrf的防范
+2019-08-07 20:22:32,264 WARN 56432 [-/127.0.0.1/-/22ms POST /api/user] nodejs.ForbiddenError: invalid csrf token
+    at Object.throw (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_koa@2.7.0@koa\lib\context.js:97:11)
+    at Object.assertCsrf (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_egg-security@2.5.0@egg-security\app\extend\context.js:157:17)
+    at csrf (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_egg-security@2.5.0@egg-security\lib\middlewares\csrf.js:31:9)
+    at dispatch (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_koa-compose@4.1.0@koa-compose\index.js:42:32)
+    at C:\vipdata\vipproject\2019projects\cms-api\node_modules\_koa-compose@4.1.0@koa-compose\index.js:34:12
+    at dispatch (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_koa-compose@4.1.0@koa-compose\index.js:42:32)
+    at session (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_koa-session@5.12.2@koa-session\index.js:41:13)
+    at dispatch (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_koa-compose@4.1.0@koa-compose\index.js:42:32)
+    at overrideMethod (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_koa-override@3.0.0@koa-override\index.js:38:12)
+    at dispatch (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_koa-compose@4.1.0@koa-compose\index.js:42:32)
+message: "invalid csrf token"
+pid: 56432
+hostname: DESKTOP-DUAKF8G
+
+2019-08-07 20:23:06,021 WARN 57888 [-/127.0.0.1/-/21ms POST /api/user] invalid csrf token. See https://eggjs.org/zh-cn/core/security.html#安全威胁csrf的防范
+2019-08-07 20:23:06,025 WARN 57888 [-/127.0.0.1/-/25ms POST /api/user] nodejs.ForbiddenError: invalid csrf token
+    at Object.throw (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_koa@2.7.0@koa\lib\context.js:97:11)
+    at Object.assertCsrf (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_egg-security@2.5.0@egg-security\app\extend\context.js:157:17)
+    at csrf (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_egg-security@2.5.0@egg-security\lib\middlewares\csrf.js:31:9)
+    at dispatch (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_koa-compose@4.1.0@koa-compose\index.js:42:32)
+    at C:\vipdata\vipproject\2019projects\cms-api\node_modules\_koa-compose@4.1.0@koa-compose\index.js:34:12
+    at dispatch (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_koa-compose@4.1.0@koa-compose\index.js:42:32)
+    at session (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_koa-session@5.12.2@koa-session\index.js:41:13)
+    at dispatch (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_koa-compose@4.1.0@koa-compose\index.js:42:32)
+    at overrideMethod (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_koa-override@3.0.0@koa-override\index.js:38:12)
+    at dispatch (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_koa-compose@4.1.0@koa-compose\index.js:42:32)
+message: "invalid csrf token"
+pid: 57888
+hostname: DESKTOP-DUAKF8G
+
+2019-08-07 20:23:23,147 WARN 59040 [-/127.0.0.1/-/18ms POST /api/user] invalid csrf token. See https://eggjs.org/zh-cn/core/security.html#安全威胁csrf的防范
+2019-08-07 20:23:23,151 WARN 59040 [-/127.0.0.1/-/22ms POST /api/user] nodejs.ForbiddenError: invalid csrf token
+    at Object.throw (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_koa@2.7.0@koa\lib\context.js:97:11)
+    at Object.assertCsrf (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_egg-security@2.5.0@egg-security\app\extend\context.js:157:17)
+    at csrf (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_egg-security@2.5.0@egg-security\lib\middlewares\csrf.js:31:9)
+    at dispatch (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_koa-compose@4.1.0@koa-compose\index.js:42:32)
+    at C:\vipdata\vipproject\2019projects\cms-api\node_modules\_koa-compose@4.1.0@koa-compose\index.js:34:12
+    at dispatch (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_koa-compose@4.1.0@koa-compose\index.js:42:32)
+    at session (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_koa-session@5.12.2@koa-session\index.js:41:13)
+    at dispatch (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_koa-compose@4.1.0@koa-compose\index.js:42:32)
+    at overrideMethod (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_koa-override@3.0.0@koa-override\index.js:38:12)
+    at dispatch (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_koa-compose@4.1.0@koa-compose\index.js:42:32)
+message: "invalid csrf token"
+pid: 59040
+hostname: DESKTOP-DUAKF8G
+
+2019-08-07 20:27:10,924 ERROR 56200 [-/127.0.0.1/-/8ms GET /api/user] nodejs.ReferenceError: service is not defined
+    at UserController.index (C:\vipdata\vipproject\2019projects\cms-api\app\controller\user.js:6:18)
+    at Object.callFn (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_egg-core@4.17.3@egg-core\lib\utils\index.js:44:21)
+    at Object.classControllerMiddleware (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_egg-core@4.17.3@egg-core\lib\loader\mixin\controller.js:87:20)
+    at Object.callFn (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_@eggjs_router@2.0.0@@eggjs\router\lib\utils.js:12:21)
+    at wrappedController (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_@eggjs_router@2.0.0@@eggjs\router\lib\egg_router.js:322:18)
+    at dispatch (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_koa-compose@3.2.1@koa-compose\index.js:44:32)
+    at next (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_koa-compose@3.2.1@koa-compose\index.js:45:18)
+    at C:\vipdata\vipproject\2019projects\cms-api\node_modules\_@eggjs_router@2.0.0@@eggjs\router\lib\router.js:190:18
+    at dispatch (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_koa-compose@3.2.1@koa-compose\index.js:44:32)
+    at C:\vipdata\vipproject\2019projects\cms-api\node_modules\_koa-compose@3.2.1@koa-compose\index.js:36:12
+
+pid: 56200
+hostname: DESKTOP-DUAKF8G
+
+2019-08-07 21:35:52,376 ERROR 43580 [-/127.0.0.1/-/8ms GET /api/role/getResource] nodejs.ReferenceError: result is not defined
+    at RoleService.getResource (C:\vipdata\vipproject\2019projects\cms-api\app\service\role.js:44:5)
+    at process.internalTickCallback (internal/process/next_tick.js:77:7)
+
+pid: 43580
+hostname: DESKTOP-DUAKF8G
+
+2019-08-07 21:49:32,540 ERROR 348 [-/127.0.0.1/-/7ms GET /api/user?pageNum=2&pageSize=3] nodejs.ER_BAD_FIELD_ERRORError: ER_BAD_FIELD_ERROR: Unknown column 'age' in 'order clause'
+    at Query.Sequence._packetToError (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\protocol\sequences\Sequence.js:47:14)
+    at Query.ErrorPacket (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\protocol\sequences\Query.js:77:18)
+    at Protocol._parsePacket (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\protocol\Protocol.js:291:23)
+    at Parser._parsePacket (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\protocol\Parser.js:433:10)
+    at Parser.write (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\protocol\Parser.js:43:10)
+    at Protocol.write (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\protocol\Protocol.js:38:16)
+    at Socket.<anonymous> (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\Connection.js:91:28)
+    at Socket.<anonymous> (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\Connection.js:525:10)
+    at Socket.emit (events.js:182:13)
+    at addChunk (_stream_readable.js:283:12)
+    --------------------
+    at Pool.query (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\Pool.js:199:23)
+    at C:\vipdata\vipproject\2019projects\cms-api\node_modules\_pify@2.3.0@pify\index.js:29:7
+    at new Promise (<anonymous>)
+    at Pool.<anonymous> (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_pify@2.3.0@pify\index.js:12:10)
+    at Pool.ret [as query] (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_pify@2.3.0@pify\index.js:56:34)
+    at RDSClient.proto._query (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_ali-rds@3.3.0@ali-rds\lib\client.js:34:20)
+    at RDSClient.proto.query (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_ali-rds@3.3.0@ali-rds\lib\operator.js:54:29)
+    at proto.query.next (<anonymous>)
+    at onFulfilled (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_co@4.6.0@co\index.js:65:19)
+    at C:\vipdata\vipproject\2019projects\cms-api\node_modules\_co@4.6.0@co\index.js:54:5
+    sql: SELECT * FROM `user` ORDER BY `id` DESC, `age` ASC LIMIT 3, 3
+code: "ER_BAD_FIELD_ERROR"
+errno: 1054
+sqlMessage: "Unknown column 'age' in 'order clause'"
+sqlState: "42S22"
+index: 0
+sql: "SELECT * FROM `user` ORDER BY `id` DESC, `age` ASC LIMIT 3, 3"
+name: "ER_BAD_FIELD_ERRORError"
+pid: 348
+hostname: DESKTOP-DUAKF8G
+
+2019-08-07 21:49:59,021 ERROR 51420 [-/127.0.0.1/-/17ms GET /api/user?pageNum=2&pageSize=3] nodejs.ER_PARSE_ERRORError: ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+    at Query.Sequence._packetToError (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\protocol\sequences\Sequence.js:47:14)
+    at Query.ErrorPacket (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\protocol\sequences\Query.js:77:18)
+    at Protocol._parsePacket (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\protocol\Protocol.js:291:23)
+    at Parser._parsePacket (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\protocol\Parser.js:433:10)
+    at Parser.write (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\protocol\Parser.js:43:10)
+    at Protocol.write (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\protocol\Protocol.js:38:16)
+    at Socket.<anonymous> (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\Connection.js:91:28)
+    at Socket.<anonymous> (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\Connection.js:525:10)
+    at Socket.emit (events.js:182:13)
+    at addChunk (_stream_readable.js:283:12)
+    --------------------
+    at Pool.query (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\Pool.js:199:23)
+    at C:\vipdata\vipproject\2019projects\cms-api\node_modules\_pify@2.3.0@pify\index.js:29:7
+    at new Promise (<anonymous>)
+    at Pool.<anonymous> (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_pify@2.3.0@pify\index.js:12:10)
+    at Pool.ret [as query] (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_pify@2.3.0@pify\index.js:56:34)
+    at RDSClient.proto._query (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_ali-rds@3.3.0@ali-rds\lib\client.js:34:20)
+    at RDSClient.proto.query (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_ali-rds@3.3.0@ali-rds\lib\operator.js:54:29)
+    at proto.query.next (<anonymous>)
+    at onFulfilled (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_co@4.6.0@co\index.js:65:19)
+    at C:\vipdata\vipproject\2019projects\cms-api\node_modules\_co@4.6.0@co\index.js:54:5
+    sql: SELECT COUNT(*) as count FROM `user` WHERE `where` = 
+code: "ER_PARSE_ERROR"
+errno: 1064
+sqlMessage: "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1"
+sqlState: "42000"
+index: 0
+sql: "SELECT COUNT(*) as count FROM `user` WHERE `where` = "
+name: "ER_PARSE_ERRORError"
+pid: 51420
+hostname: DESKTOP-DUAKF8G
+
+2019-08-07 21:50:50,223 ERROR 52808 [-/127.0.0.1/-/14ms GET /api/user?pageNum=2&pageSize=3&1=1] nodejs.ER_BAD_FIELD_ERRORError: ER_BAD_FIELD_ERROR: Unknown column '1' in 'where clause'
+    at Query.Sequence._packetToError (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\protocol\sequences\Sequence.js:47:14)
+    at Query.ErrorPacket (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\protocol\sequences\Query.js:77:18)
+    at Protocol._parsePacket (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\protocol\Protocol.js:291:23)
+    at Parser._parsePacket (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\protocol\Parser.js:433:10)
+    at Parser.write (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\protocol\Parser.js:43:10)
+    at Protocol.write (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\protocol\Protocol.js:38:16)
+    at Socket.<anonymous> (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\Connection.js:91:28)
+    at Socket.<anonymous> (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\Connection.js:525:10)
+    at Socket.emit (events.js:182:13)
+    at addChunk (_stream_readable.js:283:12)
+    --------------------
+    at Pool.query (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\Pool.js:199:23)
+    at C:\vipdata\vipproject\2019projects\cms-api\node_modules\_pify@2.3.0@pify\index.js:29:7
+    at new Promise (<anonymous>)
+    at Pool.<anonymous> (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_pify@2.3.0@pify\index.js:12:10)
+    at Pool.ret [as query] (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_pify@2.3.0@pify\index.js:56:34)
+    at RDSClient.proto._query (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_ali-rds@3.3.0@ali-rds\lib\client.js:34:20)
+    at RDSClient.proto.query (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_ali-rds@3.3.0@ali-rds\lib\operator.js:54:29)
+    at proto.query.next (<anonymous>)
+    at onFulfilled (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_co@4.6.0@co\index.js:65:19)
+    at C:\vipdata\vipproject\2019projects\cms-api\node_modules\_co@4.6.0@co\index.js:54:5
+    sql: SELECT * FROM `user` WHERE `1` = '1' ORDER BY `id` DESC, `email` ASC LIMIT 3, 3
+code: "ER_BAD_FIELD_ERROR"
+errno: 1054
+sqlMessage: "Unknown column '1' in 'where clause'"
+sqlState: "42S22"
+index: 0
+sql: "SELECT * FROM `user` WHERE `1` = '1' ORDER BY `id` DESC, `email` ASC LIMIT 3, 3"
+name: "ER_BAD_FIELD_ERRORError"
+pid: 52808
+hostname: DESKTOP-DUAKF8G
+
+2019-08-07 21:51:41,728 ERROR 54252 [-/127.0.0.1/-/20ms GET /api/user?pageNum=2&pageSize=3&1=1] nodejs.ER_BAD_FIELD_ERRORError: ER_BAD_FIELD_ERROR: Unknown column '1' in 'where clause'
+    at Query.Sequence._packetToError (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\protocol\sequences\Sequence.js:47:14)
+    at Query.ErrorPacket (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\protocol\sequences\Query.js:77:18)
+    at Protocol._parsePacket (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\protocol\Protocol.js:291:23)
+    at Parser._parsePacket (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\protocol\Parser.js:433:10)
+    at Parser.write (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\protocol\Parser.js:43:10)
+    at Protocol.write (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\protocol\Protocol.js:38:16)
+    at Socket.<anonymous> (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\Connection.js:91:28)
+    at Socket.<anonymous> (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\Connection.js:525:10)
+    at Socket.emit (events.js:182:13)
+    at addChunk (_stream_readable.js:283:12)
+    --------------------
+    at Pool.query (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\Pool.js:199:23)
+    at C:\vipdata\vipproject\2019projects\cms-api\node_modules\_pify@2.3.0@pify\index.js:29:7
+    at new Promise (<anonymous>)
+    at Pool.<anonymous> (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_pify@2.3.0@pify\index.js:12:10)
+    at Pool.ret [as query] (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_pify@2.3.0@pify\index.js:56:34)
+    at RDSClient.proto._query (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_ali-rds@3.3.0@ali-rds\lib\client.js:34:20)
+    at RDSClient.proto.query (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_ali-rds@3.3.0@ali-rds\lib\operator.js:54:29)
+    at proto.query.next (<anonymous>)
+    at onFulfilled (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_co@4.6.0@co\index.js:65:19)
+    at C:\vipdata\vipproject\2019projects\cms-api\node_modules\_co@4.6.0@co\index.js:54:5
+    sql: SELECT * FROM `user` WHERE `1` = '1' ORDER BY `id` DESC LIMIT 3, 3
+code: "ER_BAD_FIELD_ERROR"
+errno: 1054
+sqlMessage: "Unknown column '1' in 'where clause'"
+sqlState: "42S22"
+index: 0
+sql: "SELECT * FROM `user` WHERE `1` = '1' ORDER BY `id` DESC LIMIT 3, 3"
+name: "ER_BAD_FIELD_ERRORError"
+pid: 54252
+hostname: DESKTOP-DUAKF8G
+
+2019-08-07 21:52:40,629 ERROR 58912 [-/127.0.0.1/-/21ms GET /api/user?pageNum=2&pageSize=3&username=zhangsan] nodejs.ER_BAD_FIELD_ERRORError: ER_BAD_FIELD_ERROR: Unknown column 'where' in 'where clause'
+    at Query.Sequence._packetToError (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\protocol\sequences\Sequence.js:47:14)
+    at Query.ErrorPacket (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\protocol\sequences\Query.js:77:18)
+    at Protocol._parsePacket (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\protocol\Protocol.js:291:23)
+    at Parser._parsePacket (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\protocol\Parser.js:433:10)
+    at Parser.write (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\protocol\Parser.js:43:10)
+    at Protocol.write (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\protocol\Protocol.js:38:16)
+    at Socket.<anonymous> (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\Connection.js:91:28)
+    at Socket.<anonymous> (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\Connection.js:525:10)
+    at Socket.emit (events.js:182:13)
+    at addChunk (_stream_readable.js:283:12)
+    --------------------
+    at Pool.query (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\Pool.js:199:23)
+    at C:\vipdata\vipproject\2019projects\cms-api\node_modules\_pify@2.3.0@pify\index.js:29:7
+    at new Promise (<anonymous>)
+    at Pool.<anonymous> (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_pify@2.3.0@pify\index.js:12:10)
+    at Pool.ret [as query] (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_pify@2.3.0@pify\index.js:56:34)
+    at RDSClient.proto._query (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_ali-rds@3.3.0@ali-rds\lib\client.js:34:20)
+    at RDSClient.proto.query (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_ali-rds@3.3.0@ali-rds\lib\operator.js:54:29)
+    at proto.query.next (<anonymous>)
+    at onFulfilled (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_co@4.6.0@co\index.js:65:19)
+    at C:\vipdata\vipproject\2019projects\cms-api\node_modules\_co@4.6.0@co\index.js:54:5
+    sql: SELECT COUNT(*) as count FROM `user` WHERE `where` = `username` = 'zhangsan'
+code: "ER_BAD_FIELD_ERROR"
+errno: 1054
+sqlMessage: "Unknown column 'where' in 'where clause'"
+sqlState: "42S22"
+index: 0
+sql: "SELECT COUNT(*) as count FROM `user` WHERE `where` = `username` = 'zhangsan'"
+name: "ER_BAD_FIELD_ERRORError"
+pid: 58912
+hostname: DESKTOP-DUAKF8G
+
+2019-08-07 21:53:57,112 ERROR 58912 [-/127.0.0.1/-/3679ms GET /api/user?pageNum=2&pageSize=3&username=zhangsan] nodejs.ER_BAD_FIELD_ERRORError: ER_BAD_FIELD_ERROR: Unknown column 'where' in 'where clause'
+    at Query.Sequence._packetToError (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\protocol\sequences\Sequence.js:47:14)
+    at Query.ErrorPacket (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\protocol\sequences\Query.js:77:18)
+    at Protocol._parsePacket (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\protocol\Protocol.js:291:23)
+    at Parser._parsePacket (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\protocol\Parser.js:433:10)
+    at Parser.write (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\protocol\Parser.js:43:10)
+    at Protocol.write (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\protocol\Protocol.js:38:16)
+    at Socket.<anonymous> (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\Connection.js:91:28)
+    at Socket.<anonymous> (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\Connection.js:525:10)
+    at Socket.emit (events.js:182:13)
+    at addChunk (_stream_readable.js:283:12)
+    --------------------
+    at Pool.query (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\Pool.js:199:23)
+    at C:\vipdata\vipproject\2019projects\cms-api\node_modules\_pify@2.3.0@pify\index.js:29:7
+    at new Promise (<anonymous>)
+    at Pool.<anonymous> (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_pify@2.3.0@pify\index.js:12:10)
+    at Pool.ret [as query] (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_pify@2.3.0@pify\index.js:56:34)
+    at RDSClient.proto._query (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_ali-rds@3.3.0@ali-rds\lib\client.js:34:20)
+    at RDSClient.proto.query (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_ali-rds@3.3.0@ali-rds\lib\operator.js:54:29)
+    at proto.query.next (<anonymous>)
+    at onFulfilled (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_co@4.6.0@co\index.js:65:19)
+    at C:\vipdata\vipproject\2019projects\cms-api\node_modules\_co@4.6.0@co\index.js:54:5
+    sql: SELECT COUNT(*) as count FROM `user` WHERE `where` = `username` = 'zhangsan'
+code: "ER_BAD_FIELD_ERROR"
+errno: 1054
+sqlMessage: "Unknown column 'where' in 'where clause'"
+sqlState: "42S22"
+index: 0
+sql: "SELECT COUNT(*) as count FROM `user` WHERE `where` = `username` = 'zhangsan'"
+name: "ER_BAD_FIELD_ERRORError"
+pid: 58912
+hostname: DESKTOP-DUAKF8G
+
+2019-08-07 21:54:25,741 ERROR 21552 [-/127.0.0.1/-/18ms GET /api/user?pageNum=2&pageSize=3&username=zhangsan] nodejs.ER_BAD_FIELD_ERRORError: ER_BAD_FIELD_ERROR: Unknown column 'where' in 'where clause'
+    at Query.Sequence._packetToError (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\protocol\sequences\Sequence.js:47:14)
+    at Query.ErrorPacket (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\protocol\sequences\Query.js:77:18)
+    at Protocol._parsePacket (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\protocol\Protocol.js:291:23)
+    at Parser._parsePacket (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\protocol\Parser.js:433:10)
+    at Parser.write (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\protocol\Parser.js:43:10)
+    at Protocol.write (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\protocol\Protocol.js:38:16)
+    at Socket.<anonymous> (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\Connection.js:91:28)
+    at Socket.<anonymous> (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\Connection.js:525:10)
+    at Socket.emit (events.js:182:13)
+    at addChunk (_stream_readable.js:283:12)
+    --------------------
+    at Pool.query (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\Pool.js:199:23)
+    at C:\vipdata\vipproject\2019projects\cms-api\node_modules\_pify@2.3.0@pify\index.js:29:7
+    at new Promise (<anonymous>)
+    at Pool.<anonymous> (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_pify@2.3.0@pify\index.js:12:10)
+    at Pool.ret [as query] (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_pify@2.3.0@pify\index.js:56:34)
+    at RDSClient.proto._query (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_ali-rds@3.3.0@ali-rds\lib\client.js:34:20)
+    at RDSClient.proto.query (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_ali-rds@3.3.0@ali-rds\lib\operator.js:54:29)
+    at proto.query.next (<anonymous>)
+    at onFulfilled (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_co@4.6.0@co\index.js:65:19)
+    at C:\vipdata\vipproject\2019projects\cms-api\node_modules\_co@4.6.0@co\index.js:54:5
+    sql: SELECT COUNT(*) as count FROM `user` WHERE `where` = `username` = 'zhangsan'
+code: "ER_BAD_FIELD_ERROR"
+errno: 1054
+sqlMessage: "Unknown column 'where' in 'where clause'"
+sqlState: "42S22"
+index: 0
+sql: "SELECT COUNT(*) as count FROM `user` WHERE `where` = `username` = 'zhangsan'"
+name: "ER_BAD_FIELD_ERRORError"
+pid: 21552
+hostname: DESKTOP-DUAKF8G
+
+2019-08-07 21:54:37,760 ERROR 33648 [-/127.0.0.1/-/11ms GET /api/user?pageNum=2&pageSize=3&username=zhangsan] nodejs.ER_BAD_FIELD_ERRORError: ER_BAD_FIELD_ERROR: Unknown column 'where' in 'where clause'
+    at Query.Sequence._packetToError (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\protocol\sequences\Sequence.js:47:14)
+    at Query.ErrorPacket (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\protocol\sequences\Query.js:77:18)
+    at Protocol._parsePacket (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\protocol\Protocol.js:291:23)
+    at Parser._parsePacket (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\protocol\Parser.js:433:10)
+    at Parser.write (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\protocol\Parser.js:43:10)
+    at Protocol.write (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\protocol\Protocol.js:38:16)
+    at Socket.<anonymous> (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\Connection.js:91:28)
+    at Socket.<anonymous> (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\Connection.js:525:10)
+    at Socket.emit (events.js:182:13)
+    at addChunk (_stream_readable.js:283:12)
+    --------------------
+    at Pool.query (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\Pool.js:199:23)
+    at C:\vipdata\vipproject\2019projects\cms-api\node_modules\_pify@2.3.0@pify\index.js:29:7
+    at new Promise (<anonymous>)
+    at Pool.<anonymous> (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_pify@2.3.0@pify\index.js:12:10)
+    at Pool.ret [as query] (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_pify@2.3.0@pify\index.js:56:34)
+    at RDSClient.proto._query (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_ali-rds@3.3.0@ali-rds\lib\client.js:34:20)
+    at RDSClient.proto.query (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_ali-rds@3.3.0@ali-rds\lib\operator.js:54:29)
+    at proto.query.next (<anonymous>)
+    at onFulfilled (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_co@4.6.0@co\index.js:65:19)
+    at C:\vipdata\vipproject\2019projects\cms-api\node_modules\_co@4.6.0@co\index.js:54:5
+    sql: SELECT COUNT(*) as count FROM `user` WHERE `where` = `username` = 'zhangsan'
+code: "ER_BAD_FIELD_ERROR"
+errno: 1054
+sqlMessage: "Unknown column 'where' in 'where clause'"
+sqlState: "42S22"
+index: 0
+sql: "SELECT COUNT(*) as count FROM `user` WHERE `where` = `username` = 'zhangsan'"
+name: "ER_BAD_FIELD_ERRORError"
+pid: 33648
+hostname: DESKTOP-DUAKF8G
+
+2019-08-07 21:55:32,358 ERROR 56908 [-/127.0.0.1/-/25ms GET /api/user?pageNum=2&pageSize=3&username=zhangsan] nodejs.ER_BAD_FIELD_ERRORError: ER_BAD_FIELD_ERROR: Unknown column 'where' in 'where clause'
+    at Query.Sequence._packetToError (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\protocol\sequences\Sequence.js:47:14)
+    at Query.ErrorPacket (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\protocol\sequences\Query.js:77:18)
+    at Protocol._parsePacket (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\protocol\Protocol.js:291:23)
+    at Parser._parsePacket (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\protocol\Parser.js:433:10)
+    at Parser.write (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\protocol\Parser.js:43:10)
+    at Protocol.write (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\protocol\Protocol.js:38:16)
+    at Socket.<anonymous> (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\Connection.js:91:28)
+    at Socket.<anonymous> (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\Connection.js:525:10)
+    at Socket.emit (events.js:182:13)
+    at addChunk (_stream_readable.js:283:12)
+    --------------------
+    at Pool.query (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\Pool.js:199:23)
+    at C:\vipdata\vipproject\2019projects\cms-api\node_modules\_pify@2.3.0@pify\index.js:29:7
+    at new Promise (<anonymous>)
+    at Pool.<anonymous> (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_pify@2.3.0@pify\index.js:12:10)
+    at Pool.ret [as query] (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_pify@2.3.0@pify\index.js:56:34)
+    at RDSClient.proto._query (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_ali-rds@3.3.0@ali-rds\lib\client.js:34:20)
+    at RDSClient.proto.query (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_ali-rds@3.3.0@ali-rds\lib\operator.js:54:29)
+    at proto.query.next (<anonymous>)
+    at onFulfilled (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_co@4.6.0@co\index.js:65:19)
+    at C:\vipdata\vipproject\2019projects\cms-api\node_modules\_co@4.6.0@co\index.js:54:5
+    sql: SELECT COUNT(*) as count FROM `user` WHERE `where` = `username` = 'zhangsan'
+code: "ER_BAD_FIELD_ERROR"
+errno: 1054
+sqlMessage: "Unknown column 'where' in 'where clause'"
+sqlState: "42S22"
+index: 0
+sql: "SELECT COUNT(*) as count FROM `user` WHERE `where` = `username` = 'zhangsan'"
+name: "ER_BAD_FIELD_ERRORError"
+pid: 56908
+hostname: DESKTOP-DUAKF8G
+
+2019-08-18 10:33:44,675 ERROR 20108 [-/127.0.0.1/-/30ms POST /api/signin] nodejs.ER_BAD_FIELD_ERRORError: ER_BAD_FIELD_ERROR: Unknown column 'prefix' in 'where clause'
+    at Query.Sequence._packetToError (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\protocol\sequences\Sequence.js:47:14)
+    at Query.ErrorPacket (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\protocol\sequences\Query.js:77:18)
+    at Protocol._parsePacket (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\protocol\Protocol.js:291:23)
+    at Parser._parsePacket (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\protocol\Parser.js:433:10)
+    at Parser.write (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\protocol\Parser.js:43:10)
+    at Protocol.write (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\protocol\Protocol.js:38:16)
+    at Socket.<anonymous> (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\Connection.js:91:28)
+    at Socket.<anonymous> (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\Connection.js:525:10)
+    at Socket.emit (events.js:203:13)
+    at addChunk (_stream_readable.js:295:12)
+    --------------------
+    at Pool.query (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_mysql@2.17.1@mysql\lib\Pool.js:199:23)
+    at C:\vipdata\vipproject\2019projects\cms-api\node_modules\_pify@2.3.0@pify\index.js:29:7
+    at new Promise (<anonymous>)
+    at Pool.<anonymous> (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_pify@2.3.0@pify\index.js:12:10)
+    at Pool.ret [as query] (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_pify@2.3.0@pify\index.js:56:34)
+    at RDSClient.proto._query (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_ali-rds@3.3.0@ali-rds\lib\client.js:34:20)
+    at RDSClient.proto.query (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_ali-rds@3.3.0@ali-rds\lib\operator.js:54:29)
+    at proto.query.next (<anonymous>)
+    at onFulfilled (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_co@4.6.0@co\index.js:65:19)
+    at C:\vipdata\vipproject\2019projects\cms-api\node_modules\_co@4.6.0@co\index.js:54:5
+    sql: SELECT * FROM `user` WHERE `username` = '2' AND `password` = '222' AND `prefix` = '086' LIMIT 0, 1
+code: "ER_BAD_FIELD_ERROR"
+errno: 1054
+sqlMessage: "Unknown column 'prefix' in 'where clause'"
+sqlState: "42S22"
+index: 0
+sql: "SELECT * FROM `user` WHERE `username` = '2' AND `password` = '222' AND `prefix` = '086' LIMIT 0, 1"
+headers: {"Access-Control-Allow-Origin":"http://127.0.0.1:8000","Access-Control-Allow-Credentials":"true","vary":"Origin"}
+name: "ER_BAD_FIELD_ERRORError"
+pid: 20108
+hostname: DESKTOP-DUAKF8G
+
+2019-08-18 17:15:21,807 ERROR 12744 [-/127.0.0.1/-/7ms GET /api/user?pageNum=1&username=74] nodejs.ReferenceError: field is not defined
+    at UserService.select (C:\vipdata\vipproject\2019projects\cms-api\app\service\base.js:16:34)
+    at UserController.index (C:\vipdata\vipproject\2019projects\cms-api\app\controller\base.js:16:45)
+    at Object.callFn (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_egg-core@4.17.3@egg-core\lib\utils\index.js:44:21)
+    at Object.classControllerMiddleware (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_egg-core@4.17.3@egg-core\lib\loader\mixin\controller.js:87:20)
+    at Object.callFn (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_@eggjs_router@2.0.0@@eggjs\router\lib\utils.js:12:21)
+    at wrappedController (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_@eggjs_router@2.0.0@@eggjs\router\lib\egg_router.js:322:18)
+    at dispatch (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_koa-compose@3.2.1@koa-compose\index.js:44:32)
+    at next (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_koa-compose@3.2.1@koa-compose\index.js:45:18)
+    at C:\vipdata\vipproject\2019projects\cms-api\node_modules\_@eggjs_router@2.0.0@@eggjs\router\lib\router.js:190:18
+    at dispatch (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_koa-compose@3.2.1@koa-compose\index.js:44:32)
+headers: {"Access-Control-Allow-Origin":"http://127.0.0.1:8000","Access-Control-Allow-Credentials":"true","vary":"Origin"}
+pid: 12744
+hostname: DESKTOP-DUAKF8G
+
+2019-08-18 17:15:21,817 ERROR 12744 [-/127.0.0.1/-/2ms GET /api/user?pageNum=1&username=4] nodejs.ReferenceError: field is not defined
+    at UserService.select (C:\vipdata\vipproject\2019projects\cms-api\app\service\base.js:16:34)
+    at UserController.index (C:\vipdata\vipproject\2019projects\cms-api\app\controller\base.js:16:45)
+    at Object.callFn (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_egg-core@4.17.3@egg-core\lib\utils\index.js:44:21)
+    at Object.classControllerMiddleware (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_egg-core@4.17.3@egg-core\lib\loader\mixin\controller.js:87:20)
+    at Object.callFn (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_@eggjs_router@2.0.0@@eggjs\router\lib\utils.js:12:21)
+    at wrappedController (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_@eggjs_router@2.0.0@@eggjs\router\lib\egg_router.js:322:18)
+    at dispatch (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_koa-compose@3.2.1@koa-compose\index.js:44:32)
+    at next (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_koa-compose@3.2.1@koa-compose\index.js:45:18)
+    at C:\vipdata\vipproject\2019projects\cms-api\node_modules\_@eggjs_router@2.0.0@@eggjs\router\lib\router.js:190:18
+    at dispatch (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_koa-compose@3.2.1@koa-compose\index.js:44:32)
+headers: {"Access-Control-Allow-Origin":"http://127.0.0.1:8000","Access-Control-Allow-Credentials":"true","vary":"Origin"}
+pid: 12744
+hostname: DESKTOP-DUAKF8G
+
+2019-08-18 17:15:21,821 ERROR 12744 [-/127.0.0.1/-/0ms GET /api/user?pageNum=1&username=4] nodejs.ReferenceError: field is not defined
+    at UserService.select (C:\vipdata\vipproject\2019projects\cms-api\app\service\base.js:16:34)
+    at UserController.index (C:\vipdata\vipproject\2019projects\cms-api\app\controller\base.js:16:45)
+    at Object.callFn (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_egg-core@4.17.3@egg-core\lib\utils\index.js:44:21)
+    at Object.classControllerMiddleware (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_egg-core@4.17.3@egg-core\lib\loader\mixin\controller.js:87:20)
+    at Object.callFn (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_@eggjs_router@2.0.0@@eggjs\router\lib\utils.js:12:21)
+    at wrappedController (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_@eggjs_router@2.0.0@@eggjs\router\lib\egg_router.js:322:18)
+    at dispatch (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_koa-compose@3.2.1@koa-compose\index.js:44:32)
+    at next (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_koa-compose@3.2.1@koa-compose\index.js:45:18)
+    at C:\vipdata\vipproject\2019projects\cms-api\node_modules\_@eggjs_router@2.0.0@@eggjs\router\lib\router.js:190:18
+    at dispatch (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_koa-compose@3.2.1@koa-compose\index.js:44:32)
+headers: {"Access-Control-Allow-Origin":"http://127.0.0.1:8000","Access-Control-Allow-Credentials":"true","vary":"Origin"}
+pid: 12744
+hostname: DESKTOP-DUAKF8G
+
+2019-08-18 17:18:12,907 ERROR 29480 [-/127.0.0.1/-/18ms GET /api/user?pageNum=1&username=4] nodejs.ReferenceError: total is not defined
+    at UserService.select (C:\vipdata\vipproject\2019projects\cms-api\app\service\base.js:26:19)
+    at processTicksAndRejections (internal/process/task_queues.js:85:5)
+    at async UserController.index (C:\vipdata\vipproject\2019projects\cms-api\app\controller\base.js:16:18)
+    at async C:\vipdata\vipproject\2019projects\cms-api\node_modules\_egg-development@2.4.3@egg-development\app\middleware\egg_loader_trace.js:9:50
+    at async xframe (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_egg-security@2.6.1@egg-security\lib\middlewares\xframe.js:7:5)
+    at async xssProtection (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_egg-security@2.6.1@egg-security\lib\middlewares\xssProtection.js:7:5)
+    at async nosniff (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_egg-security@2.6.1@egg-security\lib\middlewares\nosniff.js:8:5)
+    at async noopen (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_egg-security@2.6.1@egg-security\lib\middlewares\noopen.js:8:5)
+    at async session (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_koa-session@5.12.2@koa-session\index.js:41:7)
+    at async bodyParser (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_koa-bodyparser@4.2.1@koa-bodyparser\index.js:86:5)
+headers: {"Access-Control-Allow-Origin":"http://127.0.0.1:8000","Access-Control-Allow-Credentials":"true","vary":"Origin"}
+pid: 29480
+hostname: DESKTOP-DUAKF8G
+
+2019-08-18 17:19:05,499 ERROR 29480 [-/127.0.0.1/-/21074ms GET /api/user?pageNum=1&username=4] nodejs.ReferenceError: total is not defined
+    at UserService.select (C:\vipdata\vipproject\2019projects\cms-api\app\service\base.js:26:19)
+    at processTicksAndRejections (internal/process/task_queues.js:85:5)
+    at async UserController.index (C:\vipdata\vipproject\2019projects\cms-api\app\controller\base.js:16:18)
+    at async C:\vipdata\vipproject\2019projects\cms-api\node_modules\_egg-development@2.4.3@egg-development\app\middleware\egg_loader_trace.js:9:50
+    at async xframe (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_egg-security@2.6.1@egg-security\lib\middlewares\xframe.js:7:5)
+    at async xssProtection (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_egg-security@2.6.1@egg-security\lib\middlewares\xssProtection.js:7:5)
+    at async nosniff (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_egg-security@2.6.1@egg-security\lib\middlewares\nosniff.js:8:5)
+    at async noopen (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_egg-security@2.6.1@egg-security\lib\middlewares\noopen.js:8:5)
+    at async session (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_koa-session@5.12.2@koa-session\index.js:41:7)
+    at async bodyParser (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_koa-bodyparser@4.2.1@koa-bodyparser\index.js:86:5)
+headers: {"Access-Control-Allow-Origin":"http://127.0.0.1:8000","Access-Control-Allow-Credentials":"true","vary":"Origin"}
+pid: 29480
+hostname: DESKTOP-DUAKF8G
+
+2019-08-18 17:19:05,520 ERROR 29480 [-/127.0.0.1/-/12ms GET /api/user?pageNum=1&username=4] nodejs.ReferenceError: total is not defined
+    at UserService.select (C:\vipdata\vipproject\2019projects\cms-api\app\service\base.js:26:19)
+    at processTicksAndRejections (internal/process/task_queues.js:85:5)
+    at async UserController.index (C:\vipdata\vipproject\2019projects\cms-api\app\controller\base.js:16:18)
+    at async C:\vipdata\vipproject\2019projects\cms-api\node_modules\_egg-development@2.4.3@egg-development\app\middleware\egg_loader_trace.js:9:50
+    at async xframe (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_egg-security@2.6.1@egg-security\lib\middlewares\xframe.js:7:5)
+    at async xssProtection (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_egg-security@2.6.1@egg-security\lib\middlewares\xssProtection.js:7:5)
+    at async nosniff (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_egg-security@2.6.1@egg-security\lib\middlewares\nosniff.js:8:5)
+    at async noopen (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_egg-security@2.6.1@egg-security\lib\middlewares\noopen.js:8:5)
+    at async session (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_koa-session@5.12.2@koa-session\index.js:41:7)
+    at async bodyParser (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_koa-bodyparser@4.2.1@koa-bodyparser\index.js:86:5)
+headers: {"Access-Control-Allow-Origin":"http://127.0.0.1:8000","Access-Control-Allow-Credentials":"true","vary":"Origin"}
+pid: 29480
+hostname: DESKTOP-DUAKF8G
+
+2019-08-18 17:19:05,541 ERROR 29480 [-/127.0.0.1/-/61ms GET /api/user?pageNum=1&=] nodejs.ReferenceError: total is not defined
+    at UserService.select (C:\vipdata\vipproject\2019projects\cms-api\app\service\base.js:26:19)
+    at processTicksAndRejections (internal/process/task_queues.js:85:5)
+    at async UserController.index (C:\vipdata\vipproject\2019projects\cms-api\app\controller\base.js:16:18)
+    at async C:\vipdata\vipproject\2019projects\cms-api\node_modules\_egg-development@2.4.3@egg-development\app\middleware\egg_loader_trace.js:9:50
+    at async xframe (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_egg-security@2.6.1@egg-security\lib\middlewares\xframe.js:7:5)
+    at async xssProtection (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_egg-security@2.6.1@egg-security\lib\middlewares\xssProtection.js:7:5)
+    at async nosniff (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_egg-security@2.6.1@egg-security\lib\middlewares\nosniff.js:8:5)
+    at async noopen (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_egg-security@2.6.1@egg-security\lib\middlewares\noopen.js:8:5)
+    at async session (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_koa-session@5.12.2@koa-session\index.js:41:7)
+    at async bodyParser (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_koa-bodyparser@4.2.1@koa-bodyparser\index.js:86:5)
+headers: {"Access-Control-Allow-Origin":"http://127.0.0.1:8000","Access-Control-Allow-Credentials":"true","vary":"Origin"}
+pid: 29480
+hostname: DESKTOP-DUAKF8G
+
+2019-08-18 17:19:05,557 ERROR 29480 [-/127.0.0.1/-/11ms GET /api/user?pageNum=1&=] nodejs.ReferenceError: total is not defined
+    at UserService.select (C:\vipdata\vipproject\2019projects\cms-api\app\service\base.js:26:19)
+    at processTicksAndRejections (internal/process/task_queues.js:85:5)
+    at async UserController.index (C:\vipdata\vipproject\2019projects\cms-api\app\controller\base.js:16:18)
+    at async C:\vipdata\vipproject\2019projects\cms-api\node_modules\_egg-development@2.4.3@egg-development\app\middleware\egg_loader_trace.js:9:50
+    at async xframe (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_egg-security@2.6.1@egg-security\lib\middlewares\xframe.js:7:5)
+    at async xssProtection (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_egg-security@2.6.1@egg-security\lib\middlewares\xssProtection.js:7:5)
+    at async nosniff (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_egg-security@2.6.1@egg-security\lib\middlewares\nosniff.js:8:5)
+    at async noopen (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_egg-security@2.6.1@egg-security\lib\middlewares\noopen.js:8:5)
+    at async session (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_koa-session@5.12.2@koa-session\index.js:41:7)
+    at async bodyParser (C:\vipdata\vipproject\2019projects\cms-api\node_modules\_koa-bodyparser@4.2.1@koa-bodyparser\index.js:86:5)
+headers: {"Access-Control-Allow-Origin":"http://127.0.0.1:8000","Access-Control-Allow-Credentials":"true","vary":"Origin"}
+pid: 29480
+hostname: DESKTOP-DUAKF8G
+

@@ -1,0 +1,8 @@
+2019-08-04 18:31:09,872 INFO 17560 [egg-schedule]: register schedule C:\vipdata\vipproject\2019projects\9.egg\node_modules\_egg-multipart@2.8.0@egg-multipart\app\schedule\clean_tmpdir.js
+2019-08-04 18:31:09,872 INFO 17560 [egg-schedule]: register schedule C:\vipdata\vipproject\2019projects\9.egg\node_modules\_egg-logrotator@3.1.0@egg-logrotator\app\schedule\clean_log.js
+2019-08-04 18:31:09,872 INFO 17560 [egg-schedule]: register schedule C:\vipdata\vipproject\2019projects\9.egg\node_modules\_egg-logrotator@3.1.0@egg-logrotator\app\schedule\rotate_by_file.js
+2019-08-04 18:31:09,872 INFO 17560 [egg-schedule]: register schedule C:\vipdata\vipproject\2019projects\9.egg\app\schedule\updatecache.js
+2019-08-04 18:31:10,158 INFO 17560 [Timer] C:\vipdata\vipproject\2019projects\9.egg\node_modules\_egg-multipart@2.8.0@egg-multipart\app\schedule\clean_tmpdir.js next time will execute after 35929844ms at 2019-08-05 04:30:00.002
+2019-08-04 18:31:10,159 INFO 17560 [Timer] C:\vipdata\vipproject\2019projects\9.egg\node_modules\_egg-logrotator@3.1.0@egg-logrotator\app\schedule\clean_log.js next time will execute after 19729841ms at 2019-08-05 00:00:00.000
+2019-08-04 18:31:10,159 INFO 17560 [Timer] C:\vipdata\vipproject\2019projects\9.egg\node_modules\_egg-logrotator@3.1.0@egg-logrotator\app\schedule\rotate_by_file.js next time will execute after 19730841ms at 2019-08-05 00:00:01.000
+2019-08-04 18:31:10,159 INFO 17560 [Timer] C:\vipdata\vipproject\2019projects\9.egg\app\schedule\updatecache.js next time will execute after 300000ms at 2019-08-04 18:36:10.159

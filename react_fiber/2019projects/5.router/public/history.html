@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <button onclick="goto('/a')">/a</button>
+    <button onclick="goto('/b')">/b</button>
+    <div id="root"></div>
+<script>
+
+//给window增加一个事件监听，监听 popstate事件
+let root = document.getElementById('root');
+/* (function(history){
+    let oldPushState = history.pushState;
+    history.pushState = function(state,title,path){
+      oldPushState.call(history,state,title,path);
+      window.onpushstate&&window.onpushstate(state,title,path);
+    }
+})(window.history);
+ */
+/* window.onpopstate = window.onpushstate = function(event){
+  let pathname =  location.pathname;
+  if(pathname =='/a'){
+    root.innerHTML='<h1>a</h1>';
+  }else if(pathname =='/b'){
+    root.innerHTML='<h1>b</h1>';
+  }
+}
+function goto(path){
+  history.pushState({path},path,path);
+} */
+for(let i=0;i<100;i++){
+    history.pushState({page:1},'page1','/page1');
+}
+console.log(history.length)
+setTimeout(function(){
+  history.pushState({page:1},'page1','/page1');
+  console.log(history.length)
+},1000);
+setTimeout(function(){
+  history.pushState({page:2},'page2','/page2');
+  console.log(history.length)
+},2000);
+ setTimeout(function(){
+  history.pushState({page:3},'page3','/page3');
+  console.log(history.length)
+},3000);
+setTimeout(function(){
+    history.replaceState({page:4},'page4','/page4');
+    console.log(history.length)
+},4000);
+setTimeout(function(){
+  history.back();//最后的页面路径是 /page2
+  console.log(history.length)
+},5000);
+setTimeout(function(){
+  history.forward();//最后的页面路径是 /page4
+  console.log(history.length)
+},6000); 
+</script>   
+</body>
+</html>
