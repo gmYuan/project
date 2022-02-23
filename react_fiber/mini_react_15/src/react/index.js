@@ -3,6 +3,7 @@ import { TEXT, ELEMENT, CLASS_COMPONENT, FUNCTION_COMPONENT } from './constants'
 import { ReactElement } from './vdom';
 import { Component } from './component';
 import { onlyOne, flatten } from './utils';
+
 function createElement(type, config = {}, ...children) {
     delete config.__source;
     delete config.__self;
