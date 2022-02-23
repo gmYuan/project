@@ -1,9 +1,11 @@
 
 import { addEvent } from './event';
+
 //如果obj是数组，只取第一个元素,如果不是数组，就返回自己
 export function onlyOne(obj) {
     return Array.isArray(obj) ? obj[0] : obj;
 }
+
 /**
  * 给真实DOM节点赋属性
  */
@@ -32,6 +34,21 @@ function setProp(dom, key, value) {
     }
 }
 
+//展开一个数组，打平一个任意的多维数组.这样可以避免深克隆
+export function flatten(array) {
+    let flatted = [];
+    (function flat(array) {
+        array.forEach(item => {
+            if (Array.isArray(item)) {
+                flat(item);
+            } else {
+                flatted.push(item);
+            }
+        });
+    })(array);
+    return flatted;
+}
+
 
 //老有新没有=>删除    老新都有=>更新  老没有新的=>添加
 export function patchProps(dom, oldProps, newProps) {
@@ -49,20 +66,7 @@ export function patchProps(dom, oldProps, newProps) {
     }
 }
 
-//展开一个数组，打平一个任意的多维数组.这样可以避免深克隆
-export function flatten(array) {
-    let flatted = [];
-    (function flat(array) {
-        array.forEach(item => {
-            if (Array.isArray(item)) {
-                flat(item);
-            } else {
-                flatted.push(item);
-            }
-        });
-    })(array);
-    return flatted;
-}
+
 
 export function isFunction(obj) {
     return typeof obj === 'function'

@@ -27,12 +27,11 @@ function createElement(type, config = {}, ...children) {
     })
     return ReactElement($$typeof, type, key, ref, props);
 }
+
 function createRef() {
     return { current: null };
 }
-export {
-    Component
-}
+
 function createContext(defaultValue) {
     Provider.value = defaultValue;//context会赋一个初始值
     function Provider(props) {
@@ -44,6 +43,12 @@ function createContext(defaultValue) {
     }
     return { Provider, Consumer };
 }
+
+
+export {
+    Component
+}
+
 const React = {
     createElement,
     Component,

@@ -1,5 +1,37 @@
 import { isFunction } from './utils';
 import { compareTwoElements } from './vdom';
+
+class Component {
+    constructor(props) {
+        this.props = props;
+        this.$updater = new Updater(this);// this 就是类组件的实例
+        this.state = {};//当前状态
+        this.nextProps = null;//下一个属性对象
+    }
+    //批量更新 partial部分，因为状态可能会被合并
+    setState(partialState) {
+        this.$updater.addState(partialState);
+    }
+    forceUpdate() {//进行组件实际更新
+        //componentInstance.renderElement = renderElement;
+        let { props, state, renderElement: oldRenderElement } = this;
+        if (this.componentWillUpdate) {
+            this.componentWillUpdate();//组件将要更新
+        }
+        let { getSnapshotBeforeUpdate } = this;
+        let extraArgs = getSnapshotBeforeUpdate && getSnapshotBeforeUpdate();
+        let newRenderElement = this.render();//重新渲染获取新的React元素
+        let currentElement = compareTwoElements(oldRenderElement, newRenderElement);
+        this.renderElement = currentElement;
+        if (this.componentDidUpdate) {
+            this.componentDidUpdate(props,state,extraArgs);//组件更新完成
+        }
+    }
+}
+//类组件和函数组件编译之后都是函数，通过 此属性来区分到底是函数组件还是类组件
+Component.prototype.isReactComponent = {};
+
+
 //更新队列
 export let updateQueue = {
     updaters: [],//这里面放着将要执行的更新器对象
@@ -70,35 +102,8 @@ function shouldUpdate(componentInstance, nextProps, nextState) {//判断是否�
     }
     componentInstance.forceUpdate();//让组件强行更新
 }
-class Component {
-    constructor(props) {
-        this.props = props;
-        this.$updater = new Updater(this);// this 就是类组件的实例
-        this.state = {};//当前状态
-        this.nextProps = null;//下一个属性对象
-    }
-    //批量更新 partial部分，因为状态可能会被合并
-    setState(partialState) {
-        this.$updater.addState(partialState);
-    }
-    forceUpdate() {//进行组件实际更新
-        //componentInstance.renderElement = renderElement;
-        let { props, state, renderElement: oldRenderElement } = this;
-        if (this.componentWillUpdate) {
-            this.componentWillUpdate();//组件将要更新
-        }
-        let { getSnapshotBeforeUpdate } = this;
-        let extraArgs = getSnapshotBeforeUpdate && getSnapshotBeforeUpdate();
-        let newRenderElement = this.render();//重新渲染获取新的React元素
-        let currentElement = compareTwoElements(oldRenderElement, newRenderElement);
-        this.renderElement = currentElement;
-        if (this.componentDidUpdate) {
-            this.componentDidUpdate(props,state,extraArgs);//组件更新完成
-        }
-    }
-}
-//类组件和函数组件编译之后都是函数，通过 此属性来区分到底是函数组件还是类组件
-Component.prototype.isReactComponent = {};
+
+
 export {
     Component
 }

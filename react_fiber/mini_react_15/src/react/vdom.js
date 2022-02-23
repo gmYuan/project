@@ -63,23 +63,22 @@ function createDOMChildren(parentNode, element) {
     });
 }
 
-
-
-
 //创建函数组件对应的真实的DOM对象
 function createFunctionComponentDOM(element) {
-    let { type: FunctionCounter, props } = element;//type = FunctionCounter
-    let renderElement = FunctionCounter(props);//返回要渲染的react元素
+    let { type: FunctionCounter, props } = element;   //type = FunctionCounter
+    let renderElement = FunctionCounter(props);     //返回要渲染的react元素
     element.renderElement = renderElement;//需要缓存,方便下次对比
+
     let newDOM = createDOM(renderElement);
     //虚拟DOM的dom属性指向它创建出来的真实DOM
     renderElement.dom = newDOM;//我们从虚拟DOMReact元素创建出真实DOM，创建出来以后会把真实DOM添加到虚拟DOM的dom属性上
     return newDOM;
     //element.renderElement.dom=DIV真实DOM元素
 }
+
 function createClassComponentDOM(element) {
     let { type: ClassCounter, ref, props } = element;
-    let componentInstance = new ClassCounter(props);//创建一个ClassCounter组件的实例
+    let componentInstance = new ClassCounter(props);  //创建一个ClassCounter组件的实例
     if (ClassCounter.contextType) {
         componentInstance.context = ClassCounter.contextType.Provider.value;
     }
@@ -97,10 +96,12 @@ function createClassComponentDOM(element) {
     }
     //当创建类组件实例 后，会在类组件的虚拟DOM对象上添一个属性componentInstance,指向类组件实例 
     element.componentInstance = componentInstance;//以后组件运行当中componentInstance是不变的
+  
     let renderElement = componentInstance.render();
     //在类组件实例上添加renderElement,指向上一次要渲染的虚拟DOM节点
     //因为后面组件更新的，我们会重新render,然后跟上一次的renderElement进行dom diff
     componentInstance.renderElement = renderElement;
+    
     let newDOM = createDOM(renderElement);
     renderElement.dom = newDOM;
     if (componentInstance.componentDidMount) {
@@ -109,7 +110,6 @@ function createClassComponentDOM(element) {
     // element.componentInstance.renderElement.dom=DIV真实DOM元素
     return newDOM;
 }
-
 
 
 
