@@ -32,24 +32,6 @@ class Component {
 Component.prototype.isReactComponent = {};
 
 
-//更新队列
-export let updateQueue = {
-    updaters: [],//这里面放着将要执行的更新器对象
-    isPending: false,//是否批量更新模式 如果isPending=true 则处于批量更新模式
-    add(updater) {//放进去之后就完事。不进行真正的更新，什么时候真正更新
-        this.updaters.push(updater);
-    },
-    //需要有人调用batchUpdate方法才会真正更新
-    batchUpdate() {//强行全部更新 执行执行真正的更新
-        let { updaters } = this;
-        this.isPending = true;//进入批量更新模式
-        let updater;
-        while (updater = updaters.pop()) {
-            updater.updateComponent();//更新所有脏 dirty 组件
-        }
-        this.isPending = false;//改为非批量更新
-    }
-}
 class Updater {
     constructor(componentInstance) {
         this.componentInstance = componentInstance;//一个Updater和一个类组件实例是一对1的关系
@@ -57,10 +39,10 @@ class Updater {
         this.nextProps = null;//新的属性对象
     }
     addState(partialState) {
-        this.pendingStates.push(partialState);//先把新状态放入数组中
-        this.emitUpdate();// 开始试图更新
+        this.pendingStates.push(partialState);  //先把新状态放入数组中
+        this.emitUpdate();  // 开始试图更新
     }
-    emitUpdate(nextProps) {//可能会传一个新的属性对象过来
+    emitUpdate(nextProps) {  //可能会传一个新的属性对象过来
         this.nextProps = nextProps;
         //如果传递了新的属性对象或者当前非批量更新模式的话就直接更新，否则先不更新
         //如果有新属性对象或者要立即更新的话
@@ -92,6 +74,28 @@ class Updater {
         return state;
     }
 }
+
+
+//更新队列
+export let updateQueue = {
+    updaters: [],  //这里面放着将要执行的更新器对象
+    isPending: false,  //是否批量更新模式 如果isPending=true 则处于批量更新模式
+    add(updater) {  //放进去之后就完事。不进行真正的更新，什么时候真正更新
+        this.updaters.push(updater);
+    },
+    //需要有人调用batchUpdate方法才会真正更新
+    batchUpdate() {//强行全部更新 执行执行真正的更新
+        let { updaters } = this;
+        this.isPending = true;//进入批量更新模式
+        let updater;
+        while (updater = updaters.pop()) {
+            updater.updateComponent();//更新所有脏 dirty 组件
+        }
+        this.isPending = false;//改为非批量更新
+    }
+}
+
+
 function shouldUpdate(componentInstance, nextProps, nextState) {//判断是否要更新
     let scu = componentInstance.shouldComponentUpdate &&
         !componentInstance.shouldComponentUpdate(nextProps, nextState);

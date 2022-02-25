@@ -79,6 +79,7 @@ function createFunctionComponentDOM(element) {
 function createClassComponentDOM(element) {
     let { type: ClassCounter, ref, props } = element;
     let componentInstance = new ClassCounter(props);  //创建一个ClassCounter组件的实例
+
     if (ClassCounter.contextType) {
         componentInstance.context = ClassCounter.contextType.Provider.value;
     }
@@ -107,6 +108,7 @@ function createClassComponentDOM(element) {
     if (componentInstance.componentDidMount) {
         unstable_batchedUpdates(componentInstance.componentDidMount.bind(componentInstance));
     }
+    
     // element.componentInstance.renderElement.dom=DIV真实DOM元素
     return newDOM;
 }
