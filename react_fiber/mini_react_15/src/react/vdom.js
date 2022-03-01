@@ -137,7 +137,7 @@ function updateElement(oldElement, newElement) {
     let currentDOM = oldElement.dom;//获取老的页面上真实存在的那个DOM节点
     newElement.dom = oldElement.dom;//DOM要实现复用,就是为了复用老的DOM节点
     if (oldElement.$$typeof === TEXT && newElement.$$typeof === TEXT) {
-        if (oldElement.content !== newElement.content)//如果说老的文本内容 和新的文本内容不一样的话
+        if (oldElement.content !== newElement.content)  //如果说老的文本内容 和新的文本内容不一样的话
             currentDOM.textContent = newElement.content;
     } else if (oldElement.$$typeof === ELEMENT) {//如果是元素类型 span div p
         // 先更新父节点的属性，再比较更新子节点
@@ -162,52 +162,51 @@ function updateChildrenElements(dom, oldChildrenElements, newChildrenElements) {
         diffQueue.length = 0;
     }
 }
-function patch(diffQueue) {
-    //第1步要把该删除的全部删除 MOVE REMOVE
-    let deleteMap = {};
-    let deleteChildren = [];
-    for (let i = 0; i < diffQueue.length; i++) {
-        let difference = diffQueue[i];
-        let { type, fromIndex, toIndex } = difference;
-        if (type === MOVE || type === REMOVE) {
-            let oldChildDOM = difference.parentNode.children[fromIndex];//先获取老的DOM节点
-            deleteMap[fromIndex] = oldChildDOM;//为了方便后面复用，放到map里
-            deleteChildren.push(oldChildDOM);
+
+function updateClassComponent(oldElement, newElement) {
+    //类组件的实例永远只有一个componentInstance
+    let componentInstance = newElement.componentInstance = oldElement.componentInstance;//获取老的类组件实例 
+    let updater = componentInstance.$updater;
+    let nextProps = newElement.props;//新的属性对象
+    if (oldElement.type.contextType) {
+        componentInstance.context = oldElement.type.contextType.Provider.value;
+    }
+    if (componentInstance.componentWillReceiveProps) {
+        componentInstance.componentWillReceiveProps(nextProps);
+    }
+    if (newElement.type.getDerivedStateFromProps) {
+        let newState = newElement.type.getDerivedStateFromProps(nextProps, componentInstance.state);
+        if (newState) {
+            componentInstance.state = { ...componentInstance.state, ...newState };
         }
     }
-    //把移动的和REMOVE全部删除 B D
-    deleteChildren.forEach(childDOM => {
-        childDOM.parentNode.removeChild(childDOM);
-    });
-    for (let i = 0; i < diffQueue.length; i++) {
-        let { type, fromIndex, toIndex, parentNode, dom } = diffQueue[i];
-        switch (type) {
-            case INSERT:
-                insertChildAt(parentNode, dom, toIndex);
-                break;
-            case MOVE:
-                insertChildAt(parentNode, deleteMap[fromIndex], toIndex);
-                break;
-            default:
-                break;
-        }
-    }
+    updater.emitUpdate(nextProps);
 }
-//要向index这个索引位置插入
-function insertChildAt(parentNode, newChildDOM, index) {
-    let oldChild = parentNode.children[index];//先取出这个索引位置的老的DOM节点
-    oldChild ? parentNode.insertBefore(newChildDOM, oldChild) : parentNode.appendChild(newChildDOM);
+
+//如果是要更新一个函数组件 1.拿 到老元素 2.重新执行函数组件拿 到新的元素 进行对比
+function updateFunctionComponent(oldElement, newElement) {
+    let oldRenderElement = oldElement.renderElement;//获取老的渲染出来的元素
+    let newRenderElement = newElement.type(newElement.props);// newElement.type=FunctionCounter
+    let currentElement = compareTwoElements(oldRenderElement, newRenderElement);
+    newElement.renderElement = currentElement;
 }
+
+function updateDOMProperties(dom, oldProps, newProps) {
+    patchProps(dom, oldProps, newProps);
+}
+
+
 /**
  * 先更新和移动的都是子节点
  * 
  * 1. 先更新父节点还是先更新子节点? 先更新的是父节点
  * 2. 先移动父节点还是先移动子节点？ 先移动的是子节点
  */
-function diff(parentNode, oldChildrenElements, newChildrenElements) {
+ function diff(parentNode, oldChildrenElements, newChildrenElements) {
     //oldChildrenElementsMap={G,A} newChildrenElementsMap={A,G}
     let oldChildrenElementsMap = getChildrenElementsMap(oldChildrenElements);//{A,B,C,D}
     let newChildrenElementsMap = getNewChildrenElementsMap(oldChildrenElementsMap, newChildrenElements);
+   
     let lastIndex = 0;
     //比较是深度优先的，所以先放子节的补丁，再放父节点的补丁
     for (let i = 0; i < newChildrenElements.length; i++) {
@@ -252,6 +251,16 @@ function diff(parentNode, oldChildrenElements, newChildrenElements) {
         }
     }
 }
+
+function getChildrenElementsMap(oldChildrenElements) {
+    let oldChildrenElementsMap = {};
+    for (let i = 0; i < oldChildrenElements.length; i++) {
+        let oldKey = oldChildrenElements[i].key || i.toString();
+        oldChildrenElementsMap[oldKey] = oldChildrenElements[i];
+    }
+    return oldChildrenElementsMap;
+}
+
 function getNewChildrenElementsMap(oldChildrenElementsMap, newChildrenElements) {
     let newChildrenElementsMap = {};
     for (let i = 0; i < newChildrenElements.length; i++) {
@@ -279,40 +288,42 @@ function canDeepCompare(oldChildElement, newChildElement) {
     }
     return false;
 }
-function getChildrenElementsMap(oldChildrenElements) {
-    let oldChildrenElementsMap = {};
-    for (let i = 0; i < oldChildrenElements.length; i++) {
-        let oldKey = oldChildrenElements[i].key || i.toString();
-        oldChildrenElementsMap[oldKey] = oldChildrenElements[i];
-    }
-    return oldChildrenElementsMap;
-}
-function updateClassComponent(oldElement, newElement) {
-    //类组件的实例永远只有一个componentInstance
-    let componentInstance = newElement.componentInstance = oldElement.componentInstance;//获取老的类组件实例 
-    let updater = componentInstance.$updater;
-    let nextProps = newElement.props;//新的属性对象
-    if (oldElement.type.contextType) {
-        componentInstance.context = oldElement.type.contextType.Provider.value;
-    }
-    if (componentInstance.componentWillReceiveProps) {
-        componentInstance.componentWillReceiveProps(nextProps);
-    }
-    if (newElement.type.getDerivedStateFromProps) {
-        let newState = newElement.type.getDerivedStateFromProps(nextProps, componentInstance.state);
-        if (newState) {
-            componentInstance.state = { ...componentInstance.state, ...newState };
+
+
+function patch(diffQueue) {
+    //第1步要把该删除的全部删除 MOVE REMOVE
+    let deleteMap = {};
+    let deleteChildren = [];
+    for (let i = 0; i < diffQueue.length; i++) {
+        let difference = diffQueue[i];
+        let { type, fromIndex, toIndex } = difference;
+        if (type === MOVE || type === REMOVE) {
+            let oldChildDOM = difference.parentNode.children[fromIndex];//先获取老的DOM节点
+            deleteMap[fromIndex] = oldChildDOM;//为了方便后面复用，放到map里
+            deleteChildren.push(oldChildDOM);
         }
     }
-    updater.emitUpdate(nextProps);
+    //把移动的和REMOVE全部删除 B D
+    deleteChildren.forEach(childDOM => {
+        childDOM.parentNode.removeChild(childDOM);
+    });
+    for (let i = 0; i < diffQueue.length; i++) {
+        let { type, fromIndex, toIndex, parentNode, dom } = diffQueue[i];
+        switch (type) {
+            case INSERT:
+                insertChildAt(parentNode, dom, toIndex);
+                break;
+            case MOVE:
+                insertChildAt(parentNode, deleteMap[fromIndex], toIndex);
+                break;
+            default:
+                break;
+        }
+    }
 }
-//如果是要更新一个函数组件 1.拿 到老元素 2.重新执行函数组件拿 到新的元素 进行对比
-function updateFunctionComponent(oldElement, newElement) {
-    let oldRenderElement = oldElement.renderElement;//获取老的渲染出来的元素
-    let newRenderElement = newElement.type(newElement.props);// newElement.type=FunctionCounter
-    let currentElement = compareTwoElements(oldRenderElement, newRenderElement);
-    newElement.renderElement = currentElement;
+//要向index这个索引位置插入
+function insertChildAt(parentNode, newChildDOM, index) {
+    let oldChild = parentNode.children[index];//先取出这个索引位置的老的DOM节点
+    oldChild ? parentNode.insertBefore(newChildDOM, oldChild) : parentNode.appendChild(newChildDOM);
 }
-function updateDOMProperties(dom, oldProps, newProps) {
-    patchProps(dom, oldProps, newProps);
-}
+
