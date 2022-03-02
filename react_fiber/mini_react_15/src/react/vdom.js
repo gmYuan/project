@@ -321,6 +321,7 @@ function patch(diffQueue) {
         }
     }
 }
+
 //要向index这个索引位置插入
 function insertChildAt(parentNode, newChildDOM, index) {
     let oldChild = parentNode.children[index];//先取出这个索引位置的老的DOM节点
