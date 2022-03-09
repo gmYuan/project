@@ -9,8 +9,8 @@ import { UpdateQueue, Update } from "./UpdateQueue";
  * 
  * commit阶段：进行 DOM更新/创建阶段，此阶段不能暂停，要一气呵成
  * 
- * render阶段成果是effect list知道哪些节点更新哪些节点删除了，哪些节点增加了
- * render阶段有两个任务1.根据虚拟DOM生成fiber树 2.收集effectlist
+ * render阶段：成果是effect list知道哪些节点更新哪些节点删除了，哪些节点增加了
+ * render阶段有两个任务： 1.根据虚拟DOM生成fiber树   2.收集effectlist
  */
 
 let nextUnitOfWork = null;      //下一个工作单元
@@ -77,6 +77,57 @@ function performUnitOfWork(currentFiber) {
         currentFiber = currentFiber.return;//找父亲然后让父亲完成
     }
 }
+
+
+/**
+ * beginWork开始收下线的钱
+ * completeUnitOfWork把下线的钱收完了
+ * 1.创建真实DOM元素
+ * 2.创建子fiber  
+ */
+function beginWork(currentFiber) {
+    if (currentFiber.tag === TAG_ROOT) {//根fiber
+        updateHostRoot(currentFiber);
+    } else if (currentFiber.tag === TAG_TEXT) {//文本fiber
+        updateHostText(currentFiber);
+    } else if (currentFiber.tag === TAG_HOST) {//原生DOM节点 stateNode dom
+        updateHost(currentFiber);
+    } else if (currentFiber.tag === TAG_CLASS) {//类组件
+        updateClassComponent(currentFiber);
+    } else if (currentFiber.tag === TAG_FUNCTION_COMPONENT) {//类组件
+        updateFunctionComponent(currentFiber);
+    }
+}
+
+
+function updateFunctionComponent(currentFiber) {
+    workInProgressFiber = currentFiber;
+    hookIndex = 0;
+    workInProgressFiber.hooks = [];
+    const newChildren = [currentFiber.type(currentFiber.props)];
+    reconcileChildren(currentFiber, newChildren);
+}
+function updateClassComponent(currentFiber) {
+    if (!currentFiber.stateNode) {//类组件 stateNode 组件的实例
+        // new ClassCounter(); 类组件实例   fiber双向指向 
+        currentFiber.stateNode = new currentFiber.type(currentFiber.props);
+        currentFiber.stateNode.internalFiber = currentFiber;
+        currentFiber.updateQueue = new UpdateQueue();
+    }
+    //给组件的实例的state 赋值
+    currentFiber.stateNode.state = currentFiber.updateQueue.forceUpdate(currentFiber.stateNode.state);
+    let newElement = currentFiber.stateNode.render();
+    const newChildren = [newElement];
+    reconcileChildren(currentFiber, newChildren);
+}
+function updateHost(currentFiber) {
+    if (!currentFiber.stateNode) {//如果此fiber没有创建DOM节点
+        currentFiber.stateNode = createDOM(currentFiber);
+    }
+    const newChildren = currentFiber.props.children;
+    reconcileChildren(currentFiber, newChildren);
+}
+
 //在完成的时候要收集有副作用的fiber，然后组成effect list
 //每个fiber有两个属性 firstEffect指向第一个有副作用的子fiber lastEffect 指儿 最后一个有副作用子Fiber
 //中间的用nextEffect做成一个单链表 firstEffect=大儿子.nextEffect二儿子.nextEffect三儿子 lastEffect
@@ -105,52 +156,9 @@ function completeUnitOfWork(currentFiber) {//第一个完成的A1(TEXT)
         }
     }
 }
-/**
- * beginWork开始收下线的钱
- * completeUnitOfWork把下线的钱收完了
- * 1.创建真实DOM元素
- * 2.创建子fiber  
- */
-function beginWork(currentFiber) {
-    if (currentFiber.tag === TAG_ROOT) {//根fiber
-        updateHostRoot(currentFiber);
-    } else if (currentFiber.tag === TAG_TEXT) {//文本fiber
-        updateHostText(currentFiber);
-    } else if (currentFiber.tag === TAG_HOST) {//原生DOM节点 stateNode dom
-        updateHost(currentFiber);
-    } else if (currentFiber.tag === TAG_CLASS) {//类组件
-        updateClassComponent(currentFiber);
-    } else if (currentFiber.tag === TAG_FUNCTION_COMPONENT) {//类组件
-        updateFunctionComponent(currentFiber);
-    }
-}
-function updateFunctionComponent(currentFiber) {
-    workInProgressFiber = currentFiber;
-    hookIndex = 0;
-    workInProgressFiber.hooks = [];
-    const newChildren = [currentFiber.type(currentFiber.props)];
-    reconcileChildren(currentFiber, newChildren);
-}
-function updateClassComponent(currentFiber) {
-    if (!currentFiber.stateNode) {//类组件 stateNode 组件的实例
-        // new ClassCounter(); 类组件实例   fiber双向指向 
-        currentFiber.stateNode = new currentFiber.type(currentFiber.props);
-        currentFiber.stateNode.internalFiber = currentFiber;
-        currentFiber.updateQueue = new UpdateQueue();
-    }
-    //给组件的实例的state 赋值
-    currentFiber.stateNode.state = currentFiber.updateQueue.forceUpdate(currentFiber.stateNode.state);
-    let newElement = currentFiber.stateNode.render();
-    const newChildren = [newElement];
-    reconcileChildren(currentFiber, newChildren);
-}
-function updateHost(currentFiber) {
-    if (!currentFiber.stateNode) {//如果此fiber没有创建DOM节点
-        currentFiber.stateNode = createDOM(currentFiber);
-    }
-    const newChildren = currentFiber.props.children;
-    reconcileChildren(currentFiber, newChildren);
-}
+
+
+
 function createDOM(currentFiber) {
     if (currentFiber.tag === TAG_TEXT) {
         return document.createTextNode(currentFiber.props.text);
@@ -304,6 +312,9 @@ function commitDeletion(currentFiber, domReturn) {
         commitDeletion(currentFiber.child, domReturn)
     }
 }
+
+
+
 /**
     workInProgressFiber = currentFiber;
     hookIndex = 0;
