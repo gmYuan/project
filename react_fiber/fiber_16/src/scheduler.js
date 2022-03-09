@@ -78,7 +78,6 @@ function performUnitOfWork(currentFiber) {
     }
 }
 
-
 /**
  * beginWork开始收下线的钱
  * completeUnitOfWork把下线的钱收完了
@@ -97,6 +96,93 @@ function beginWork(currentFiber) {
     } else if (currentFiber.tag === TAG_FUNCTION_COMPONENT) {//类组件
         updateFunctionComponent(currentFiber);
     }
+}
+
+function updateHostRoot(currentFiber) {
+    //1. 先处理自己 如果是一个原生节点，创建真实DOM    2.创建子fiber 
+    let newChildren = currentFiber.props.children;  //[ element=<div id="A1" ]
+    reconcileChildren(currentFiber, newChildren);
+}
+
+//newChildren是一个虚拟DOM的数组 把虚拟DOM转成Fiber节点
+function reconcileChildren(currentFiber, newChildren) {//[A1]
+    let newChildIndex = 0;//新子节点的索引
+    //如果说currentFiber有alternate并且alternate有child属性
+    let oldFiber = currentFiber.alternate && currentFiber.alternate.child;
+    if (oldFiber) oldFiber.firstEffect = oldFiber.lastEffect = oldFiber.nextEffect = null;
+    let prevSibling;//上一个新的子fiber
+    
+    //遍历我们的子虚拟DOM元素数组，为每个虚拟DOM元素创建子Fiber
+    while (newChildIndex < newChildren.length || oldFiber) {
+        let newChild = newChildren[newChildIndex];//取出虚拟DOM节点[A1]{type:'A1'}
+        let newFiber;//新的Fiber
+        const sameType = oldFiber && newChild && oldFiber.type === newChild.type;
+        let tag;
+        if (newChild && typeof newChild.type === 'function' && newChild.type.prototype.isReactComponent) {
+            tag = TAG_CLASS;//
+        } else if (newChild && typeof newChild.type === 'function') {
+            tag = TAG_FUNCTION_COMPONENT;//这是一个文本节点
+        } else if (newChild && newChild.type == ELEMENT_TEXT) {
+            tag = TAG_TEXT;//这是一个文本节点
+        } else if (newChild && typeof newChild.type === 'string') {
+            tag = TAG_HOST;//如果是type是字符串，那么这是一个原生DOM节点 "A1" div
+        }//beginWork创建fiber 在completeUnitOfWork的时候收集effect
+        if (sameType) {//说明老fiber和新虚拟DOM类型一样，可以复用老的DOM节点，更新即可
+            if (oldFiber.alternate) {//说明至少已经更新一次了
+                newFiber = oldFiber.alternate;//如果有上上次的fiber,就拿 过来作为这一次的fiber
+                newFiber.props = newChild.props;
+                newFiber.alternate = oldFiber;
+                newFiber.effectTag = UPDATE;
+                newFiber.updateQueue = oldFiber.updateQueue || new UpdateQueue();
+                newFiber.nextEffect = null;
+            } else {
+                newFiber = {
+                    tag: oldFiber.tag,//TAG_HOST
+                    type: oldFiber.type,//div
+                    props: newChild.props,//{id="A1" style={style}} 一定要用新的元素的props
+                    stateNode: oldFiber.stateNode,//div还没有创建DOM元素
+                    return: currentFiber,//父Fiber returnFiber
+                    updateQueue: oldFiber.updateQueue || new UpdateQueue(),
+                    alternate: oldFiber,//让新的fiber的alternate指向老的fiber节点
+                    effectTag: UPDATE,//副作用标识 render我们要会收集副作用 增加 删除 更新
+                    nextEffect: null,//effect list 也是一个单链表
+                }
+            }
+        } else {
+            if (newChild) {//看看新的虚拟DOM是不是为null
+                newFiber = {
+                    tag,//TAG_HOST
+                    type: newChild.type,//div
+                    props: newChild.props,//{id="A1" style={style}}
+                    stateNode: null,//div还没有创建DOM元素
+                    return: currentFiber,//父Fiber returnFiber
+                    effectTag: PLACEMENT,//副作用标识 render我们要会收集副作用 增加 删除 更新
+                    updateQueue: new UpdateQueue(),
+                    nextEffect: null,//effect list 也是一个单链表
+                    //effect list顺序和 完成顺序是一样的，但是节点只放那些出钱的人的fiber节点，不出钱绕过去
+                }
+            }
+            if (oldFiber) {
+                oldFiber.effectTag = DELETION;
+                deletions.push(oldFiber);
+            }
+
+        }
+        if (oldFiber) {
+            oldFiber = oldFiber.sibling;//oldFiber指针往后移动一次
+        }
+        //最小的儿子是没有弟弟的
+        if (newFiber) {
+            if (newChildIndex == 0) {//如果当前索引为0，说明这是太子
+                currentFiber.child = newFiber;
+            } else {
+                prevSibling.sibling = newFiber;//让太子的sibling弟弟指向二皇子
+            }
+            prevSibling = newFiber;
+        }
+        newChildIndex++;
+    }
+
 }
 
 
@@ -177,90 +263,7 @@ function updateHostText(currentFiber) {
         currentFiber.stateNode = createDOM(currentFiber);
     }
 }
-function updateHostRoot(currentFiber) {
-    //先处理自己 如果是一个原生节点，创建真实DOM 2.创建子fiber 
-    let newChildren = currentFiber.props.children;//[element=<div id="A1"]
-    reconcileChildren(currentFiber, newChildren);
-}
-//newChildren是一个虚拟DOM的数组 把虚拟DOM转成Fiber节点
-function reconcileChildren(currentFiber, newChildren) {//[A1]
-    let newChildIndex = 0;//新子节点的索引
-    //如果说currentFiber有alternate并且alternate有child属性
-    let oldFiber = currentFiber.alternate && currentFiber.alternate.child;
-    if (oldFiber) oldFiber.firstEffect = oldFiber.lastEffect = oldFiber.nextEffect = null;
-    let prevSibling;//上一个新的子fiber
-    //遍历我们的子虚拟DOM元素数组，为每个虚拟DOM元素创建子Fiber
-    while (newChildIndex < newChildren.length || oldFiber) {
-        let newChild = newChildren[newChildIndex];//取出虚拟DOM节点[A1]{type:'A1'}
-        let newFiber;//新的Fiber
-        const sameType = oldFiber && newChild && oldFiber.type === newChild.type;
-        let tag;
-        if (newChild && typeof newChild.type === 'function' && newChild.type.prototype.isReactComponent) {
-            tag = TAG_CLASS;//
-        } else if (newChild && typeof newChild.type === 'function') {
-            tag = TAG_FUNCTION_COMPONENT;//这是一个文本节点
-        } else if (newChild && newChild.type == ELEMENT_TEXT) {
-            tag = TAG_TEXT;//这是一个文本节点
-        } else if (newChild && typeof newChild.type === 'string') {
-            tag = TAG_HOST;//如果是type是字符串，那么这是一个原生DOM节点 "A1" div
-        }//beginWork创建fiber 在completeUnitOfWork的时候收集effect
-        if (sameType) {//说明老fiber和新虚拟DOM类型一样，可以复用老的DOM节点，更新即可
-            if (oldFiber.alternate) {//说明至少已经更新一次了
-                newFiber = oldFiber.alternate;//如果有上上次的fiber,就拿 过来作为这一次的fiber
-                newFiber.props = newChild.props;
-                newFiber.alternate = oldFiber;
-                newFiber.effectTag = UPDATE;
-                newFiber.updateQueue = oldFiber.updateQueue || new UpdateQueue();
-                newFiber.nextEffect = null;
-            } else {
-                newFiber = {
-                    tag: oldFiber.tag,//TAG_HOST
-                    type: oldFiber.type,//div
-                    props: newChild.props,//{id="A1" style={style}} 一定要用新的元素的props
-                    stateNode: oldFiber.stateNode,//div还没有创建DOM元素
-                    return: currentFiber,//父Fiber returnFiber
-                    updateQueue: oldFiber.updateQueue || new UpdateQueue(),
-                    alternate: oldFiber,//让新的fiber的alternate指向老的fiber节点
-                    effectTag: UPDATE,//副作用标识 render我们要会收集副作用 增加 删除 更新
-                    nextEffect: null,//effect list 也是一个单链表
-                }
-            }
-        } else {
-            if (newChild) {//看看新的虚拟DOM是不是为null
-                newFiber = {
-                    tag,//TAG_HOST
-                    type: newChild.type,//div
-                    props: newChild.props,//{id="A1" style={style}}
-                    stateNode: null,//div还没有创建DOM元素
-                    return: currentFiber,//父Fiber returnFiber
-                    effectTag: PLACEMENT,//副作用标识 render我们要会收集副作用 增加 删除 更新
-                    updateQueue: new UpdateQueue(),
-                    nextEffect: null,//effect list 也是一个单链表
-                    //effect list顺序和 完成顺序是一样的，但是节点只放那些出钱的人的fiber节点，不出钱绕过去
-                }
-            }
-            if (oldFiber) {
-                oldFiber.effectTag = DELETION;
-                deletions.push(oldFiber);
-            }
 
-        }
-        if (oldFiber) {
-            oldFiber = oldFiber.sibling;//oldFiber指针往后移动一次
-        }
-        //最小的儿子是没有弟弟的
-        if (newFiber) {
-            if (newChildIndex == 0) {//如果当前索引为0，说明这是太子
-                currentFiber.child = newFiber;
-            } else {
-                prevSibling.sibling = newFiber;//让太子的sibling弟弟指向二皇子
-            }
-            prevSibling = newFiber;
-        }
-        newChildIndex++;
-    }
-
-}
 
 function commitRoot() {
     deletions.forEach(commitWork);//执行effect list之前先把该删除的元素删除
