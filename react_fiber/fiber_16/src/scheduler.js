@@ -173,6 +173,7 @@ function reconcileChildren(currentFiber, newChildren) {//[A1]
         if (oldFiber) {
             oldFiber = oldFiber.sibling;//oldFiber指针往后移动一次
         }
+        
         //最小的儿子是没有弟弟的
         if (newFiber) {
             if (newChildIndex == 0) {//如果当前索引为0，说明这是太子
@@ -186,6 +187,30 @@ function reconcileChildren(currentFiber, newChildren) {//[A1]
     }
 
 }
+
+function updateHostText(currentFiber) {
+    if (!currentFiber.stateNode) {//如果此fiber没有创建DOM节点
+        currentFiber.stateNode = createDOM(currentFiber);
+    }
+}
+
+function createDOM(currentFiber) {
+    if (currentFiber.tag === TAG_TEXT) {
+        return document.createTextNode(currentFiber.props.text);
+    } else if (currentFiber.tag === TAG_HOST) {// span div
+        let stateNode = document.createElement(currentFiber.type);//div
+        updateDOM(stateNode, {}, currentFiber.props);
+        return stateNode;
+    }
+}
+
+function updateDOM(stateNode, oldProps, newProps) {
+    if (stateNode && stateNode.setAttribute) {
+        setProps(stateNode, oldProps, newProps);
+    }
+}
+
+
 
 
 function updateFunctionComponent(currentFiber) {
@@ -247,24 +272,8 @@ function completeUnitOfWork(currentFiber) {//第一个完成的A1(TEXT)
 
 
 
-function createDOM(currentFiber) {
-    if (currentFiber.tag === TAG_TEXT) {
-        return document.createTextNode(currentFiber.props.text);
-    } else if (currentFiber.tag === TAG_HOST) {// span div
-        let stateNode = document.createElement(currentFiber.type);//div
-        updateDOM(stateNode, {}, currentFiber.props);
-        return stateNode;
-    }
-}
-function updateDOM(stateNode, oldProps, newProps) {
-    if (stateNode && stateNode.setAttribute)
-        setProps(stateNode, oldProps, newProps);
-}
-function updateHostText(currentFiber) {
-    if (!currentFiber.stateNode) {//如果此fiber没有创建DOM节点
-        currentFiber.stateNode = createDOM(currentFiber);
-    }
-}
+
+
 
 
 function commitRoot() {

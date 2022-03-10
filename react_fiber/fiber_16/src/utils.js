@@ -17,6 +17,7 @@ export function setProps(dom, oldProps, newProps) {
         }
     }
 }
+
 function setProp(dom, key, value) {
     if (/^on/.test(key)) {//onClick
         dom[key.toLowerCase()] = value;//没有用合成事件
