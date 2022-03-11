@@ -81,6 +81,7 @@ function performUnitOfWork(currentFiber) {
 /**
  * beginWork开始收下线的钱
  * completeUnitOfWork把下线的钱收完了
+ * 
  * 1.创建真实DOM元素
  * 2.创建子fiber  
  */
@@ -101,6 +102,42 @@ function beginWork(currentFiber) {
 function updateHostRoot(currentFiber) {
     //1. 先处理自己 如果是一个原生节点，创建真实DOM    2.创建子fiber 
     let newChildren = currentFiber.props.children;  //[ element=<div id="A1" ]
+    reconcileChildren(currentFiber, newChildren);
+}
+
+function updateHostText(currentFiber) {
+    if (!currentFiber.stateNode) {//如果此fiber没有创建DOM节点
+        currentFiber.stateNode = createDOM(currentFiber);
+    }
+}
+
+function updateHost(currentFiber) {
+    if (!currentFiber.stateNode) {//如果此fiber没有创建DOM节点
+        currentFiber.stateNode = createDOM(currentFiber);
+    }
+    const newChildren = currentFiber.props.children;
+    reconcileChildren(currentFiber, newChildren);
+}
+
+function updateFunctionComponent(currentFiber) {
+    workInProgressFiber = currentFiber;
+    hookIndex = 0;
+    workInProgressFiber.hooks = [];
+    const newChildren = [currentFiber.type(currentFiber.props)];
+    reconcileChildren(currentFiber, newChildren);
+}
+
+function updateClassComponent(currentFiber) {
+    if (!currentFiber.stateNode) {//类组件 stateNode 组件的实例
+        // new ClassCounter(); 类组件实例   fiber双向指向 
+        currentFiber.stateNode = new currentFiber.type(currentFiber.props);
+        currentFiber.stateNode.internalFiber = currentFiber;
+        currentFiber.updateQueue = new UpdateQueue();
+    }
+    //给组件的实例的state 赋值
+    currentFiber.stateNode.state = currentFiber.updateQueue.forceUpdate(currentFiber.stateNode.state);
+    let newElement = currentFiber.stateNode.render();
+    const newChildren = [newElement];
     reconcileChildren(currentFiber, newChildren);
 }
 
@@ -185,13 +222,6 @@ function reconcileChildren(currentFiber, newChildren) {//[A1]
         }
         newChildIndex++;
     }
-
-}
-
-function updateHostText(currentFiber) {
-    if (!currentFiber.stateNode) {//如果此fiber没有创建DOM节点
-        currentFiber.stateNode = createDOM(currentFiber);
-    }
 }
 
 function createDOM(currentFiber) {
@@ -208,37 +238,6 @@ function updateDOM(stateNode, oldProps, newProps) {
     if (stateNode && stateNode.setAttribute) {
         setProps(stateNode, oldProps, newProps);
     }
-}
-
-
-
-
-function updateFunctionComponent(currentFiber) {
-    workInProgressFiber = currentFiber;
-    hookIndex = 0;
-    workInProgressFiber.hooks = [];
-    const newChildren = [currentFiber.type(currentFiber.props)];
-    reconcileChildren(currentFiber, newChildren);
-}
-function updateClassComponent(currentFiber) {
-    if (!currentFiber.stateNode) {//类组件 stateNode 组件的实例
-        // new ClassCounter(); 类组件实例   fiber双向指向 
-        currentFiber.stateNode = new currentFiber.type(currentFiber.props);
-        currentFiber.stateNode.internalFiber = currentFiber;
-        currentFiber.updateQueue = new UpdateQueue();
-    }
-    //给组件的实例的state 赋值
-    currentFiber.stateNode.state = currentFiber.updateQueue.forceUpdate(currentFiber.stateNode.state);
-    let newElement = currentFiber.stateNode.render();
-    const newChildren = [newElement];
-    reconcileChildren(currentFiber, newChildren);
-}
-function updateHost(currentFiber) {
-    if (!currentFiber.stateNode) {//如果此fiber没有创建DOM节点
-        currentFiber.stateNode = createDOM(currentFiber);
-    }
-    const newChildren = currentFiber.props.children;
-    reconcileChildren(currentFiber, newChildren);
 }
 
 //在完成的时候要收集有副作用的fiber，然后组成effect list
