@@ -246,7 +246,7 @@ function updateDOM(stateNode, oldProps, newProps) {
 function completeUnitOfWork(currentFiber) {//第一个完成的A1(TEXT)
     let returnFiber = currentFiber.return;//A1
     if (returnFiber) {
-        ////这一段是把自己儿子的effect 链挂到父亲身上
+        //这一段是把自己儿子的effect 链挂到父亲身上
         if (!returnFiber.firstEffect) {
             returnFiber.firstEffect = currentFiber.firstEffect;
         }
