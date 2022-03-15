@@ -269,12 +269,6 @@ function completeUnitOfWork(currentFiber) {//第一个完成的A1(TEXT)
     }
 }
 
-
-
-
-
-
-
 function commitRoot() {
     deletions.forEach(commitWork);//执行effect list之前先把该删除的元素删除
     let currentFiber = workInProgressRoot.firstEffect;
@@ -286,6 +280,7 @@ function commitRoot() {
     currentRoot = workInProgressRoot;//把当前渲染成功的根fiber 赋给currentRoot
     workInProgressRoot = null;
 }
+
 function commitWork(currentFiber) {
     if (!currentFiber) return;
     let returnFiber = currentFiber.return;
@@ -318,6 +313,8 @@ function commitWork(currentFiber) {
     }
     currentFiber.effectTag = null;
 }
+
+
 function commitDeletion(currentFiber, domReturn) {
     if (currentFiber.tag == TAG_HOST || currentFiber.tag == TAG_TEXT) {
         domReturn.removeChild(currentFiber.stateNode);

@@ -1,5 +1,5 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from './react';
+import ReactDOM from './react-dom';
 
 // 03 生成渲染
 let style = { border: '3px solid red', margin: '5px' }
