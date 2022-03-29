@@ -10,3 +10,5 @@ class order {
 
 let order1 = new order('订单1', 20)
 console.log('order1--', order1)
+
+export {}
