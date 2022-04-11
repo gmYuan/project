@@ -1,4 +1,5 @@
-import OrderDetail from './OrderDetail'
+import OrderDetail from './OrderDetail';
+
 export default class Order {
   static count: number
   constructor(public orderId: number, public date: Date,

@@ -1,5 +1,5 @@
-import Order from '../9keyof/Order';
-import OrderDetail from '../9keyof/OrderDetail';
+import Order from './Order';
+import OrderDetail from './OrderDetail';
 
 class ObjectImpl<T extends object, K extends keyof T>{
   object!: T;
