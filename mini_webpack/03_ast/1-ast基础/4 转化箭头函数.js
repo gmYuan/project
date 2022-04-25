@@ -7,6 +7,7 @@ const sum = (a,b)=>{
     return a+b;
 }
 `;
+
 //babel插件其实是一个对象，它会有一个visitor访问器
 let BabelPluginTransformEs2015ArrowFunctions2 = {
     //每个插件都会有自己的访问器
@@ -27,7 +28,7 @@ function hoistFunctionEnvironment(fnPath){
         //如果是函数则不能是箭头函数，或者是Promise或者是类的属性
         return (p.isFunction() && !p.isArrowFunctionExpression()) || p.isProgram();
     });
-    const thisEnvFn = findParent(fnPath);
+    // const thisEnvFn = findParent(fnPath);
      //thisPaths就放着哪些地方用到this   
     let thisPaths = getScopeInfoInformation(fnPath);
     let thisBinding='_this';//把this变量重定向的变量名

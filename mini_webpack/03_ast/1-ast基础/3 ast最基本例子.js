@@ -4,7 +4,8 @@ let escodegen = require('escodegen');
 //源代码就是ascii字符串
 let sourceCode = `function ast(){}`;
 let ast = esprima.parse(sourceCode);
-//console.log(ast);
+//console.log(ast)
+
 /**
  * 遍历语法树 遍历的方式采用的深度的方式
  * 遍历的时候只遍历有type属性的节点
