@@ -12,6 +12,7 @@ class SyncHook{
         this.taps.forEach(tap=>tap(...args));
     }
 }
+
 //不同的事件需要创建不同的hook
 //优点就是结构会比较清晰
 //webpack事件大概有四五百种,有几百个钩子，各干各的监听 和触发，互不干扰

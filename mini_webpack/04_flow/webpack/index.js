@@ -1,4 +1,5 @@
 let Compiler = require('./Compiler');
+
 /**
  * process.argv 命令行参数
  * @param {*} options 
@@ -13,10 +14,11 @@ function webpack(options){
     return  shellConfig;
   },{});
   let finalOptions = {...options,...shellConfig};//得出最终的配置对象
+
   //2.用上一步得到的参数初始化Compiler对象
   let compiler = new Compiler(finalOptions);
+
   //3.加载所有配置的插件
-  //finalOptions.plugins.forEach();
   if(finalOptions.plugins&&Array.isArray(finalOptions.plugins)){
      for(let plugin of finalOptions.plugins){
        //刚开始的时候，就会执行所有的插件实例的apply方法，并传递compiler实例
@@ -27,4 +29,5 @@ function webpack(options){
   }
   return compiler;
 }
+
 module.exports = webpack;
