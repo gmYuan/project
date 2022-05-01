@@ -27,6 +27,7 @@ function webpack(options){
         plugin.apply(compiler);
      }
   }
+  
   return compiler;
 }
 
