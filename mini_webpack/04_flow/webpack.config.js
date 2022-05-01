@@ -5,13 +5,25 @@ const DonePlugin = require('./plugins/done-plugin')
 
 module.exports = {
     mode:'development',
+    ///user/xxx/mini_webpack
+   // context: process.cwd(), //根目录 current working directory
+   context: path.resolve(__dirname),    //当前文件所在父目录
+
     entry: './src/index.js',
     output:{
         path: path.resolve(__dirname,'dist'),
         filename:' [name].js'
     },
     module:{
-        rules: []
+        rules:[
+            {
+                test:/\.js$/,
+                use:[
+                    path.resolve(__dirname,'loaders', 'logger1-loader.js'),
+                    path.resolve(__dirname,'loaders', 'logger2-loader.js'),
+                ]
+            }
+        ]
     },
 
     plugins:[
