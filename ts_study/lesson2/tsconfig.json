@@ -3,20 +3,6 @@
     "target": "ES5", 
     "module": "commonjs",
     "strictNullChecks": true,
-    "lib":["dom","ESNext"],
-    "noImplicitAny": true,
-    "experimentalDecorators":true,
-    "downlevelIteration":true,
-    "strictFunctionTypes": true,
-    "esModuleInterop":false,
-    "declaration": true,
-    "baseUrl": "./",
-    "paths": {
-      "*":["types/*"]
-    }
+    "lib": ["ESNext", "dom"]
   },
-  "include":[
-    "src/**/*",
-    "typings/**/*"
-  ]
 }
