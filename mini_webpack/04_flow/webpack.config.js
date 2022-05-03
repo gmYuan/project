@@ -24,8 +24,8 @@ module.exports = {
       {
         test: /\.js$/,
         use: [
-          path.resolve(__dirname, "loaders", "logger1-loader.js"),
-          path.resolve(__dirname, "loaders", "logger2-loader.js"),
+          // path.resolve(__dirname, "loaders", "logger1-loader.js"),
+          // path.resolve(__dirname, "loaders", "logger2-loader.js"),
         ],
       },
     ],

@@ -44,7 +44,6 @@ class Compiler {
       );
       //6. 从入口文件出发,调用所有配置的Loader对模块进行编译
       let entryModule = this.buildModule(entryName, entryFilePath);
-      this.modules.add(entryModule);
       // console.log('modules-----', this.modules)
 
       //7.根据入口和模块之间的依赖关系，组装成一个个包含多个模块的 Chunk
@@ -61,7 +60,7 @@ class Compiler {
     //一个chunk对应this.assets的一个属性，而每个assets属性会对应一个文件file
     this.chunks.forEach((chunk) => {
       //key: 文件名;  值: 是打包后的内容
-      this.assets[chunk.name + "js"] = chunk.name;
+      this.assets[chunk.name + "js"] = getSource(chunk);
     });
 
     //9.在确定好输出内容后，根据配置确定输出的路径和文件名，把文件内容写入到文件系统
@@ -175,6 +174,38 @@ function tryExtensions(
   throw new Error(
     `Module not found: Error: Can't resolve '${originalModulePath}' in '${moduleContext}'`
   );
+}
+
+//chunk = { name:'main', entryModule, modules:this.modules }
+function getSource(chunk) {
+  return `
+  (() => {
+   var modules = {
+     ${[...chunk.modules]
+       .map(
+         (module) => `
+         "${module.id}": (module,exports,require) => {
+           ${module._source}
+         }`
+       )
+       .join(",")}
+   };
+   var cache = {};
+   function require(moduleId) {
+     if (cache[moduleId]) {
+       return cache[moduleId].exports;
+     }
+     var module = (cache[moduleId] = {
+       exports: {},
+     });
+     modules[moduleId](module, module.exports, require);
+     return module.exports;
+   }
+   (() => {
+    ${chunk.entryModule._source}
+   })();
+ })();
+  `;
 }
 
 module.exports = Compiler;
