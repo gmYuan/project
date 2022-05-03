@@ -17,7 +17,7 @@ class Compiler {
       run: new SyncHook(), //会在开始编译的时候触发
       done: new SyncHook(), //会在完成编译的时候触发
     };
-
+    this.entries = new Set(); //这个数组存放着所有的入口
     this.modules = new Set(); // 这里存放着所有的模块
     this.chunks = new Set(); // webpack5 this.chunks = new Set();
     this.assets = {}; // 输出列表 存放着将要产出的资源文件
@@ -44,15 +44,20 @@ class Compiler {
       );
       //6. 从入口文件出发,调用所有配置的Loader对模块进行编译
       let entryModule = this.buildModule(entryName, entryFilePath);
+      //this.modules.add(entryModule);
       // console.log('modules-----', this.modules)
 
       //7.根据入口和模块之间的依赖关系，组装成一个个包含多个模块的 Chunk
       let chunk = {
-        name: "main",
+        name: entryName,
         entryModule,
-        modules: this.modules,
+        // modules: this.modules,
+        modules: [...this.modules].filter(
+          (module) => module.name === entryName
+        ),
       };
       this.chunks.add(chunk);
+      this.entries.add(chunk); //也是入口代码块
     }
 
     //8.再把每个Chunk转换成一个单独的文件加入到输出列表
@@ -60,17 +65,15 @@ class Compiler {
     //一个chunk对应this.assets的一个属性，而每个assets属性会对应一个文件file
     this.chunks.forEach((chunk) => {
       //key: 文件名;  值: 是打包后的内容
-      this.assets[chunk.name + "js"] = getSource(chunk);
+      let filename = this.options.output.filename.replace("[name]", chunk.name);
+      this.assets[filename] = getSource(chunk);
     });
 
     //9.在确定好输出内容后，根据配置确定输出的路径和文件名，把文件内容写入到文件系统
     this.files = Object.keys(this.assets); //['main.js']
     // 存放本次编译输出的目标文件路径
-    let targetPath = path.join(
-      this.options.output.path,
-      this.options.output.filename
-    );
     for (let file in this.assets) {
+      let targetPath = path.join(this.options.output.path, file);
       fs.writeFileSync(targetPath, this.assets[file]);
     }
 
@@ -144,7 +147,7 @@ class Compiler {
 
     //6.7 根据新的语法树生成新代码
     let { code } = generator(astTree);
-    module._source = code; //转换后的代码 ==> module: { moduleId, dependencies,  _source }
+    module._source = code; //转换后的代码 ==> module: { name: entryName, moduleId, dependencies,  _source }
 
     //6.8 再递归本步骤直到所有入口依赖的文件都经过了本步骤的处理
     module.dependencies.forEach((dependency) => {
