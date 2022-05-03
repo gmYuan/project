@@ -83,6 +83,20 @@ class Compiler {
 
     // 完成钩子触发
     this.hooks.done.call();
+
+    //11 支持cb
+    callback(null, {
+      //此对象stats 统计信息，表示本次编译结果的描述信息对象
+      toJson: () => {
+        return {
+          entries: this.entries,
+          chunks: this.chunks,
+          modules: this.modules,
+          files: this.files,
+          assets: this.assets,
+        };
+      },
+    });
   }
 
   buildModule = (name, modulePath) => {
