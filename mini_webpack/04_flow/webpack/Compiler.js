@@ -16,6 +16,7 @@ class Compiler {
     this.hooks = {
       run: new SyncHook(), //会在开始编译的时候触发
       done: new SyncHook(), //会在完成编译的时候触发
+      emit: new SyncHook(), //会在将要写入文件的时候触发
     };
     this.entries = new Set(); //这个数组存放着所有的入口
     this.modules = new Set(); // 这里存放着所有的模块
@@ -68,6 +69,9 @@ class Compiler {
       let filename = this.options.output.filename.replace("[name]", chunk.name);
       this.assets[filename] = getSource(chunk);
     });
+
+    // 10 会在即将写入文件时触发
+    this.hooks.emit.call();
 
     //9.在确定好输出内容后，根据配置确定输出的路径和文件名，把文件内容写入到文件系统
     this.files = Object.keys(this.assets); //['main.js']

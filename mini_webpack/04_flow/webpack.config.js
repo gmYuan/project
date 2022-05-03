@@ -2,6 +2,7 @@ const path = require("path");
 const Run1Plugin = require("./plugins/run1-plugin");
 const Run2Plugin = require("./plugins/run2-plugin");
 const DonePlugin = require("./plugins/done-plugin");
+const READMEPlugin = require("./plugins/readme-plugin");
 
 module.exports = {
   mode: "development",
@@ -34,5 +35,10 @@ module.exports = {
     ],
   },
 
-  plugins: [new Run2Plugin(), new Run1Plugin(), new DonePlugin()],
+  plugins: [
+    new Run2Plugin(),
+    new Run1Plugin(),
+    new DonePlugin(),
+    new READMEPlugin(),
+  ],
 };
