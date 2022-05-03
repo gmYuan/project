@@ -2,18 +2,15 @@ let { SyncHook } = require("tapable");
 const path = require("path");
 const fs = require("fs");
 // AST相关
-const types = require('babel-types');
-const parser = require('@babel/parser');//源代码转成AST抽象语法树
-const { dirname } = require("path");
-const traverse = require('@babel/traverse').default;//遍历语法树
-const generator = require('@babel/generator').default;//把语法树重新生成代码
+const types = require("babel-types");
+const parser = require("@babel/parser"); //源代码转成AST抽象语法树
+const traverse = require("@babel/traverse").default; //遍历语法树
+const generator = require("@babel/generator").default; //把语法树重新生成代码
 
 // 当前文件目录
-let baseDir = path.dirname( path.resolve(__dirname) )
-
+let baseDir = path.dirname(path.resolve(__dirname));
 
 class Compiler {
-
   constructor(options) {
     this.options = options;
     this.hooks = {
@@ -21,7 +18,10 @@ class Compiler {
       done: new SyncHook(), //会在完成编译的时候触发
     };
 
-    this.modules = new Set();  //这里存放着所有的模块
+    this.modules = new Set(); // 这里存放着所有的模块
+    this.chunks = new Set(); // webpack5 this.chunks = new Set();
+    this.assets = {}; // 输出列表 存放着将要产出的资源文件
+    this.files = new Set(); // 表示本次编译的所有产出的文件名
   }
 
   //4.执行对象的run方法开始执行编译
@@ -44,12 +44,40 @@ class Compiler {
       );
       //6. 从入口文件出发,调用所有配置的Loader对模块进行编译
       let entryModule = this.buildModule(entryName, entryFilePath);
+      this.modules.add(entryModule);
+      // console.log('modules-----', this.modules)
+
+      //7.根据入口和模块之间的依赖关系，组装成一个个包含多个模块的 Chunk
+      let chunk = {
+        name: "main",
+        entryModule,
+        modules: this.modules,
+      };
+      this.chunks.add(chunk);
+    }
+
+    //8.再把每个Chunk转换成一个单独的文件加入到输出列表
+    //一个 chunk会成为this.assets对象的一个key value
+    //一个chunk对应this.assets的一个属性，而每个assets属性会对应一个文件file
+    this.chunks.forEach((chunk) => {
+      //key: 文件名;  值: 是打包后的内容
+      this.assets[chunk.name + "js"] = chunk.name;
+    });
+
+    //9.在确定好输出内容后，根据配置确定输出的路径和文件名，把文件内容写入到文件系统
+    this.files = Object.keys(this.assets); //['main.js']
+    // 存放本次编译输出的目标文件路径
+    let targetPath = path.join(
+      this.options.output.path,
+      this.options.output.filename
+    );
+    for (let file in this.assets) {
+      fs.writeFileSync(targetPath, this.assets[file]);
     }
 
     // 完成钩子触发
     this.hooks.done.call();
   }
-
 
   buildModule = (name, modulePath) => {
     //6.1 读取原始源代码
@@ -71,9 +99,9 @@ class Compiler {
       let loader = loaders[i];
       targetSourceCode = require(loader)(targetSourceCode);
     }
- 
+
     //todo 6.5.4  webpack最核心 的几个概念要出场了 module { 模块ID ，依赖的数组 }
-    let moduleId = "./" + path.posix.relative(baseDir, modulePath)  // -->  ./src/index.js
+    let moduleId = "./" + path.posix.relative(baseDir, modulePath); // -->  ./src/index.js
     // console.log('eeeee1111----', baseDir)
     // console.log('eeeee2222----', modulePath)
     // console.log('eeeee3333----', moduleId)
@@ -87,13 +115,13 @@ class Compiler {
       CallExpression: ({ node }) => {
         if (node.callee.name === "require") {
           // 6.5.1 获取到 当前模块的绝对路径
-          let moduleName = node.arguments[0].value;     //--> ./title
+          let moduleName = node.arguments[0].value; //--> ./title
 
           //要判断一个moduleName绝对还是相对，相对路径才需要下面的处理
           //6.5.2 以下代码目的：获取到模块A的所有依赖模块B/C/的 绝对路径  父目录+文件名+文件类型后缀
 
-          let dirname = path.posix.dirname(modulePath);  // --> /user/mini_webpack/04_flow/src
-          let depModulePath = path.posix.join(dirname, moduleName) // --> /user/mini_webpack/04_flow/src/title
+          let dirname = path.posix.dirname(modulePath); // --> /user/mini_webpack/04_flow/src
+          let depModulePath = path.posix.join(dirname, moduleName); // --> /user/mini_webpack/04_flow/src/title
           let extensions = this.options.resolve.extensions;
           //结果是 /user/mini_webpack/04_flow/src/title.js
           depModulePath = tryExtensions(
@@ -117,7 +145,7 @@ class Compiler {
 
     //6.7 根据新的语法树生成新代码
     let { code } = generator(astTree);
-    module._source = code;   //转换后的代码 ==> module: { moduleId, dependencies,  _source }
+    module._source = code; //转换后的代码 ==> module: { moduleId, dependencies,  _source }
 
     //6.8 再递归本步骤直到所有入口依赖的文件都经过了本步骤的处理
     module.dependencies.forEach((dependency) => {
@@ -130,17 +158,23 @@ class Compiler {
 
 //path.posix.sep /  path.sep不同操作系统的路径分隔符 ==>  \/
 function toUnixPath(filePath) {
-  return filePath.replace(/\\/g, "/")
+  return filePath.replace(/\\/g, "/");
 }
 
-function tryExtensions(modulePath, extensions, originalModulePath, moduleContext){
-  for(let i=0;i<extensions.length;i++){
-     if(fs.existsSync(modulePath+extensions[i])){
-      return modulePath+extensions[i];
-     }
+function tryExtensions(
+  modulePath,
+  extensions,
+  originalModulePath,
+  moduleContext
+) {
+  for (let i = 0; i < extensions.length; i++) {
+    if (fs.existsSync(modulePath + extensions[i])) {
+      return modulePath + extensions[i];
+    }
   }
-  throw new Error(`Module not found: Error: Can't resolve '${originalModulePath}' in '${moduleContext}'`);
+  throw new Error(
+    `Module not found: Error: Can't resolve '${originalModulePath}' in '${moduleContext}'`
+  );
 }
-
 
 module.exports = Compiler;
