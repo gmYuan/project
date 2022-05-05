@@ -74,7 +74,7 @@ runLoaders(
   {
     resource,
     loaders,
-    context: { name: "zhufeng" },
+    context: { name: "cxtYgm" },
     readResource: fs.readFile.bind(fs),
   },
   function (err, result) {
