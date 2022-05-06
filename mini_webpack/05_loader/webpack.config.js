@@ -21,23 +21,28 @@ module.exports = {
     */
   module: {
     rules: [
+      // {
+      //   test: /\.js$/,
+      //   use: [path.resolve("./loaders/babel-loader.js")],
+      //   include: path.resolve("src"),
+      // },
       {
-        test: /\.js$/,
-        use: [path.resolve("./loaders/babel-loader.js")],
+        test: /\.(jpg|png|gif)$/,
+        use: [
+          {
+            loader: path.resolve("./loaders/url-loader.js"),
+            // loader: path.resolve("./loaders/file-loader.js"),
+            // loader: "file-loader",
+            options: {
+              name: "[hash:8].[ext]",
+              limit: 40 * 1024,
+              // fallback: path.resolve("./loaders/file-loader.js"),
+            },
+          },
+        ],
         include: path.resolve("src"),
       },
-      // {
-      //     test:/\.(jpg|png|gif)$/,
-      //     use:[{
-      //         loader:path.resolve('./loaders/url-loader.js'),
-      //         options:{
-      //             name:'[hash:8].[ext]',
-      //             limit:40*1024,
-      //             fallback:path.resolve('./loaders/file-loader.js')
-      //         }
-      //     }],
-      //     include:path.resolve('src')
-      // },
+
       // {
       //     test:/\.less$/,
       //     use:[path.resolve('./loaders/style-loader.js')

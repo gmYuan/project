@@ -1,34 +1,33 @@
-const path = require('path');
-const {getOptions,interpolateName} = require('loader-utils');
+const path = require("path");
+const { getOptions, interpolateName } = require("loader-utils");
 /**
  * file-loader负责打包加载图片
- * 1.把此文件内容拷贝到目标目录里
- * @param {*} source 
- * @param {*} inputSourceMap 
- * @param {*} data 
+ * 1. 获取到webpck内的 loader配置值 ==>  options / getOptions
+ * 2. 获取到 loder配置里的 文件名称等 ==>  filename / interpolateName
+ * 3 向输出目录(dist)里 写入文件：文件名 + 文件内容  ==>  this.emitFile
+ * 4 支持不同 输出规范
+ *
+ * @param {*} source
+ * @param {*} inputSourceMap
+ * @param {*} data
  */
-function loader(content){
-   console.log('这是我们自己的file-loader');
-   //this=loaderContext
-   let options  = getOptions(this)||{};//获取我们在loader中配置的参数对象
-   let filename = interpolateName(this,options.name,{content});
-   //其实就是向输出目录里多写一个文件文件名文件名叫filename，内容
-   this.emitFile(filename,content);//this.assets[filename]=content;
-   if(typeof options.esModule === 'undefined'||options.esModule){
-    return `export default "${filename}"`;//es modules
-   }else{
-    return `module.exports="${filename}"`; //commonjs
-   }
-}
-loader.raw=true;
-module.exports = loader;
-/**
- * 为什么返回的都是字符串呢？module.exports ？
- * 可以 返回 export default 吗 正确的写法 而不用 module.export.default 不好的 
-岁月小小
-不是this.options 是options吧 岁月小小
- file.js是指文件被写入dist了吗？ 
- loader。pitch在做什么工作？文件都没读呢 
- loader. pitch  做的事？ ！！！！
 
- */
+function loader(content) {
+  console.log("这是我们自己的file-loader------");
+  //this=loaderContext
+  let options = getOptions(this) || {}; //获取我们在loader中配置的参数对象
+  let filename = interpolateName(this, options.name, { content });
+
+  //3 向输出目录里写入文件：文件名 + 文件内容
+  this.emitFile(filename, content); //this.assets[filename]=content;
+
+  // 4 支持不同 输出规范
+  if (typeof options.esModule === "undefined" || options.esModule) {
+    return `export default "${filename}"`; //es modules
+  } else {
+    return `module.exports="${filename}"`; //commonjs
+  }
+}
+//如果不希望webpack把内容转成字符串的的话，设置raw=true, 这样 content就是一个二进制的Buffer
+loader.raw = true;
+module.exports = loader;
