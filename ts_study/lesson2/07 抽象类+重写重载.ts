@@ -13,6 +13,8 @@ class Dog extends Animal {
         console.log('汪汪汪');
     }
 }
+
+
 /**
  * 重写(override) 子类重写继承自父类方法
  * 重载(overload) 函数的重载
@@ -30,4 +32,3 @@ double(2);
 double('a');
 //double(true);
 //compose
-//继承和多态
