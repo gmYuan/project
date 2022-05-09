@@ -68,8 +68,8 @@ if (request.startsWith("!!")) {
 } else {
   loaders = [...postLoaders, ...inlineLoaders, ...normalLoaders, ...preLoaders];
 }
-console.log(loaders);
-debugger;
+console.log("loaders----------", loaders);
+
 runLoaders(
   {
     resource,
