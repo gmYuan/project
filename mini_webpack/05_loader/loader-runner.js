@@ -8,7 +8,9 @@ let readFile = fs.readFile.bind(this); //读取硬盘上文件的默认方法
  *  S3 把配置参数和其他信息，绑定到所有loader的环境上下文中，即loaderContext
  *  S4 自定义loaderContext的 属性和方法
  *  S5 iteratePitchingLoaders：执行loader的pitch/normal的 递归工厂函数
- *  S6 runSyncOrAsync：同步或者异步执行 loader.pitch
+ *  S6 runSyncOrAsync：同步或者异步执行 loader.pitch/loader.normal
+ *  S7 processResource：读取目标资源文件内容，并传入到 iterateNormalLoaders中执行
+ *  S8 iterateNormalLoaders：执行normal
  */
 
 function runLoaders(options, callback) {
@@ -68,7 +70,7 @@ function runLoaders(options, callback) {
     },
   });
 
-  // S5 iteratePitchingLoaders？？？
+  // S5 iteratePitchingLoaders：执行loader的pitch/normal的 递归工厂函数
   let processOptions = {
     resourceBuffer: null,
   };
@@ -98,10 +100,13 @@ function createLoaderObject(request) {
   return loaderObj;
 }
 
+// S5 iteratePitchingLoaders：执行loader的pitch/normal的 递归工厂函数
 function iteratePitchingLoaders(processOptions, loaderContext, finalCallback) {
+  // S7 pitch都执行完成后：读取目标资源文件内容，并传入到 iterateNormalLoaders中执行
   if (loaderContext.loaderIndex >= loaderContext.loaders.length) {
     return processResource(processOptions, loaderContext, finalCallback);
   }
+
   //S5.1 如果curLoader的pitch已经执行过，那么就更新执行下一个Loader的pitch
   let currentLoaderObject = loaderContext.loaders[loaderContext.loaderIndex];
   if (currentLoaderObject.pitchExecuted) {
@@ -112,11 +117,10 @@ function iteratePitchingLoaders(processOptions, loaderContext, finalCallback) {
   let pitchFunction = currentLoaderObject.pitch;
   currentLoaderObject.pitchExecuted = true; //表示pitch函数已经执行过了
   if (!pitchFunction) {
-    //如果此loader没有提供pitch方法
     return iteratePitchingLoaders(processOptions, loaderContext, finalCallback);
   }
 
-  //S5.3  通过runSyncOrAsync执行 pitch逻辑
+  //S5.3  通过runSyncOrAsync执行 pitch/normal逻辑
   runSyncOrAsync(
     pitchFunction,
     loaderContext,
@@ -141,10 +145,12 @@ function iteratePitchingLoaders(processOptions, loaderContext, finalCallback) {
   );
 }
 
-// S6
+// S6  通过runSyncOrAsync执行 pitch/normal逻辑
 function runSyncOrAsync(fn, context, args, callback) {
   let isSync = true; //是否同步，默认是的
   let isDone = false; //是否fn已经执行完成,默认是false
+
+  // 定义ctx.callback/ctx.async的 异步执行方法
   const innerCallback = (context.callback = function (err, ...values) {
     isDone = true;
     isSync = false;
@@ -154,6 +160,7 @@ function runSyncOrAsync(fn, context, args, callback) {
     isSync = false; //把同步标志设置为false,意思就是改为异步
     return innerCallback;
   };
+  // 执行pitch方法
   let result = fn.apply(context, args);
   if (isSync) {
     isDone = true; //直接完成
@@ -161,6 +168,7 @@ function runSyncOrAsync(fn, context, args, callback) {
   }
 }
 
+// S7 processResource：读取目标资源文件内容，并传入到 iterateNormalLoaders中执行
 function processResource(processOptions, loaderContext, finalCallback) {
   loaderContext.loaderIndex = loaderContext.loaderIndex - 1; //索引等最后一个loader的索引
   let resource = loaderContext.resource; //c:/src/index.js
@@ -175,6 +183,8 @@ function processResource(processOptions, loaderContext, finalCallback) {
     );
   });
 }
+
+// S8 执行normal
 function iterateNormalLoaders(
   processOptions,
   loaderContext,
@@ -197,7 +207,9 @@ function iterateNormalLoaders(
   }
   let normalFunction = currentLoaderObject.normal;
   currentLoaderObject.normalExecuted = true; //表示pitch函数已经执行过了
+  // 把参数内容转换成String/Buffer格式
   convertArgs(args, currentLoaderObject.raw);
+  // 执行normal
   runSyncOrAsync(normalFunction, loaderContext, args, (err, ...values) => {
     if (err) finalCallback(err);
     iterateNormalLoaders(processOptions, loaderContext, values, finalCallback);
