@@ -3,7 +3,8 @@
     "target": "ES5", 
     "module": "commonjs",
     "strictNullChecks": true,
-    "lib": ["ESNext", "dom"],
-    "experimentalDecorators": true
+    "lib": ["ESNext", "dom", ],
+    "experimentalDecorators": true,
+    "downlevelIteration": true,
   },
 }
