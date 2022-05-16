@@ -10,10 +10,10 @@ module.exports = {
   },
   resolveLoader: {
     alias: {
-      "css-loader": path.resolve(__dirname, "loaders", "css-loader.js"),
+      // "css-loader": path.resolve(__dirname, "loaders", "css-loader.js"),
       // 'less-loader':path.resolve(__dirname,'loaders','less-loader.js')
     },
-    // modules: [path.resolve(__dirname, "loaders"), "node_modules"],
+    modules: [path.resolve(__dirname, "loaders"), "node_modules"],
   },
   module: {
     rules: [
