@@ -4,9 +4,9 @@ module.exports = {
   mode: "development",
   devtool: false,
   resolve: {
-    // alias: {
-    //   "@": path.resolve(__dirname, "src"),
-    // },
+    alias: {
+      "@": path.resolve(__dirname, "src"),
+    },
   },
   resolveLoader: {
     alias: {
@@ -26,7 +26,7 @@ module.exports = {
             loader: "css-loader",
             options: {
               url: true, //是否解析url()
-              import: false, //是否解析@import语法
+              import: true, //是否解析@import语法
               esModule: false, //不包装成ES MODULE，默认是common.js导出
               //importLoaders:0//在处理导入的CSS的时候，要经过几个前置loader的处理
             },
@@ -44,7 +44,7 @@ module.exports = {
             loader: "css-loader",
             options: {
               url: false, //是否解析url()
-              import: false, //是否解析@import语法
+              import: true, //是否解析@import语法
               esModule: false, //不包装成ES MODULE，默认是common.js导出
               importLoaders: 0, //在处理导入的CSS的时候，要经过几个前置loader的处理
             },

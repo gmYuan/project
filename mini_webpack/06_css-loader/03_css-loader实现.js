@@ -7,6 +7,7 @@ let Tokenizer = require("css-selector-tokenizer");
  *
  * S2 通过plugin处理 CSS语法树
  *   S2.1 删除所有的@import  + 把它想要导入的 CSS文件路径 添加到options.imports里
+ *   S5.1 遍历语法树，找到里面所有的url
  *
  *
  * S3 处理完CSS语法内容后，返回css文件结果
@@ -17,7 +18,11 @@ let Tokenizer = require("css-selector-tokenizer");
   
  *   即 递归执行CSS-loader   
  *
- * S4 webpack载入require资源，递归执行CSS-loader   
+ * S4 webpack载入require资源，递归执行CSS-loader  
+ * 
+ * S5 支持url() 语法 ==> 
+ *   S5.1 遍历语法树，找到里面所有的url
+ *   S5.2 把bg的 url值，替换为 require导入语句，从而转化为md模块对象
  *
  */
 
@@ -35,16 +40,19 @@ function loader(inputSource) {
         });
       }
 
+      // S5 支持url() 语法
       if (loaderOptions.url) {
-        //2.遍历语法树，找到里面所有的url
+        //S5.1 遍历语法树，找到里面所有的url
         //因为这个正则只能匹配属性
         root.walkDecls(/^background-image/, (decl) => {
+          // 可以把css 规则值转化为 key-value对象
           let values = Tokenizer.parseValues(decl.value);
           values.nodes.forEach((node) => {
             node.nodes.forEach((item) => {
               if (item.type === "url") {
                 //stringifyRequest可以把任意路径标准化为相对路径
                 let url = loaderUtils.stringifyRequest(this, item.url);
+                // S5.2 把bg的 url值，替换为 require导入语句，从而转化为md模块对象
                 item.stringType = "'";
                 item.url = "`+require(" + url + ")+`";
                 //require会给webpack看和分析，webpack一看你引入了一张图片
