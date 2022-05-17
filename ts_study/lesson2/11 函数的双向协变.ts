@@ -61,7 +61,7 @@ function f3(): void {}
 sum = f3;
 
 function f4(a: number, b: number,c:number): void {}
-//sum = f4;
+sum = f4;
 
 
 //比较返回值
@@ -128,4 +128,7 @@ function exec(callback: (dog: Dog) => Dog): void {}
 }
 
 
-
+// 个人理解的 函数参数逆变含义 ！！！
+let d: (a: any, b: any) => void
+d = function() {}         // 可以传父类（因为需要的 少于  用作  提供使用的属性个数）
+d = function(a, b, c) {}  // 不可以传子类（因为需要的 多于了 提供使用的属性个数）
