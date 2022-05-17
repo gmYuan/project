@@ -6,5 +6,6 @@
     "lib": ["ESNext", "dom", ],
     "experimentalDecorators": true,
     "downlevelIteration": true,
+    "strictFunctionTypes": true,
   },
 }
