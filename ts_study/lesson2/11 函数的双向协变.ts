@@ -87,6 +87,7 @@ function g3() {
 // 参数类型 是逆变的，返回值类型是协变的
 // 参数可以传 父类，返回值类型可以传 子类
 // 即 参数逆变父类 返回值协变子类  ==> 搀你父，返鞋子
+// 根本原因是：参数 要对函数内部使用的逻辑负责；返回值要对 函数外部使用的逻辑负责
 
 namespace g {
 class Animal {}
@@ -132,3 +133,26 @@ function exec(callback: (dog: Dog) => Dog): void {}
 let d: (a: any, b: any) => void
 d = function() {}         // 可以传父类（因为需要的 少于  用作  提供使用的属性个数）
 d = function(a, b, c) {}  // 不可以传子类（因为需要的 多于了 提供使用的属性个数）
+
+
+
+// 例5.2 函数兼容
+namespace g{
+type Callback = (a:string|number)=>string|number;
+function exec(callback:Callback){}
+
+let childToChild!: (a: string) => string;
+exec(childToChild);//n
+
+let childToParent!: (a: string) => string|number|boolean;
+exec(childToParent);//n
+
+let parentToParent!: (a: string|number|boolean) => string|number|boolean;
+exec(parentToParent);//n
+
+let parentToChild!:  (a: string|number|boolean) => string;
+exec(parentToChild);//y
+
+}
+
+
