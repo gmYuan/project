@@ -1,8 +1,9 @@
 /**
- * 
- * 通过一些关键字typeof instanceof for in 来缩小范围
+ * 通过一些关键字typeof instanceof for in 来缩小类型判断范围
  */
 export {}
+
+// 例1 typeof保护
 function double(input:string|number){
    if(typeof input === 'string'){
        console.log(input);
@@ -10,44 +11,42 @@ function double(input:string|number){
         console.log(input);
     }
 }
-class Animal{
 
-}
-class Bird extends Animal{
 
-}
+// 例2 instanceof保护
+class Animal{}
+class Bird extends Animal{}
 class Dog extends Animal {}
 function getName(animal: Animal) {
     if (animal instanceof Bird) {
       console.log(animal);
     } else if (animal instanceof Dog) {
-             console.log(animal);
+      console.log(animal);
    }
 }
-//null保护
+
+
+// 例3 null保护
 function getFirstLetter(s:string|null){
     /* if(s === null){
         return '';
     } */
     //s = s||'';
-   /*  function log() {
-        s=s||'';
-    }
-    log(); */
    return s!.charAt(0);;
 }
-//链判断运算符
-/* let a = {b:2}
+
+
+// 例4 链判断运算符
+let a = {b:2}
 let result = a?.b;
 // a===null?undefined:a.b;
-console.log(result);
 let x = 'b';
 a?.[x];
-a?.b();
-a?.[x]() */
-//链判断运算符处于stage1 ts也不支持
+a?.[x]()
 
-//可辨识的联合类型
+
+// 例5 可辨识的联合类型
+// 例5.1
 interface WarningButton{
     class:'waring',
     text1:'修改'
@@ -60,20 +59,18 @@ type Button = WarningButton|DangerButton;
 function getButton(button: Button) {
     if(button.class=== 'waring'){
         console.log(button);
-        
     }
      if (button.class === "danger") {
        console.log(button);
      }
 }
 
+// 例5.2
 interface User{
     username:string
 }
 
-type Action = {
-    type:'add',payload:User
-}|{type:'delete',payload:number}
+type Action = { type:'add',payload:User } | {type:'delete',payload:number} 
 const reducer = (action: Action) => {
     switch(action.type){
         case 'add':
@@ -85,7 +82,7 @@ const reducer = (action: Action) => {
     }
 };
 
-
+// 例5.3
 interface Bird{
     swing:number
 }
@@ -99,4 +96,26 @@ function getNumber(x:Bird|Dog){
        console.log(x);
    }
 }
-//自定义的类型保护 难度!!
+
+
+// 例6自定义的类型保护
+namespace g {
+    interface Bird {
+        swing: number;  //2
+    }
+    interface Dog {
+        leg: number;//4
+    }
+      
+    //类型谓词 parameterName is Type 哪个参数是什么类型
+    function isBird(y:Bird|Dog):y is Bird{
+        return (y as Bird).swing == 2;
+    }
+    function getAnimal(x: Bird | Dog) {
+        if(isBird(x)){
+            console.log(x);
+        }else{
+            console.log(x);
+        }
+     }
+}
