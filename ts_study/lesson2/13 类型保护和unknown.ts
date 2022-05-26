@@ -119,3 +119,68 @@ namespace g {
         }
      }
 }
+
+
+//例6.1 unknown 是any的安全类型
+let value:any;
+value= true;
+value = 1;
+value = [];
+value.foo()
+value.length;
+
+//unknown
+let value2:unknown;
+value2 = true;
+value2 = 1;
+value2 = [];
+value2.foo()  // 报错
+
+//如果想调用unknown上的方法和属性
+value2 = 'hello';
+// 方法1: 断言
+console.log((value2 as string).length);
+// 方法2: typeof 
+if(typeof value2 == 'string'){
+    console.log(value2.length);
+}
+
+//例6.2 联合类型中的unknown 不管跟谁联系,最后都是unknown
+type U1 = unknown|null;
+type U2 = unknown|undefined;
+type U3 = unknown|string;
+type U4 = unknown|number[];
+
+
+//例6.3 交叉类型：是交叉对象 A和B的子类型（同时满足既能给A，又能给B）
+interface A{name:string,c:number}
+interface B{age:number,c:number}
+let a1:A;
+let b1:B;
+type C = A&B;
+let c:C = {name:'zhufeng',age:10,c:10};
+a1=c;
+b1=c;
+//子类型 
+type AA = string|number;
+type BB = string|boolean;
+type CC = AA&BB;
+
+
+//例6.4  never是unknown子类型
+type isNever = never extends unknown?true:false;
+type keys = keyof unknown;
+
+let aa:unknown
+let bb:unknown;
+console.log(aa ===bb);
+console.log(aa !== bb);
+//aa+bb;
+
+//映射属性的时候
+type getType<T> = {
+    [P in keyof T]:number
+}
+type t = getType<unknown>
+
+
