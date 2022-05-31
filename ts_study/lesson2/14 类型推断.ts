@@ -30,11 +30,12 @@ let person = {
 let {name,age} = person;
 
 
+// 例4 接口类型的推断
 interface DefaultProps{
     name?:string;
     age?:number;
 }
-let defaultProps: DefaultProps={
+let defaultProps = { 
    name:'zhufeng',
    age:10
 }
@@ -42,20 +43,12 @@ let props = {
     ...defaultProps,
     home:'北京'
 }
-type Props = typeof props;
-//
+// 注意其类型
+type interfaceProps = typeof props;
 
-function addOne(a:any){
-  return a+1;
-}
-function sum3(a:number,b:number){
-   return a+addOne(b) as number;
-}
-let k = sum3(1,2);
-//number+any = any
 
-//& 
 
+// 例5.1  交叉类型
 interface Bird{
     name:string;
     fly():void
@@ -86,14 +79,15 @@ type YX = Y&X;
 let xy:XY = {a:1,b:'',c:''}
 let yx: YX = { a: 1, b: '', c: '' }
 
-type T1 = string |number;
-type T2 = number|boolean;
-type T3 = T1&T2;//number 交叉类型 交集
-type T4 = T1 | T2;//string | number | boolean 联合 并集
+
+// 例5.2  联合类型  + 交叉类型 
+type T1 = string | number;
+type T2 = number| boolean;
+type T3 = T1&T2;        // number   联合类型 +  交叉类型 
+type T4 = T1 | T2;      // string | number | boolean    联合类型 +  联合类型 
 
 
-//mixin
-
+//例6 mixin
 interface AnyObject{
     [prop:string]:any
 }
@@ -111,9 +105,8 @@ function mixin<T,U>(one:T,two:U){
 const x = mixin({name:'zhufeng'},{age:11});
 console.log(x.name,x.age);
 
-//typeof typ
 
-//先定义类型,再定义变量
+// 例7 typeof typ
 type Person3 ={
     name:string
 }
@@ -127,7 +120,8 @@ let p4 = {
 }
 type P4 = typeof p4;
 
-//索引访问操作符
+
+//例8 索引访问操作符
 interface Person5{
     name:string;
     age:number;
@@ -139,20 +133,25 @@ let FrontEndJob: Person5['job'] = {
    name:'前端'
 }
 
-//映射类型
+
+//例9 映射类型
 interface Person6{
     name:string;
     age:number;
     gender:'male'|'female'
 }
+
 //批量把一个接口中的属性全部变成可选的
 /* type PartialPerson = {
     [key in keyof Person6]?: Person6[key]
 } */
+
 type Partial<T> = {
     [key in keyof T]?: T[key]
 }
 type PPerson = Partial<Person6>
+
+
 //interface和type区别是什么
 //typeof 取一个值的类型
 let o1 = {name:'zhufeng'};
