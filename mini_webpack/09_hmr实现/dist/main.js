@@ -40,16 +40,16 @@ var hotEmitter = __webpack_require__(/*! ../../webpack/hot/emitter */ "./webpack
 var socket = io();
 //当前最新的hash值
 var currentHash;
-socket.on('hash',(hash)=>{
-    console.log('客户端据此到hash消息');
-    currentHash = hash;
+socket.on("hash", (hash) => {
+  console.log("客户端据此到hash消息");
+  currentHash = hash;
 });
-socket.on('ok',()=>{
-    console.log('客户端据此到ok消息');
-    reloadApp();
+socket.on("ok", () => {
+  console.log("客户端据此到ok消息");
+  reloadApp();
 });
-function reloadApp(){
-    hotEmitter.emit('webpackHotUpdate',currentHash);
+function reloadApp() {
+  hotEmitter.emit("webpackHotUpdate", currentHash);
 }
 
 /**
@@ -62,6 +62,7 @@ Y
 socket.io兼容到IE5.5
  */
 
+
 /***/ }),
 
 /***/ "./webpack/hot/dev-server.js":
@@ -71,11 +72,12 @@ socket.io兼容到IE5.5
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
 
 var hotEmitter = __webpack_require__(/*! ../../webpack/hot/emitter */ "./webpack/hot/emitter.js");
-hotEmitter.on('webpackHotUpdate',(currentHash)=>{
-  console.log('dev-server收到了最新的hash值',currentHash);
+hotEmitter.on("webpackHotUpdate", (currentHash) => {
+  console.log("dev-server收到了最新的hash值", currentHash);
   //进行真正的热更新检查
   //hotCheck();
 });
+
 
 /***/ }),
 
@@ -155,7 +157,7 @@ module.exports = new EventEmitter();
 /******/ 	
 /******/ 	/* webpack/runtime/getFullHash */
 /******/ 	(() => {
-/******/ 		__webpack_require__.h = () => "5a0f5063c662710061cc"
+/******/ 		__webpack_require__.h = () => "5e497bbaedce145a05d7"
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/global */
