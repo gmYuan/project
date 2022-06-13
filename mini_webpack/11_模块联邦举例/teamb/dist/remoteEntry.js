@@ -11,7 +11,10 @@ var teamb; teamb =
 								 .then(() => () => (require("./src/Dropdown.js")));
 						},
 						"./Button": () => {
-							return Promise.all([require.e("webpack_sharing_consume_default_is-array_is-array"), require.e("src_Button_js")]).then(() => () => (require("./src/Button.js")));
+							return Promise.all([
+								require.e("webpack_sharing_consume_default_is-array_is-array"), 
+								require.e("src_Button_js")])
+								.then(() => () => (require("./src/Button.js")));
 						}
 					};
 					var get = (module, getScope) => {
