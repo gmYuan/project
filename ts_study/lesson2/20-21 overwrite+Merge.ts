@@ -46,6 +46,17 @@ namespace nb {
     type DuplicateProps = InterSection<Props, DefaultProps>;
 }
 
+// 解释  Extract<keyof T, keyof U> &  Extract<keyof U, keyof T>
+type Inter1<T, U> = Extract<keyof T, keyof U> & Extract<keyof U, keyof T>;
+type Inter2<T, U> = Extract<keyof T, keyof U>;
+type Inter3<T, U> = Extract<keyof U, keyof T>;
+
+type T1 = {name:string,age:number};
+type T2 = {age: string,married:boolean };
+type K1 = Inter1<T1,T2>
+type K2 = Inter2<T1, T2>
+type K3 = Inter3<T1, T2>
+
 
 // 例5: Overwrite 重写
 namespace nc {
@@ -70,9 +81,8 @@ namespace nc {
 }
 
 
-
+// 例6: Merge = Compute+Omit<U,T> 合并
 namespace nd {
-    //Merge = Compute+Omit<U,T>
     type O1 ={
         id:number;
         name:string
@@ -81,36 +91,14 @@ namespace nd {
         id:number;
         age:number;
     }
-    //{id:number,name:string,age:number}
-    //type R2 = Merge<O1,O2>;
-    type Compute<A extends  any>=A extends Function?A:{[K in keyof A]:A[K]}
-    type Compute2<A>= A;
-    type R1 = Compute<string>;//{x:'x',y:'y'}
-    type Omit<T, K extends keyof any> = Pick<T, SetDifference<keyof T, K>>;
+    type Compute<A extends  any>=A extends Function? A: { [K in keyof A]:A[K] }
+    type R1 = Compute< { x: 'x' } & {  y: 'y' }>
+    type R3 = Compute<string>
+
+    type Omit<T, K extends keyof any> = Pick<T, SetDifference<keyof T, K> >;
     type Merge<O1 extends object, O2 extends object> = Compute<
-      O1&Omit<O2,keyof O1>
+      O1 & Omit<O2,keyof O1>
     >
-    type R2 = Merge<O1,O2>;
-    /**
-    type R2 = {
-        id: number;
-        name: string;
-        age: number;
-    }
-     * 
-     */
-
-     type K1 = any;
-     let K:K1 =true;
-     let k2:K1 = function(){};
-     type K2 = keyof any;
-     //let k22:K2 = true;
-
-    //Extract < keyof T, keyof U >，Extract < keyof U, keyof T > 他们的结果不是一样的吗？写一个不可以么
-    //这里type声明的对象和interface的效果是一样的吧，oldprops，newprops
-    type SS ={name:string}
-    interface SS2{name:string}
-
-    
+    type R2 = Merge<O1,O2>;  // { id:number, name:string, age:number }
 
 }
