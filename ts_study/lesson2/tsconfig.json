@@ -8,6 +8,7 @@
     "downlevelIteration": true,
     "strictFunctionTypes": true,
     "esModuleInterop":false,  // 转换ES6模块导入导出
+    "declaration": false,  // 编译TS文件时 自动生成声明文件
     // 用于 查找类型声明文件
     "baseUrl": "./",
     "paths": {

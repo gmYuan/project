@@ -27,8 +27,6 @@ String.prototype.double = function(){
 }
 let result = new String("hello").double();//hellohello
 console.log(result);
-
-
 console.log(window.myName);
 
 
