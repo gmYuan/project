@@ -7,5 +7,15 @@
     "experimentalDecorators": true,
     "downlevelIteration": true,
     "strictFunctionTypes": true,
+    "esModuleInterop":false,  // 转换ES6模块导入导出
+    // 用于 查找类型声明文件
+    "baseUrl": "./",
+    "paths": {
+      "*":["types/*"]
+    }
   },
+  "include":[
+    "src/**/*",
+    "typings/**/*"
+  ]
 }
