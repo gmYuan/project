@@ -16,10 +16,15 @@
         let vm = new Vue({
             el: '#app',
             data() {
-                return { name:'zf',age:10 }
+                return { name:'zf',age:10, info: {name2: 'haha'} }
             },
         });
+
+        // 更新值
+        vm._data.age = 12
+        console.log('新值是', vm._data)
     </script>
+
 </body>
 
 </html>
