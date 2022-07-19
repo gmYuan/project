@@ -46,6 +46,51 @@
     return _typeof(val) == 'object' && val !== null;
   }
 
+  // S1 拿到数组原型上的方法 （原来的方法）
+  var oldArrayProtoMethods = Array.prototype; //S2 创建新的原型基础对象：arrayMethods.__proto__ = Array.prototype
+
+  var arrayMethods = Object.create(oldArrayProtoMethods); // S3 获取 数组中会改变原数组的方法
+
+  var methods = ["push", "shift", "unshift", "pop", "reverse", "sort", "splice"]; // S4 调用的如果是以上七个方法，就会优先读取下面重写的，否则用原来的数组方法
+
+  methods.forEach(function (method) {
+    // 接收参数
+    arrayMethods[method] = function () {
+      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+      }
+
+      //S5 要先执行原逻辑
+      var result = oldArrayProtoMethods[method].apply(this, args);
+      var inserted; //S6 根据当前数组获取到observer实例
+
+      var ob = this.__ob__;
+
+      switch (method) {
+        case "push": // arr.push({a:1},{b:2})
+
+        case "unshift":
+          //这2个方法都是追加 追加的内容可能是对象类型，应该被再次进行劫持
+          inserted = args;
+          break;
+
+        case "splice":
+          // vue.$set原理
+          inserted = args.slice(2);
+      } // S7 如果有新增的内容，要进行继续劫持,
+      // 需要观测的是 数组里的每一项，而不是数组
+
+
+      if (inserted) ob.observeArray(inserted); // S8 返回结果
+
+      return result;
+    };
+  });
+
+  // 1.如果数据是对象：会将对象不停的递归 进行劫持
+  // 2.如果是数组：会劫持数组的方法，并对数组中不是基本数据类型的 进行劫持
+  // 劫持对象类型
+
   function observe(data) {
     // 如果是对象才观测
     if (!isObject(data)) {
@@ -53,19 +98,43 @@
     }
 
     return new Observer(data);
-  } // 对象类型的 劫持中心
+  } // 劫持中心
 
   var Observer = /*#__PURE__*/function () {
-    //S1 对对象中的所有属性 进行劫持
-    // 缺点：需要递归劫持嵌套对象的属性（增加get/set）,影响性能
-    // 所以 Vue3 改成了 proxy来监听
     function Observer(data) {
       _classCallCheck(this, Observer);
 
-      this.walk(data);
+      // S3 在所有被劫持过的属性上，都增加 __ob__属性
+      // data.__ob__ = this;
+      Object.defineProperty(data, "__ob__", {
+        value: this,
+        enumerable: false // 不可枚举的
+
+      });
+
+      if (Array.isArray(data)) {
+        //S2 单独处理 数组劫持的逻辑，因为数组并不能只是 简单检测它的key变化
+        //S2.1 对数组原来的方法进行改写：切片编程/高阶函数/代理模式
+        data.__proto__ = arrayMethods; //S2.2 如果数组中的数据是对象类型，需要监控对象的变化
+
+        this.observeArray(data);
+      } else {
+        //S1 对对象中的所有属性 进行劫持
+        // 缺点：需要递归劫持嵌套对象的属性（增加get/set）,影响性能
+        // 所以 Vue3 改成了 proxy来监听
+        this.walk(data);
+      }
     }
 
     _createClass(Observer, [{
+      key: "observeArray",
+      value: function observeArray(data) {
+        // 对数组成员里的 嵌套数组/对象类型，进行递归劫持
+        data.forEach(function (item) {
+          return observe(item);
+        });
+      }
+    }, {
       key: "walk",
       value: function walk(data) {
         Object.keys(data).forEach(function (key) {
@@ -87,7 +156,7 @@
       },
       set: function set(newV) {
         // Todo 更新视图
-        console.log('监测到值发生了变化'); //如果赋值的是一个新对象 ，也需要对这个新对象 进行劫持
+        console.log("监测到值发生了变化"); //如果赋值的是一个新对象 ，也需要对这个新对象 进行劫持
 
         observe(newV);
         value = newV;
@@ -124,12 +193,177 @@
     observe(data);
   }
 
+  // 关于正则可视化，参见：https://jex.im/regulex/#!flags=&re=
+  var ncname = "[a-zA-Z_][\\-\\.0-9_a-zA-Z]*"; // 标签名
+  // ?:匹配不捕获
+
+  var qnameCapture = "((?:".concat(ncname, "\\:)?").concat(ncname, ")"); //S1 标签开头的正则 捕获的内容是标签名
+
+  var startTagOpen = new RegExp("^<".concat(qnameCapture)); // console.log('开始标签是', startTagOpen)
+  // console.log('开始标签测试结果是', '<my_name//:is_ygm>'.match(startTagOpen))
+  //S2 匹配标签结尾的 </div>
+
+  var endTag = new RegExp("^<\\/".concat(qnameCapture, "[^>]*>")); // console.log('结束标签是', endTag)
+  //S3 匹配属性 aaa="aaa"  a='aaa'   a=aaa
+
+  var attribute = /^\s*([^\s"'<>\/=]+)(?:\s*(=)\s*(?:"([^"]*)"+|'([^']*)'+|([^\s"'=<>`]+)))?/; //S4 匹配标签的右箭头>
+
+  var startTagClose = /^\s*(\/?)>/; //S5 匹配Vue里的变量模版 双大括号 {{ }}
+  var root;
+  /**
+  作用: 把html模板内容转化为 AST节点对象
+
+  流程:
+  S1 解析模板内的 标签： startTagMatch / endTagMatch
+    - startTagMatch: parseStartTag + start
+    - endTagMatch: end +  advance
+   
+  S2 解析模板内的 文本：chars + advance  
+  */
+
+  var html;
+  function parseHTML(sourceHTML) {
+    html = sourceHTML;
+
+    while (html) {
+      //只要html不为空字符串就一直解析
+      var textEnd = html.indexOf("<"); // 当前解析的开头
+      // S1 说明是标签(开始/结束标签) ==> 处理标签
+
+      if (textEnd == 0) {
+        // 解析开始标签
+        var startTagMatch = parseStartTag(html);
+
+        if (startTagMatch) {
+          start(startTagMatch.tagName, startTagMatch.attrs);
+          continue;
+        } // 解析结束标签
+
+
+        var endTagMatch = html.match(endTag);
+
+        if (endTagMatch) {
+          end(endTagMatch[1]);
+          advance(endTagMatch[0].length);
+          continue;
+        }
+      } //S2 处理文本
+
+
+      var text = void 0;
+
+      if (textEnd > 0) {
+        text = html.substring(0, textEnd);
+      }
+
+      if (text) {
+        chars(text);
+        advance(text.length);
+      }
+    }
+
+    return root;
+  } // 将字符串进行截取操作 + 更新html内容
+
+  function advance(len) {
+    html = html.substring(len);
+  } // 处理开始标签
+
+
+  function parseStartTag(html) {
+    var start = html.match(startTagOpen);
+
+    if (start) {
+      var match = {
+        tagName: start[1],
+        attrs: []
+      }; // 删除开始标签左半部分：<div id='app'> 中的 <div
+
+      advance(start[0].length);
+
+      var _end;
+
+      var attr; // 如果没有遇到开始标签的结尾，就不停的解析
+      // 能匹配到属性
+
+      while (!(_end = html.match(startTagClose)) && (attr = html.match(attribute))) {
+        // 保存属性值
+        match.attrs.push({
+          name: attr[1],
+          value: attr[3] || attr[4] || attr[5]
+        }); // 去掉html当前标签里的 属性
+
+        advance(attr[0].length);
+      } // 删除匹配到的开始标签的 右结束标签 >
+
+
+      if (_end) {
+        advance(_end[0].length);
+      }
+
+      return match;
+    }
+
+    return false; // 不是开始标签
+  }
+
+  function start(tagName, attrs) {
+    console.log("开始标签是", tagName);
+    console.log("开始标签属性是", attrs);
+  } // 处理结束标签
+
+
+  function end(tagName) {
+    console.log("结束标签是", tagName);
+  } // 处理文本
+
+
+  function chars(text) {
+    console.log("文本是", text);
+  }
+
+  // 作用：把 html模板 => render函数
+  // 流程: html转化为AST => with + new Function
+
+  function compileToFunctions(template) {
+    // 1.把html代码转化成 "ast"语法 （ast树，可以用来描述语言本身）
+    var ast = parseHTML(template);
+  }
+
   function initMixin(Vue) {
     Vue.prototype._init = function (options) {
       var vm = this;
       vm.$options = options; // S2 对初始化数据的类型进行 逻辑细分 ==> Props/ Data/ Computed等
 
-      initState(vm);
+      initState(vm); // S3 准备模板编译
+
+      if (vm.$options.el) {
+        vm.$mount(vm.$options.el);
+      }
+    }; // S3 编译过程
+    // 把模板转化成 对应的渲染函数render ==>
+    // 虚拟dom vnode: 增加额外的对象属性 && 用diff算法来 更新虚拟dom ==>
+    // 生成真实dom
+
+
+    Vue.prototype.$mount = function (el) {
+      var vm = this;
+      var options = vm.$options;
+      el = document.querySelector(el);
+      vm.$el = el; // 编译优先级： render方法 > template属性 > el的内容
+
+      if (!options.render) {
+        var template = options.template;
+
+        if (!template && el) {
+          // 也没有传递template 就取el的内容作为模板
+          template = el.outerHTML;
+        } //S3.1 将模板编译成render函数
+
+
+        var render = compileToFunctions(template);
+        options.render = render;
+      }
     };
   }
 
