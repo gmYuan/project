@@ -14,8 +14,7 @@ const endTag = new RegExp(`^<\\/${qnameCapture}[^>]*>`);
 // console.log('结束标签是', endTag)
 
 //S3 匹配属性 aaa="aaa"  a='aaa'   a=aaa
-const attribute =
-  /^\s*([^\s"'<>\/=]+)(?:\s*(=)\s*(?:"([^"]*)"+|'([^']*)'+|([^\s"'=<>`]+)))?/;
+const attribute = /^\s*([^\s"'<>\/=]+)(?:\s*(=)\s*(?:"([^"]*)"+|'([^']*)'+|([^\s"'=<>`]+)))?/;
 
 //S4 匹配标签的右箭头>
 const startTagClose = /^\s*(\/?)>/;
@@ -46,7 +45,7 @@ export function parseHTML(sourceHTML) {
     // S1 说明是标签(开始/结束标签) ==> 处理标签
     if (textEnd == 0) {
       // 解析开始标签
-      const startTagMatch = parseStartTag(html);
+      const startTagMatch = parseStartTag();
       if (startTagMatch) {
         start(startTagMatch.tagName, startTagMatch.attrs);
         continue;
@@ -54,8 +53,8 @@ export function parseHTML(sourceHTML) {
       // 解析结束标签
       const endTagMatch = html.match(endTag);
       if (endTagMatch) {
-        end(endTagMatch[1]);
         advance(endTagMatch[0].length);
+        end(endTagMatch[1]);
         continue;
       }
     }
@@ -65,8 +64,8 @@ export function parseHTML(sourceHTML) {
       text = html.substring(0, textEnd);
     }
     if (text) {
-      chars(text);
       advance(text.length);
+      chars(text);
     }
   }
   return root;
@@ -78,7 +77,7 @@ function advance(len) {
 }
 
 // 处理开始标签
-function parseStartTag(html) {
+function parseStartTag() {
   const start = html.match(startTagOpen);
   if (start) {
     const match = {

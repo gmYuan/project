@@ -232,7 +232,7 @@
 
       if (textEnd == 0) {
         // 解析开始标签
-        var startTagMatch = parseStartTag(html);
+        var startTagMatch = parseStartTag();
 
         if (startTagMatch) {
           start(startTagMatch.tagName, startTagMatch.attrs);
@@ -243,8 +243,8 @@
         var endTagMatch = html.match(endTag);
 
         if (endTagMatch) {
-          end(endTagMatch[1]);
           advance(endTagMatch[0].length);
+          end(endTagMatch[1]);
           continue;
         }
       } //S2 处理文本
@@ -257,8 +257,8 @@
       }
 
       if (text) {
-        chars(text);
         advance(text.length);
+        chars(text);
       }
     }
 
@@ -270,7 +270,7 @@
   } // 处理开始标签
 
 
-  function parseStartTag(html) {
+  function parseStartTag() {
     var start = html.match(startTagOpen);
 
     if (start) {
