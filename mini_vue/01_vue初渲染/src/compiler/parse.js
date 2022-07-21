@@ -22,7 +22,6 @@ const startTagClose = /^\s*(\/?)>/;
 //S5 匹配Vue里的变量模版 双大括号 {{ }}
 const defaultTagRE = /\{\{((?:.|\r?\n)+?)\}\}/g;
 
-let root;
 
 /**
 作用: 把html模板内容转化为 AST节点对象
@@ -33,8 +32,16 @@ S1 解析模板内的 标签： startTagMatch / endTagMatch
   - endTagMatch: end +  advance
  
 S2 解析模板内的 文本：chars + advance  
+
+S3.1 parseStartTag: 获取tagName 和 tag属性 信息
+S3.2 start: 创建 root + 创建AstElement并入栈 + 更新currentParent
+S3.3 chars: 创建 文本类型的AstElement + 作为currentParent.children
+S3.4 end: 利用html文档标签的天然栈性质，创建节点之间的 父子关系
 */
 
+let root;
+let currentParent;
+let stack = [];
 let html;
 
 export function parseHTML(sourceHTML) {
@@ -68,6 +75,7 @@ export function parseHTML(sourceHTML) {
       chars(text);
     }
   }
+  console.log('root是', root)
   return root;
 }
 
@@ -110,16 +118,43 @@ function parseStartTag() {
 }
 
 function start(tagName, attrs) {
-  console.log("开始标签是", tagName);
-  console.log("开始标签属性是", attrs);
+  let element = createASTElement(tagName, attrs);
+  if(!root) {
+    root = element;
+  }
+  currentParent = element;
+  stack.push(element);
 }
 
-// 处理结束标签
+// 处理结束标签 ==> 在结尾标签处，创建父子关系
 function end(tagName) {
-  console.log("结束标签是", tagName);
+  let element = stack.pop();
+  currentParent = stack[stack.length-1];
+  // 在闭合时可以知道这个标签的父亲是谁
+  if(currentParent){ 
+    element.parent = currentParent;
+    currentParent.children.push(element);
+  }
 }
 
 // 处理文本
 function chars(text) {
-  console.log("文本是", text);
+  text = text.trim();
+  if(text){
+    currentParent.children.push({
+      type:3,
+      text
+    })
+  }
+}
+
+// 创建ast元素节点
+function createASTElement(tagName, attrs) {
+  return {
+    tag: tagName, // 标签名
+    type: 1, // 元素类型
+    attrs,
+    parent: null,
+    children: [],  
+  }
 }
