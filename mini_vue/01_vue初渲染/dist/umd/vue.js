@@ -323,9 +323,9 @@
         advance(text.length);
         chars(text);
       }
-    }
+    } // console.log('root是', root)
 
-    console.log('root是', root);
+
     return root;
   } // 将字符串进行截取操作 + 更新html内容
 
@@ -423,8 +423,9 @@
   //    return _c('div',{id:'app',style:{color:'red'}},_v('hello'+_s(name)),_c('span',null,_v('hello')))
   //}
   function generate(el) {
-    var code = "_c('".concat(el.tag, "',").concat(el.attrs.length ? "".concat(genProps(el.attrs)) : 'undefined').concat(children ? ",".concat(children) : '', ")");
-    console.log('el & code', el, code);
+    var code = "_c('".concat(el.tag, "',").concat(el.attrs.length ? "".concat(genProps(el.attrs)) : 'undefined').concat( '', ")");
+    console.log('el', el);
+    console.log('code', code);
     return code;
   } // 拼接属性
 

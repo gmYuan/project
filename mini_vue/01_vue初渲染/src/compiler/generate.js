@@ -6,13 +6,15 @@
 
 
 export function generate(el) {
+    let children
     let code = `_c('${el.tag}',${
         el.attrs.length? `${genProps(el.attrs)}`:'undefined'
     }${
         children?`,${children}`:''
     })`;
 
-    console.log('el & code', el, code)
+    console.log('el', el)
+    console.log('code', code)
     return code;
 }
 

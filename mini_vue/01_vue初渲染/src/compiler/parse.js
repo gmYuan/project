@@ -75,7 +75,7 @@ export function parseHTML(sourceHTML) {
       chars(text);
     }
   }
-  console.log('root是', root)
+  // console.log('root是', root)
   return root;
 }
 
