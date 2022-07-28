@@ -418,14 +418,16 @@
     };
   }
 
-  // 编写<div id="app" style="color:red"> hello {{name}} <span>hello</span></div>
-  // 结果:render(){
-  //    return _c('div',{id:'app',style:{color:'red'}},_v('hello'+_s(name)),_c('span',null,_v('hello')))
-  //}
+  // 核心思路就是将模板转化成 下面这段字符串
+  // 即 把AST对象 转化为Render函数的 函数体
+  // <div id="app" style="color:red"> <p>hello {{name}} </p> hello </div>
+  // 将ast树 再次转化成js的语法
+  // _c("div",{id:app},_c("p",undefined,_v('hello' + _s(name) )),_v('hello')) 
+  var defaultTagRE = /\{\{((?:.|\r?\n)+?)\}\}/g; // 生成host元素类型标签 对应的 字符串
+
   function generate(el) {
-    var code = "_c('".concat(el.tag, "',").concat(el.attrs.length ? "".concat(genProps(el.attrs)) : 'undefined').concat( '', ")");
-    console.log('el', el);
-    console.log('code', code);
+    var children = genChildren(el);
+    var code = "_c('".concat(el.tag, "',").concat(el.attrs.length ? "".concat(genProps(el.attrs)) : 'undefined').concat(children ? ",".concat(children) : '', ")");
     return code;
   } // 拼接属性
 
@@ -455,47 +457,67 @@
     }
 
     return "{".concat(str.slice(0, -1), "}");
-  } // const defaultTagRE = /\{\{((?:.|\r?\n)+?)\}\}/g;
-  // function gen(node) {
-  //     if (node.type == 1) {
-  //         return generate(node); // 生产元素节点的字符串
-  //     } else {
-  //         let text = node.text; // 获取文本
-  //         // 如果是普通文本 不带{{}}
-  //         if(!defaultTagRE.test(text)){
-  //             return `_v(${JSON.stringify(text)})` // _v('hello {{ name }} world {{msg}} aa')   => _v('hello'+_s(name) +'world' + _s(msg))
-  //         }
-  //         let tokens = []; // 存放每一段的代码
-  //         let lastIndex = defaultTagRE.lastIndex = 0; // 如果正则是全局模式 需要每次使用前置为0
-  //         let match,index; // 每次匹配到的结果
-  //         while(match = defaultTagRE.exec(text)){
-  //             index = match.index; // 保存匹配到的索引
-  //             if(index > lastIndex){
-  //                 tokens.push(JSON.stringify(text.slice(lastIndex,index)))
-  //             }
-  //             tokens.push(`_s(${match[1].trim()})`);
-  //             lastIndex = index+match[0].length;
-  //         }
-  //         if(lastIndex < text.length){
-  //             tokens.push(JSON.stringify(text.slice(lastIndex)));
-  //         }
-  //         return `_v(${tokens.join('+')})`;
-  //     }
-  // }
-  // function genChildren(el) {
-  //     const children = el.children;
-  //     if (children) { // 将所有转化后的儿子用逗号拼接起来
-  //         return children.map(child => gen(child)).join(',')
-  //     }
-  // }
+  } // 处理标签 子节点对应的 字符串
+
+
+  function genChildren(el) {
+    var children = el.children;
+
+    if (children && children.length > 0) {
+      return "".concat(children.map(function (c) {
+        return gen(c);
+      }).join(','));
+    } else {
+      return false;
+    }
+  }
+
+  function gen(node) {
+    // 元素类型标签， 递归调用
+    if (node.type == 1) {
+      return generate(node); // 处理文本节点 和 变量文本节点
+    } else {
+      // 节点内容举例: <div>a {{  name  }} b{{age}} c </div>
+      var text = node.text;
+      var tokens = [];
+      var match, index; // 变量含义: 每次的偏移量
+      // 正则特性: 只要是全局匹配 就需要将lastIndex每次匹配的时候调到0处
+
+      var lastIndex = defaultTagRE.lastIndex = 0;
+
+      while (match = defaultTagRE.exec(text)) {
+        index = match.index; // 纯文本类型
+
+        if (index > lastIndex) {
+          tokens.push(JSON.stringify(text.slice(lastIndex, index)));
+        } // 变量文本类型
+
+
+        tokens.push("_s(".concat(match[1].trim(), ")"));
+        lastIndex = index + match[0].length;
+      } // 剩余的 纯文本类型
+
+
+      if (lastIndex < text.length) {
+        tokens.push(JSON.stringify(text.slice(lastIndex)));
+      }
+
+      return "_v(".concat(tokens.join('+'), ")");
+    }
+  }
 
   // 流程: html转化为AST => with + new Function
 
   function compileToFunctions(template) {
-    // 1.把html代码转化成 "ast"语法 （ast树，可以用来描述语言本身）
-    var root = parseHTML(template); // 2.生成代码 
+    //1. 把html代码转化成 "ast"语法 （ast树，可以用来描述语言本身）
+    var ast = parseHTML(template); //2. 字符串拼接(模板引擎), 生成函数体
 
-    var code = generate(root);
+    var fnBody = generate(ast); // 3. 注入变量上下文环境 new Function + with
+
+    var renderFn = new Function("with(this){ return ".concat(fnBody, "}")); // vue的render函数执行，返回的就是虚拟dom
+
+    console.log('render--', renderFn);
+    return renderFn;
   }
 
   function initMixin(Vue) {

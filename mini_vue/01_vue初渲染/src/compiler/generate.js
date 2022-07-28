@@ -1,20 +1,21 @@
-// 编写<div id="app" style="color:red"> hello {{name}} <span>hello</span></div>
+// 核心思路就是将模板转化成 下面这段字符串
+// 即 把AST对象 转化为Render函数的 函数体
 
-// 结果:render(){
-//    return _c('div',{id:'app',style:{color:'red'}},_v('hello'+_s(name)),_c('span',null,_v('hello')))
-//}
+// <div id="app" style="color:red"> <p>hello {{name}} </p> hello </div>
+// 将ast树 再次转化成js的语法
+// _c("div",{id:app},_c("p",undefined,_v('hello' + _s(name) )),_v('hello')) 
 
 
+const defaultTagRE = /\{\{((?:.|\r?\n)+?)\}\}/g
+
+// 生成host元素类型标签 对应的 字符串
 export function generate(el) {
-    let children
+    let children = genChildren(el);
     let code = `_c('${el.tag}',${
         el.attrs.length? `${genProps(el.attrs)}`:'undefined'
     }${
         children?`,${children}`:''
     })`;
-
-    console.log('el', el)
-    console.log('code', code)
     return code;
 }
 
@@ -38,45 +39,44 @@ function genProps(attrs) {
 }
 
 
+// 处理标签 子节点对应的 字符串
+function genChildren(el){
+    let children = el.children;
+    if(children && children.length > 0){
+        return `${children.map(c => gen(c)).join(',')}`
+    } else {
+        return false;
+    }
+}
 
 
-
-
-
-
-// const defaultTagRE = /\{\{((?:.|\r?\n)+?)\}\}/g;
-
-// function gen(node) {
-//     if (node.type == 1) {
-//         return generate(node); // 生产元素节点的字符串
-//     } else {
-//         let text = node.text; // 获取文本
-//         // 如果是普通文本 不带{{}}
-
-//         if(!defaultTagRE.test(text)){
-//             return `_v(${JSON.stringify(text)})` // _v('hello {{ name }} world {{msg}} aa')   => _v('hello'+_s(name) +'world' + _s(msg))
-//         }
-//         let tokens = []; // 存放每一段的代码
-//         let lastIndex = defaultTagRE.lastIndex = 0; // 如果正则是全局模式 需要每次使用前置为0
-//         let match,index; // 每次匹配到的结果
-
-//         while(match = defaultTagRE.exec(text)){
-//             index = match.index; // 保存匹配到的索引
-//             if(index > lastIndex){
-//                 tokens.push(JSON.stringify(text.slice(lastIndex,index)))
-//             }
-//             tokens.push(`_s(${match[1].trim()})`);
-//             lastIndex = index+match[0].length;
-//         }
-//         if(lastIndex < text.length){
-//             tokens.push(JSON.stringify(text.slice(lastIndex)));
-//         }
-//         return `_v(${tokens.join('+')})`;
-//     }
-// }
-// function genChildren(el) {
-//     const children = el.children;
-//     if (children) { // 将所有转化后的儿子用逗号拼接起来
-//         return children.map(child => gen(child)).join(',')
-//     }
-// }
+function gen(node){
+    // 元素类型标签， 递归调用
+    if(node.type == 1){
+        return generate(node);
+        // 处理文本节点 和 变量文本节点
+    } else {
+        // 节点内容举例: <div>a {{  name  }} b{{age}} c </div>
+        let text = node.text; 
+        let tokens = [];
+        let match,index;
+        // 变量含义: 每次的偏移量
+        // 正则特性: 只要是全局匹配 就需要将lastIndex每次匹配的时候调到0处
+        let lastIndex = defaultTagRE.lastIndex = 0; 
+        while(match = defaultTagRE.exec(text)){
+            index = match.index;
+            // 纯文本类型
+            if(index > lastIndex){
+                tokens.push(JSON.stringify(text.slice(lastIndex,index)));
+            }
+            // 变量文本类型
+            tokens.push(`_s(${match[1].trim()})`);
+            lastIndex = index + match[0].length;
+        }
+        // 剩余的 纯文本类型
+        if(lastIndex < text.length){
+            tokens.push(JSON.stringify(text.slice(lastIndex)))
+        }
+        return `_v(${tokens.join('+')})`;
+    }
+}
