@@ -12,51 +12,21 @@ import * as babel from '@babel/core'
 const projectRoot = resolve(__dirname, 'project_1')
 // 类型声明
 type DepRelation = { key: string, deps: string[], code: string }[]
-// 初始化一个空的 depRelation，用于收集依赖
+// a1 初始化一个空的 depRelation数组，用于收集依赖
 const depRelation: DepRelation = [] // 数组！
 
+
+// a2 读取入口文件内容 + 遇到依赖模块的AST语句，就存入到 depRelation数组
 // 将入口文件的绝对路径传入函数，如 D:\demo\fixture_1\index.js
 collectCodeAndDeps(resolve(projectRoot, 'index.js'))
 
+
+// a3 生成打包后的文件内容
 writeFileSync('dist_2.js', generateCode())
 console.log('done')
 
-function generateCode() {
-  let code = ''
-  code += 'var depRelation = [' + depRelation.map(item => {
-    const { key, deps, code } = item
-    return `{
-      key: ${JSON.stringify(key)}, 
-      deps: ${JSON.stringify(deps)},
-      code: function(require, module, exports){
-        ${code}
-      }
-    }`
-  }).join(',') + '];\n'
-  code += 'var modules = {};\n'
-  code += `execute(depRelation[0].key)\n`
-  code += `
-  function execute(key) {
-    if (modules[key]) { return modules[key] }
-    var item = depRelation.find(i => i.key === key)
-    if (!item) { throw new Error(\`\${item} is not found\`) }
-    var pathToKey = (path) => {
-      var dirname = key.substring(0, key.lastIndexOf('/') + 1)
-      var projectPath = (dirname + path).replace(\/\\.\\\/\/g, '').replace(\/\\\/\\\/\/, '/')
-      return projectPath
-    }
-    var require = (path) => {
-      return execute(pathToKey(path))
-    }
-    modules[key] = { __esModule: true }
-    var module = { exports: modules[key] }
-    item.code(require, module, module.exports)
-    return modules[key]
-  }
-  `
-  return code
-}
 
+// 具体逻辑实现
 function collectCodeAndDeps(filepath: string) {
   const key = getProjectPath(filepath) // 文件的项目路径，如 index.js
   if (depRelation.find(i => i.key === key)) {
@@ -91,4 +61,41 @@ function collectCodeAndDeps(filepath: string) {
 // 获取文件相对于根目录的相对路径
 function getProjectPath(path: string) {
   return relative(projectRoot, path).replace(/\\/g, '/')
+}
+
+// 生成打包后的文件内容
+function generateCode() {
+  let code = ''
+  code += 'var depRelation = [' + depRelation.map(item => {
+    const { key, deps, code } = item
+    return `{
+      key: ${JSON.stringify(key)}, 
+      deps: ${JSON.stringify(deps)},
+      code: function(require, module, exports){
+        ${code}
+      }
+    }`
+  }).join(',') + '];\n'
+  code += 'var modules = {};\n'
+  code += `execute(depRelation[0].key)\n`
+  code += `
+  function execute(key) {
+    if (modules[key]) { return modules[key] }
+    var item = depRelation.find(i => i.key === key)
+    if (!item) { throw new Error(\`\${item} is not found\`) }
+    var pathToKey = (path) => {
+      var dirname = key.substring(0, key.lastIndexOf('/') + 1)
+      var projectPath = (dirname + path).replace(\/\\.\\\/\/g, '').replace(\/\\\/\\\/\/, '/')
+      return projectPath
+    }
+    var require = (path) => {
+      return execute(pathToKey(path))
+    }
+    modules[key] = { __esModule: true }
+    var module = { exports: modules[key] }
+    item.code(require, module, module.exports)
+    return modules[key]
+  }
+  `
+  return code
 }
