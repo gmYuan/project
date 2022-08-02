@@ -55,6 +55,16 @@ S3 如何实现一个打包器
 
 
 具体实现流程
-a1 初始化一个空的 depRelation数组，用于收集依赖
-a2 读取入口文件内容 + 遇到依赖模块的AST语句，就存入到 depRelation数组
-a3 生成打包后的文件内容
+S1 初始化一个空的 depRelation数组，用于收集依赖
+S2 读取入口文件内容 + 遇到依赖模块的AST语句，就存入到 depRelation数组
+
+S3 生成/定义 打包后生成的 文件内容
+  - 遍历 depRelation，修改其中的code为 commonJS规则函数 
+  - 定义一个缓存对象modules， 用来保证不会陷入 循环引用导致爆栈
+  - 执行入口文件 execute(depRelation[0].key)
+
+S4 execute的逻辑
+  - 定义了 require函数逻辑： 就是用于 执行导入的文件内容 ==> execute(pathToKey)
+  - 定义了 结果对象: module = { exports: { __esModule: true, default: xx } }
+  - 执行了 item.code(require, module, module.exports)
+  - 在执行完item.code，往module.exports上添加属性后 + 返回了 module.exports对象
