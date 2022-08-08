@@ -29,3 +29,15 @@ S5.2 execute的逻辑: 执行文件内容 + 把导出的属性挂载到 module.e
   - 执行完item.code，往module.exports上添加属性后 + 返回了 module.exports对象
 
   - 定义了 require函数: 就是用于 执行文件内容 ==> execute(pathToKey)
+
+
+-------------------
+Q2 如何实现一个loader
+
+A: </br>
+
+S1 loader本质上是一个被导出的 函数A
+  - 函数A可以把 非JS类型的文件内容，转化为 commonJS类型的 文件
+  - loader一般遵循 单一职责，这样就能够允许 多个loader之间配合执行
+  - 函数A可以在转化过程中，加入一些中转/转译处理，即 代理功能 
+  - 有一些loader除了转译，还需要能在页面中直接插入源文件内容(style-loader)
