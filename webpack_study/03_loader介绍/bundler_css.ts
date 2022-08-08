@@ -43,6 +43,8 @@ function generateCode() {
   code += `execute(depRelation[0].key)\n`
   code += `
   function execute(key) {
+    console.log('execute执行了--', key,modules )
+    
     if (modules[key]) { return modules[key] }
     var item = depRelation.find(i => i.key === key)
     if (!item) { throw new Error(\`\${item} is not found\`) }

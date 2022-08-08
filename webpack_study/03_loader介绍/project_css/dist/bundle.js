@@ -69,17 +69,27 @@ exports["default"] = _default;
       code: function(require, module, exports){
         "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+var str = "body {\n  color: red;\n}\n";
+
 if (document) {
   var style = document.createElement('style');
-  style.innerHTML = "\nconst str = \"body {\\r\\n  color: red;\\r\\n}\\r\\n\"\nexport default str\n";
+  style.innerHTML = str;
   document.head.appendChild(style);
 }
+
+var _default = str;
+exports["default"] = _default;
       }
     }];
 var modules = {};
 execute(depRelation[0].key)
 
   function execute(key) {
+    console.log('execute执行了--', key,modules )
     if (modules[key]) { return modules[key] }
     var item = depRelation.find(i => i.key === key)
     if (!item) { throw new Error(`${item} is not found`) }

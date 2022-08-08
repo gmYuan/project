@@ -36,9 +36,12 @@ function generateCode() {
       deps: ${JSON.stringify(deps)},
       code: function(require, module, exports){
         ${code}
-      }
+      } 
     }`
   }).join(',') + '];\n'
+
+  // console.log('code----', code)
+
   code += 'var modules = {};\n'
   code += `execute(depRelation[0].key)\n`
   code += `
