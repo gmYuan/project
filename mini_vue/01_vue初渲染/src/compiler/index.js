@@ -14,6 +14,6 @@ export function compileToFunctions(template) {
   let renderFn = new Function(`with(this){ return ${fnBody}}`); 
 
   // vue的render函数执行，返回的就是虚拟dom
-  console.log('render--', renderFn)
+  // console.log('render--', renderFn)
   return renderFn;
 }

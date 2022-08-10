@@ -101,6 +101,18 @@
   function isObject(val) {
     return _typeof(val) == 'object' && val !== null;
   }
+  function proxy(vm, data, key) {
+    Object.defineProperty(vm, key, {
+      // vm.a
+      get: function get() {
+        return vm[data][key]; // vm._data.a
+      },
+      set: function set(newValue) {
+        // vm.a = 100;
+        vm[data][key] = newValue; // vm._data.a = 100;
+      }
+    });
+  }
 
   // S1 拿到数组原型上的方法 （原来的方法）
   var oldArrayProtoMethods = Array.prototype; //S2 创建新的原型基础对象：arrayMethods.__proto__ = Array.prototype
@@ -242,9 +254,10 @@
     vm._data = data = typeof data == 'function' ? data.call(vm) : data; //S3 数据劫持/响应式原理
     // Vue2: 对象==> Object.defineProperty; 数组==> 单独处理
     // 当我去vm上取属性时 ，帮我将属性的取值代理到vm._data上
-    // for(let key in data){
-    //     proxy(vm,'_data',key);
-    // } 
+
+    for (var key in data) {
+      proxy(vm, '_data', key);
+    }
 
     observe(data);
   }
@@ -515,9 +528,27 @@
     var fnBody = generate(ast); // 3. 注入变量上下文环境 new Function + with
 
     var renderFn = new Function("with(this){ return ".concat(fnBody, "}")); // vue的render函数执行，返回的就是虚拟dom
+    // console.log('render--', renderFn)
 
-    console.log('render--', renderFn);
     return renderFn;
+  }
+
+  function lifecycleMixin(Vue) {
+    Vue.prototype._update = function (vnode) {};
+  }
+  function mountComponent(vm, el) {
+    var options = vm.$options;
+    vm.$el = el; // 更新函数: 数据变化后, 会再次调用此函数
+    //    vm._render: 通过render函数，生成虚拟dom
+    //    vm._update: 用虚拟dom 生成真实dom
+
+    var updateComponent = function updateComponent() {
+      vm._update(vm._render());
+    }; // 渲染watcher, 每个组件都有一个watcher
+    // true表示是一个渲染过程
+
+
+    new Watcher(vm, updateComponent, function () {}, true);
   }
 
   function initMixin(Vue) {
@@ -553,8 +584,15 @@
 
         var render = compileToFunctions(template);
         options.render = render;
-      }
+      } // 需要挂载这个组件
+
+
+      mountComponent(vm, el);
     };
+  }
+
+  function renderMixin(Vue) {
+    Vue.prototype._render = function () {};
   }
 
   // 入口：对Vue进行声明和扩展
@@ -566,6 +604,9 @@
 
 
   initMixin(Vue);
+  renderMixin(Vue); // 定义vm._render
+
+  lifecycleMixin(Vue); // 定义vm._update
 
   return Vue;
 

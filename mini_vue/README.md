@@ -2,6 +2,20 @@ Q1 Vue实现流程介绍
 
 A:
 
+this._init(options)
+  1. initState(vm) 
+    - initData(vm): 数据劫持/响应式原理 
+  
+  2. vm.$mount(vm.$options.el)
+    - compileToFunctions(template)
+    - mountComponent(vm,el)
+        1. updateComponent => vm._update( vm._render() )
+        2. new Watcher(vm, updateComponent)
+
+
+
+
+
 S1 定义Vue函数 & 扩展Vue原型对象 + 在构造函数里，执行入口方法 
   - 如何对 Vue原型对象进行扩展 ==> 通过多个 Mixin组合，从而解偶
   - 入口方法  ==> this._init(options)，在 initMixin中被定义
@@ -14,7 +28,7 @@ S1.2 initMixin插件: 实现了多个关于 初始化渲染的方法
 
 S1 ==> S2 Vue.pty._init: 代理数据 + 挂载渲染
   - initState(vm): 对state根据类型 进行细分处理 ==> initData / initProps等
-  - vm.$mount(vm.$options.el): 准备模板编译
+  - vm.$mount(vm.$options.el): 模板编译 + 挂载组件
 
 
 S2 ==> S3.1 initData(vm): 数据劫持/响应式原理 ==> observe
