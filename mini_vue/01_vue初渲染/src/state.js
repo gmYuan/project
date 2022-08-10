@@ -20,10 +20,6 @@ export function initState(vm) {
     }
 }
 
-function initProps() {}
-
-function initMethods() {}
-
 function initData(vm) {
     let data = vm.$options.data;
     // 把data结果 挂载到 vue._data上
@@ -38,6 +34,10 @@ function initData(vm) {
     } 
     observe(data);
 }
+
+function initProps() {}
+
+function initMethods() {}
 
 function initComputed() {}
 
