@@ -1,4 +1,5 @@
 import { observe } from "./observer/index";
+import { proxy } from './utils';
 
 export function initState(vm) {
     const opts = vm.$options;
@@ -19,10 +20,6 @@ export function initState(vm) {
     }
 }
 
-function initProps() {}
-
-function initMethods() {}
-
 function initData(vm) {
     let data = vm.$options.data;
     // 把data结果 挂载到 vue._data上
@@ -32,11 +29,15 @@ function initData(vm) {
     // Vue2: 对象==> Object.defineProperty; 数组==> 单独处理
 
     // 当我去vm上取属性时 ，帮我将属性的取值代理到vm._data上
-    // for(let key in data){
-    //     proxy(vm,'_data',key);
-    // } 
+    for(let key in data){
+        proxy(vm,'_data',key);
+    } 
     observe(data);
 }
+
+function initProps() {}
+
+function initMethods() {}
 
 function initComputed() {}
 
