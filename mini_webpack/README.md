@@ -1,35 +1,49 @@
-## webpack小结
+## mini_webpack目录
 
-Q1：webpack是什么
+01 webpack的核心概念
 
-A:
-S1 对于JS程序的 静态模块打包工具
-S2 webpack打包程序 ==> 基于模块生成依赖图 ==> 生成一个/多个bundle
-S3 安装webpack
-  -  [官方文档-起步](https://webpack.docschina.org/guides/getting-started/)
+Q1: webpack核心概念介绍
+A: <br/>
 
------------------------------
-Q2 webpack 有哪些核心概念
+S1 入口(entry): 主执行文件， 依赖图起点
+  - 使用不同的配置文件: https://webpack.docschina.org/configuration/#use-different-configuration-file
 
-A:
-S1 入口(entry)：主执行文件， 依赖图起点
-S2 输出(output)：定义/配置 输出bundle(多个 module集合)的 相关信息
-S3 loader：
-  1. webpack 只能理解 JS 和 JSON 文件
-  2. loader 用于把其他类型的文件 转化为Webpack的 有效模块，并添加到依赖图中
-  3. loader 本质上是一个输出JS模块的 函数
-  
+S2 输出(output): 配置 输出bundle(多个 module集合)的 相关信息
+
+S3 加载器(loader): [21:00-32:00]
+  - webpack 只能理解 JS 和 JSON 文件
+  - loader 可以把其他类型的文件 转化为JS模块，并添加到依赖图中
+  - loader 本质上是一个 输出JS模块的函数
+
 S4 插件(plugin):
-  1. 生命周期 钩子函数，可以执行各种类型的任务
-  2. 包括：打包优化，资源管理，注入环境变量等
+  - 它通过webpack提供的 生命周期钩子，可以执行各种类型的任务
+  - 包括：打包优化，资源管理，注入环境变量等
 
 S5 模式(mode):
-  1. 开启webpack在不同环境下的 优化设置
+  - 用于设置 webpack在不同环境下的 打包配置
 
 具体配置参考，见
 [官方文档- 概念](https://webpack.docschina.org/concepts/)
 
+
+Q2: 其他知识点备忘
+A: <br/>
+
+S1 Node.js中 resolve和join的区别  [13:00-15:00]
+
+
 ---------------------------------------
+02 webpack介绍
+
+
+
+
+
+
+
+
+
+
 Q3 如何配置本地开发服务器
 
 A:  
