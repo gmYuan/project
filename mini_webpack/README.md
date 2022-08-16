@@ -33,29 +33,29 @@ S1 Node.js中 resolve和join的区别  [13:00-15:00]
 
 
 ---------------------------------------
-02 webpack介绍
+02 配置webpack-dev-server
 
+Q1: webpack-dev-server介绍
 
+A: <br/>
 
+S1 运行在内存中--> 内存文件系统: memory-fs
 
-
-
-
-
-
-
-Q3 如何配置本地开发服务器
-
-A:  
-S1 使用 webpack-dev-server
-S2 运行在内存中--> 内存文件系统: memory-fs
-S3 output文件访问路径-->
+S2 output文件访问路径-->
   http://[devServer.host]:[devServer.port]/[output.publicPath]/[output.filename]
-S4 devServer的static配置==> 待继续学习
+
+S3 devServer的static配置 [11:50-14:00]
 
 具体配置参考，见
 [官方- 指南 - 开发环境](https://webpack.docschina.org/guides/development/)
 [官方- 配置 - DevServer](https://webpack.docschina.org/configuration/dev-server/)
+
+
+Q2: 其他知识点备忘
+A: <br/>
+
+S1 Node.js中 memory-fs介绍  [14:00-15:00]
+
 
 ---------------------------------------
 Q4 如何配置 图片资源引入
