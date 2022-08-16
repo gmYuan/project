@@ -57,6 +57,39 @@ A: <br/>
 S1 Node.js中 memory-fs介绍  [14:00-15:00]
 
 
+----------------------
+03 配置支持less/scss/css类型文件
+
+Q1: 如何安装和使用 css-loader
+A: <br/>
+
+S1 [官方- 指南 - 管理资源](https://webpack.docschina.org/guides/asset-management/#loading-css)
+
+
+Q2: 其他知识点备忘
+A: <br/>
+
+S1 path /publicPath /contentBase含义  [00:00-18:35]
+  - path: 指定 输出目录
+  - fileName: 指定 打包文件在 path下的文件路径
+
+  - publicPath: 用于指定没有在entry中导入，但是却在项目中被依赖的资源(按需加载的资源/静态资源)的 url请求路径
+
+  - contentBase: 用于在 dev环境中配置 读取静态资源的路径,在webpack5中，已被 static_publicPath替代
+
+
+------------------------
+04 配置支持
+
+Q1: 如
+A: <br/>
+
+S1 
+
+
+
+
+
 ---------------------------------------
 Q4 如何配置 图片资源引入
 
