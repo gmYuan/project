@@ -69,13 +69,14 @@ S1 [官方- 指南 - 管理资源](https://webpack.docschina.org/guides/asset-ma
 Q2: 其他知识点备忘
 A: <br/>
 
-S1 path /publicPath /contentBase含义  [00:00-18:35]
+S1 path /publicPath /contentBase含义 [00:00-18:35] & [06_00:00-14:30]
   - path: 指定 输出目录
   - fileName: 指定 打包文件在 path下的文件路径
 
-  - publicPath: 用于指定没有在entry中导入，但是却在项目中被依赖的资源(按需加载的资源/静态资源)的 url请求路径
+  - publicPath: 用于指定没有在entry中导入，但是却在项目中被依赖的资源(按需加载的资源/静态资源)的 url请求路径，同时也是 打包后的index.html里引用资源的前缀
+  - 本质上，publicPath就相当于配置 dist目录的 "虚拟目录"别名
 
-  - contentBase: 用于在 dev环境中配置 读取静态资源的路径,在webpack5中，已被 static_publicPath替代
+  - contentBase: 用于在 dev环境中配置 读取的静态资源 所在的目录,在webpack5中，已被 static_dir替代
 
 
 ------------------------
@@ -128,10 +129,16 @@ S3 loader/ 预设/插件 的功能  [08:50-15:50]
   - 预设是 插件的集合，安装一个预设相当于 安装了多个插件
 
 ---------------------------------------
-06 支持
+06 解析path等问题
 
-Q1: 如何支持
+Q1: 如何支持 ES6/ES7中 类似Promise的 新的API [19:00-xx:xx]
 A: <br/>
+
+S1 全量使用 @babel/polyfill
+
+S2 在 @babel/preset-env中 配置参数，以按需使用polyfill
+
+
 
 
 
