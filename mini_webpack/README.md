@@ -79,50 +79,65 @@ S1 path /publicPath /contentBase含义  [00:00-18:35]
 
 
 ------------------------
-04 配置支持
+04 支持图片
 
-Q1: 如
+Q1: 如何支持 图片资源引入
 A: <br/>
 
-S1 
+S1 file-loader(url-loader)/ html-loader/ asset module(内置模块)
+  - file-loader: 拷贝图片 + 把图片模块 变成JS模块 ==> JS中 import引入图片
+  - css-loaer: css中的 ulr()引入图片
+  - html-loader: html中的 直接引入图片的相对路径 [16:00-17:30]
 
+S2 file-loader的简单实现
+  - 具体内容见 01_basic/loaders/file-loader.js
 
-
-
-
----------------------------------------
-Q4 如何配置 图片资源引入
-
-A:
-S1 使用步骤为：安装 --> 配置 --> 使用
-
-S1 处理less/css等 样式文件的引入：less-loader/ css-loader/ style-loader
-S2 处理图片的引入
-  1. file-loader/ url-loader/ html-loader/ asset module(内置模块)
-  2. file-loader处理内容：拷贝图片 + 把图片模块 变成JS模块
+具体配置，可参考
 
 [官方- 指南- 管理资源](https://webpack.docschina.org/guides/asset-management/)
 
----------------------------------------
-Q5 如何配置转化 ES6/ES7等语法
 
-A:
-S1 安装loader、预设、集成、插件：
+---------------------------------------
+05 支持JS语法
+
+Q1: 如何支持 ES6/ES7等语法
+A: <br/>
+
+S1 安装loader、预设、插件、集成:
   1. npm install -D babel-loader @babel/core @babel/preset-env
   2. npm install --save-dev @babel/preset-react
   3. npm install --save @babel/polyfill
   4.1  npm install --save-dev @babel/plugin-proposal-decorators
   4.2 npm install --save-dev @babel/plugin-proposal-class-properties
 
-S2 loader/ 预设/插件 的功能
-  1. babel-loader：使用/依赖 babelCore，来进行内容转化，它的作用 就是调用babelCore
-  2. babelCore：只负责 代码 <==> 抽象语法树的双向转化，只是提供一个过程管理功能
-  3. presetEnv：把ES6语法树，按一定的规则 转化成 ES5语法树
-   
-  4. 预设是 插件的集合
+S2 配置使用，具体见
 
 [官方- Loader- babel-loader](https://webpack.docschina.org/loaders/babel-loader/)
+
 [babel官方- 插件](https://www.babeljs.cn/docs/plugins-list)
+
+
+S3 loader/ 预设/插件 的功能  [08:50-15:50]
+  - babel-loader的简单实现，见 01_basic/loaders/babel-loader.js
+
+  - babel-loader：使用/依赖 babelCore，来进行内容转化，它的作用 就是调用babelCore
+  - babelCore：只负责 代码 <==> 抽象语法树的双向转化，只是提供一个过程管理功能
+
+  - presetEnv：把ES6语法树，按一定的规则 转化成 ES5语法树
+   
+  - 预设是 插件的集合，安装一个预设相当于 安装了多个插件
+
+---------------------------------------
+06 支持
+
+Q1: 如何支持
+A: <br/>
+
+
+
+
+
+
 
 
 ---------------------------------------
