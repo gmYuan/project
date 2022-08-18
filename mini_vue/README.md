@@ -12,7 +12,6 @@ S3 初始化项目结构
 
 -----------------------------
 02 数据劫持定义 <br/>
-03 
 
 Q1: Vue如何实现 扩展解偶
 A: <br/>
@@ -37,13 +36,15 @@ S3 initData(vm): 数据劫持
   - 对data进行数据劫持 observe(data)函数定义 [(19:00-02_end)]
 
 
+------------------------------------
+03 
 
-Q2: Vue如何实现 数据劫持/响应式原理
+Q1: Vue2如何实现 数据劫持/响应式原理
 A: <br/>
 
-observe(data):
-
 S1
+
+
 
 
 ----------------
@@ -62,37 +63,15 @@ A: <br/>
 
 
 -----------------------
-Q1 Vue实现流程介绍
+Vue实现流程介绍
 
 A:
 
 this._init(options)
-  1. initState(vm) 
-    - initData(vm): 数据劫持/响应式原理 
+  - initState(vm) 
+    - initData(vm)
+      - observe(data)
   
-  2. vm.$mount(vm.$options.el)
+  - vm.$mount(vm.$options.el)
     - compileToFunctions(template)
     - mountComponent(vm,el)
-        1. updateComponent => vm._update( vm._render() )
-        2. new Watcher(vm, updateComponent)
-
-
-
-
-S2 ==> S3.2 Vue.pty.$mount
-  - 把模板编译成render函数: render = compileToFunctions(template)
-  - 挂载组件: mountComponent(vm,el);
-
-
-S3.2 ==> S4.1 compileToFunctions
-  - 把html代码转化成 "ast"语法:  ast = parseHTML(template);
-  - 字符串拼接(模板引擎), 生成函数体:  fnBody = generate(ast);
-  - 注入变量上下文环境: new Function(`with(this){ return ${fnBody}}`); 
-  - 返回renderFn
-
-
-S3.2 ==> S4.2 渲染真实DOM 到页面中
-  - vm_render: 通过执行 options.render, 生成vdom
-  - vm_update: 通过vdom, 生成真实DOM
-  - Watcher
- 
