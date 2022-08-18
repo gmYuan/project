@@ -128,15 +128,37 @@ S3 loader/ 预设/插件 的功能  [08:50-15:50]
    
   - 预设是 插件的集合，安装一个预设相当于 安装了多个插件
 
+
 ---------------------------------------
 06 解析path等问题
 
-Q1: 如何支持 ES6/ES7中 类似Promise的 新的API [19:00-xx:xx]
+Q1: 如何支持 ES6/ES7中 类似Promise的 新的API [19:00-27:00]
 A: <br/>
 
 S1 全量使用 @babel/polyfill
 
-S2 在 @babel/preset-env中 配置参数，以按需使用polyfill
+S2 在 @babel/preset-env中 配置参数，以 按需使用polyfill
+
+S3 polyfill-service: 了解即可   [38:30-44:00]
+
+
+S4 关于useBuiltIns参数含义  [46:00-49:20]
+  - false: 全量引入polyfill
+  - entry: 手动引入 需要的polyfill
+  - usage: 根据配置和使用，按需引入polyfill
+
+需要使用polyfill的原因： @babel/preset-env只能转化ES6的语法(如 箭头函数)，无法转化API(如 Promise)和实例方法(如 String.pty.includes)
+
+
+---------------------------------------
+07 eslint代码风格检查
+
+Q1: 如何支持 
+A: <br/>
+
+S1
+
+
 
 
 
