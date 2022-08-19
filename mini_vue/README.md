@@ -69,7 +69,9 @@ observe 劫持数据的流程 [00:00-15:25]
   2. 如果是对象: 对data里的每个成员，调用defineReactive，递归进行get/set劫持
   3. 递归调用的情况: data里的成员a是一个引用类型/ a之后被赋值了一个新对象地址
 
-
+defineReactive的缺点
+  1. 需要递归调用Object.defineProperty劫持 嵌套对象(增加get/set), 影响性能
+  2. 所以 Vue3改成了 proxy来监听
 
 
 
