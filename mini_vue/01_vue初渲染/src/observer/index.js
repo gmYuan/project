@@ -62,7 +62,7 @@ function defineReactive(data, key, value) {
     },
     set(newV) {
       // Todo 更新视图
-      console.log("监测到值发生了变化");
+      console.log("defineReactive监测到值发生了变化");
       //如果赋值的是一个新对象 ，也需要对这个新对象 进行劫持
       observe(newV);
       value = newV;

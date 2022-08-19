@@ -1,3 +1,20 @@
+Vue实现流程介绍
+
+A:<br/>
+this._init(options)
+  - initState(vm) 
+    - initData(vm)
+      - observe(data)
+        - new Observer(data)
+          - this.observeArray(data)
+          - defineReactive(data, key, value)
+  
+  - vm.$mount(vm.$options.el)
+    - compileToFunctions(template)
+    - mountComponent(vm,el)
+
+
+----------------------
 01 rollUp的配置
 
 Q1:
@@ -37,12 +54,22 @@ S3 initData(vm): 数据劫持
 
 
 ------------------------------------
-03 
+03 对象的数据劫持
 
 Q1: Vue2如何实现 数据劫持/响应式原理
 A: <br/>
 
-S1
+initData的流程
+  1.执行函数获取到vm.$options.data值，并赋值给 vm_data
+  2.用vm._data代理 vm.$options.data的每个值，从而可以直接访问到 vm.data
+  3.劫持数据 ==> observe(data)
+
+observe 劫持数据的流程 [00:00-15:25]
+  1. data是基本类型数据: 直接返回，不进行劫持（递归中止条件）
+  2. 如果是对象: 对data里的每个成员，调用defineReactive，递归进行get/set劫持
+  3. 递归调用的情况: data里的成员a是一个引用类型/ a之后被赋值了一个新对象地址
+
+
 
 
 
@@ -62,16 +89,3 @@ A: <br/>
 
 
 
------------------------
-Vue实现流程介绍
-
-A:
-
-this._init(options)
-  - initState(vm) 
-    - initData(vm)
-      - observe(data)
-  
-  - vm.$mount(vm.$options.el)
-    - compileToFunctions(template)
-    - mountComponent(vm,el)
