@@ -21,7 +21,7 @@ methods.forEach((method) => {
     switch (method) {
       case "push": // arr.push({a:1},{b:2})
       case "unshift":
-        //这2个方法都是追加 追加的内容可能是对象类型，应该被再次进行劫持
+        //这2个方法都是追加, 追加的内容可能是对象类型，应该被再次进行劫持
         inserted = args;
         break;
       case "splice": // vue.$set原理

@@ -18,10 +18,11 @@ export function observe(data) {
 class Observer {
   constructor(data) {
     // S3 在所有被劫持过的属性上，都增加 __ob__属性
-    // data.__ob__ = this;
+    // data.__ob__ = this; // 直接这样写会在递归执行时，因为该属性爆栈
     Object.defineProperty(data, "__ob__", {
       value: this,
-      enumerable: false, // 不可枚举的
+      enumerable: false, //不可枚举的,以防止observeArray递归调用爆栈
+      configurable: false
     });
 
     if (Array.isArray(data)) {

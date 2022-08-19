@@ -6,7 +6,7 @@ this._init(options)
     - initData(vm)
       - observe(data)
         - new Observer(data)
-          - this.observeArray(data)
+          - 代理arrayMethods + this.observeArray(data)
           - defineReactive(data, key, value)
   
   - vm.$mount(vm.$options.el)
@@ -55,6 +55,7 @@ S3 initData(vm): 数据劫持
 
 ------------------------------------
 03 对象的数据劫持
+04 数组的数据劫持
 
 Q1: Vue2如何实现 数据劫持/响应式原理
 A: <br/>
@@ -64,26 +65,38 @@ initData的流程
   2.用vm._data代理 vm.$options.data的每个值，从而可以直接访问到 vm.data
   3.劫持数据 ==> observe(data)
 
-observe 劫持数据的流程 [00:00-15:25]
+observe 劫持数据的流程
   1. data是基本类型数据: 直接返回，不进行劫持（递归中止条件）
   2. 如果是对象: 对data里的每个成员，调用defineReactive，递归进行get/set劫持
   3. 递归调用的情况: data里的成员a是一个引用类型/ a之后被赋值了一个新对象地址
 
-defineReactive的缺点
+  [04Start-04end]
+  4. 如果是数组: 单独处理该类型, 因为监测数组里的每个index 过于耗费性能
+    - 对数组中的会改变原数组的 原型方法进行覆盖: arrayMethods
+    - 如果数组的成员是对象类型，再监控对象的变化: this.observeArray(data)
+
+  5. arrayMethods: 切片编程/高阶函数/代理模式
+    - 获取原本的数组原型对象并继承: arrayMethods = Object.create(old)
+    - 遍历 arrayMethods中会改变原数组的方法: push/pop等
+    - 执行 push/pop + 获取到新插入的数据: insertedArr
+    - 监测insertedArr里的每个成员: ob.observeArray(insertedArr)
+    - 如何在data对象里，可以调用observeArray ==> data.__ob__ = this(Observer类实例)
+     
+
+defineReactive的缺点  [03Start-03end]
   1. 需要递归调用Object.defineProperty劫持 嵌套对象(增加get/set), 影响性能
   2. 所以 Vue3改成了 proxy来监听
 
 
+-------------------
+05 模板编译
 
-
-----------------
-Q1: Vue如何实现 数据劫持/响应式原理
+Q1: 如何实现 模板编译
 A: <br/>
 
-  - 对 对象中的所有属性 进行劫持: this.walk(data)
-  - 对 对象进行遍历, 每个属性用defineProperty重新定义: defineReactive
-  - 对数组原来的方法进行改写：切片编程/高阶函数/代理模式
-  - 如果数组中的数据是对象类型，需要监控对象的变化
+xxx的流程
+  1.
+
 
 
 
