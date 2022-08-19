@@ -11,6 +11,9 @@ this._init(options)
   
   - vm.$mount(vm.$options.el)
     - compileToFunctions(template)
+      - parseHTML(template)
+      - generate(ast)
+      - renderFn
     - mountComponent(vm,el)
 
 
@@ -94,8 +97,14 @@ defineReactive的缺点  [03Start-03end]
 Q1: 如何实现 模板编译
 A: <br/>
 
-xxx的流程
-  1.
+模板编译的流程
+  1. 编译优先级: render方法 > template属性 > el的内容
+  2. 把模板编译成render函数 ==> compileToFunctions
+  
+compileToFunctions的流程:
+  1.把 tempalte转化为 树结构的语法对象
+    - 目标演示  [05__11:00-17:00]
+    - 正则含义  [05__17:00-27:00]
 
 
 
