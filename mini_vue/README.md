@@ -91,20 +91,45 @@ defineReactive的缺点  [03Start-03end]
   2. 所以 Vue3改成了 proxy来监听
 
 
--------------------
+------------------------
 05 模板编译
+06 html-parser实现
+07 把html转为AST语法树
+08 生成代码
+
 
 Q1: 如何实现 模板编译
 A: <br/>
 
 模板编译的流程
   1. 编译优先级: render方法 > template属性 > el的内容
-  2. 把模板编译成render函数 ==> compileToFunctions
+  2. 把模板编译成render函数 ==> 
+      ast = compileToFunctions(template)
+      fnBody = generate(ast);
   
+
 compileToFunctions的流程:
-  1.把 tempalte转化为 树结构的语法对象
+  1.1 把 tempalte转化为 树结构的语法对象 ==> parseHTML(template)
     - 目标演示  [05__11:00-17:00]
     - 正则含义  [05__17:00-27:00]
+
+  1.2 parseHTML(template)实现流程
+    - 本质就是: 字符串匹配 + 处理字符串 + 字符串截取
+    - 解析开始标签 (parseStartTag) : 获取tagName + 截断已解析部分 + 获取attrs + 截断字符  [06__07:20-16:00]
+    - start: 创建元素节点对象, 作为root/curParent值 + 入栈 [07__05:30-07:50]
+    - chars: 解析文本标签: 截断空字符串 + 添加文本类型节点 
+    [06__16:30-20:00] && [07__07:55-09:10]
+    - 解析结束标签: 更新currentParent + 创建父子关系指针
+     [06__20:00-24:30] && [07__09:30-15:40]
+    - 使用 root/curParent/stack来记录 树结构状态  [07__00:00-05:00]
+
+
+generate(ast)的流程:
+  本质是: 字符串拼接/模板引擎
+  目标是: 通过ast树结构，生成函数体字符串内容: _c('div', {id: app}, _v('hello' + _s(name), _v(.....) )   [08__00:00-04:00]
+
+  1. generate(eleAst):  拼接 原生类型的节点对象 (从ast的root开始)
+  2. genProps(attrs): 拼接 节点的属性对象 [08__08:00-14:00]
 
 
 

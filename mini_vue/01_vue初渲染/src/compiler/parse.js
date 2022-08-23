@@ -97,8 +97,7 @@ function parseStartTag() {
 
     let end;
     let attr;
-    // 如果没有遇到开始标签的结尾，就不停的解析
-    // 能匹配到属性
+    // 如果没有遇到开始标签的结尾，就不停的解析 能匹配到属性
     while (
       !(end = html.match(startTagClose)) &&
       (attr = html.match(attribute))
