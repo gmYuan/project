@@ -1,6 +1,7 @@
 module.exports = {
     // 需要一个parser解析器 帮我们把源代码 转成抽象语法树
     parser: "@babel/eslint-parser",
+    // 继承 规范化的规则集合
     extends: 'airbnb',
 
     // 指定解析器选项

@@ -156,48 +156,51 @@ S4 关于useBuiltIns参数含义  [46:00-49:20]
 Q1: 如何支持 
 A: <br/>
 
-S1
-
-
-
-
-
-
-
-
-
-
-
-
----------------------------------------
-Q6 如何配置 eslint规校验
-
-A:
 S1 安装esllint/ eslint-loader/ @babel/eslint
   - eslint-loader已被替换为 eslint-webpack-plugin
   - @babel/eslint已被替换为 @babel/eslint-parser
   1. npm install eslint eslint-webpack-plugin --save-dev
   2. npm install @babel/eslint-parser --save-dev
 
+
 S2 配置规则
-  1. eslint-loader：
+  1. eslint-loader：  [01:00-05:30]
     - loader: 'eslint-loader', // 先进行代码校验，然后再编译代码
     - enforce: 'pre',        // 强制指定顺序  pre normal inline post
     - options: { fix: true },    // 启动自动修复
     - include: resolve(__dirname, 'src'),    // 白名单
-    - exclude:/node_modules/               // 黑名单
+    - exclude: /node_modules/               // 黑名单
   
-  2. 新增配置文件.eslintrc.js
+  2. 新增配置文件.eslintrc.js     [05:30-10:30]
     - 配置 parser/rules等规则
 
-S3 引入规范化的规则集合
+S3 引入规范化的规则集合    [13:00-16:00]
   1. 安装eslint-config-airbnb: 
     - npx install-peerdeps --dev eslint-config-airbnb
   2. eslintrc.js 配置： ` extends: 'airbnb' `
-  3. 自动修复设置：IDE功能配置文件
+  3. 自动修复设置：IDE功能配置文件  [16:50-17:50]
+
+
+具体参考 
 
 [官方- plugin- EslintWebpackPlugin](https://webpack.docschina.org/plugins/eslint-webpack-plugin/)
+
 [@babel/eslint-parser](https://www.npmjs.com/package/@babel/eslint-parser)
+
+
+
+
+
+---------------------------------------
+08 xxx
+
+
+
+
+
+
+
+
 
 
 ---------------------------------------
