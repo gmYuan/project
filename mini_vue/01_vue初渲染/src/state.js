@@ -28,7 +28,7 @@ function initData(vm) {
     //S3 数据劫持/响应式原理
     // Vue2: 对象==> Object.defineProperty; 数组==> 单独处理
 
-    // 当我去vm上取属性时 ，帮我将属性的取值代理到vm._data上
+    // 当去vm上取属性时 ，将属性的取值 代理到vm._data上
     for(let key in data){
         proxy(vm,'_data',key);
     } 

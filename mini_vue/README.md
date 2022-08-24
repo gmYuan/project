@@ -4,6 +4,7 @@ A:<br/>
 this._init(options)
   - initState(vm) 
     - initData(vm)
+      - vm.data取值代理 ==> proxy(vm,'_data',key)
       - observe(data)
         - new Observer(data)
           - 代理arrayMethods + this.observeArray(data)
@@ -20,8 +21,8 @@ this._init(options)
 ----------------------
 01 rollUp的配置
 
-Q1:
-A: <br/>
+Q1: <br/>
+A: 
 
 S1 rollup依赖安装
 
@@ -31,10 +32,10 @@ S3 初始化项目结构
 
 
 -----------------------------
-02 数据劫持定义 <br/>
+02 数据劫持定义
 
-Q1: Vue如何实现 扩展解偶
-A: <br/>
+Q1: Vue如何实现 扩展解偶 <br/>
+A:
 
 S1 定义Vue函数 & 扩展Vue原型对象 + 在构造函数里，执行初始化方法 
   - 如何对 Vue原型对象进行扩展 ==> 通过多个 Mixin组合，从而解偶
@@ -60,8 +61,8 @@ S3 initData(vm): 数据劫持
 03 对象的数据劫持
 04 数组的数据劫持
 
-Q1: Vue2如何实现 数据劫持/响应式原理
-A: <br/>
+Q1: Vue2如何实现 数据劫持/响应式原理  <br/>
+A: 
 
 initData的流程
   1.执行函数获取到vm.$options.data值，并赋值给 vm_data
@@ -99,16 +100,15 @@ defineReactive的缺点  [03Start-03end]
 09 生成render函数
 
 
-Q1: 如何实现 模板编译
-A: <br/>
+Q1: 如何实现 模板编译为render函数 <br/>
+A: 
 
-模板编译的流程
+模板编译为 render函数的流程
   1. 编译优先级: render方法 > template属性 > el的内容
   2. 把模板编译成render函数 ==> 
       ast = compileToFunctions(template);
       fnBody = generate(ast);
       renderFn = new Function(`with(this){ return ${fnBody}}`); 
-
 
 
 compileToFunctions的流程:
@@ -142,6 +142,13 @@ generate(ast)的流程:
   1. renderFn = new Function(`with(this){ return ${fnBody}}`); 
 
 
+-----------------
+10 代理_data属性
 
+Q1: 如何实现 vm.data取值代理  <br/>
+A: 
 
+S1 通过proxy，代理 vm_data的读取逻辑 [0:00-05:00]
+
+S2 具体实现，见 [01_vue初渲染/src/state.js]
 
