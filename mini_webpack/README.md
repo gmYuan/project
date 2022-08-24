@@ -2,8 +2,8 @@
 
 01 webpack的核心概念
 
-Q1: webpack核心概念介绍
-A: <br/>
+Q1: webpack核心概念介绍 <br/>
+A: 
 
 S1 入口(entry): 主执行文件， 依赖图起点
   - 使用不同的配置文件: https://webpack.docschina.org/configuration/#use-different-configuration-file
@@ -26,8 +26,8 @@ S5 模式(mode):
 [官方文档- 概念](https://webpack.docschina.org/concepts/)
 
 
-Q2: 其他知识点备忘
-A: <br/>
+Q2: 其他知识点备忘<br/>
+A:
 
 S1 Node.js中 resolve和join的区别  [13:00-15:00]
 
@@ -47,12 +47,14 @@ S2 output文件访问路径-->
 S3 devServer的static配置 [11:50-14:00]
 
 具体配置参考，见
+
 [官方- 指南 - 开发环境](https://webpack.docschina.org/guides/development/)
+
 [官方- 配置 - DevServer](https://webpack.docschina.org/configuration/dev-server/)
 
 
-Q2: 其他知识点备忘
-A: <br/>
+Q2: 其他知识点备忘 <br/>
+A: 
 
 S1 Node.js中 memory-fs介绍  [14:00-15:00]
 
@@ -60,14 +62,14 @@ S1 Node.js中 memory-fs介绍  [14:00-15:00]
 ----------------------
 03 配置支持less/scss/css类型文件
 
-Q1: 如何安装和使用 css-loader
-A: <br/>
+Q1: 如何安装和使用 css-loader <br/>
+A: 
 
 S1 [官方- 指南 - 管理资源](https://webpack.docschina.org/guides/asset-management/#loading-css)
 
 
-Q2: 其他知识点备忘
-A: <br/>
+Q2: 其他知识点备忘  <br/>
+A: 
 
 S1 path /publicPath /contentBase含义 [00:00-18:35] & [06_00:00-14:30]
   - path: 指定 输出目录
@@ -82,8 +84,8 @@ S1 path /publicPath /contentBase含义 [00:00-18:35] & [06_00:00-14:30]
 ------------------------
 04 支持图片
 
-Q1: 如何支持 图片资源引入
-A: <br/>
+Q1: 如何支持 图片资源引入 <br/>
+A: 
 
 S1 file-loader(url-loader)/ html-loader/ asset module(内置模块)
   - file-loader: 拷贝图片 + 把图片模块 变成JS模块 ==> JS中 import引入图片
@@ -101,8 +103,8 @@ S2 file-loader的简单实现
 ---------------------------------------
 05 支持JS语法
 
-Q1: 如何支持 ES6/ES7等语法
-A: <br/>
+Q1: 如何支持 ES6/ES7等语法   <br/>
+A:
 
 S1 安装loader、预设、插件、集成:
   1. npm install -D babel-loader @babel/core @babel/preset-env
@@ -132,8 +134,8 @@ S3 loader/ 预设/插件 的功能  [08:50-15:50]
 ---------------------------------------
 06 解析path等问题
 
-Q1: 如何支持 ES6/ES7中 类似Promise的 新的API [19:00-27:00]
-A: <br/>
+Q1: 如何支持 ES6/ES7中 类似Promise的 新的API [19:00-27:00]  <br/>
+A: 
 
 S1 全量使用 @babel/polyfill
 
@@ -153,8 +155,8 @@ S4 关于useBuiltIns参数含义  [46:00-49:20]
 ---------------------------------------
 07 eslint代码风格检查
 
-Q1: 如何支持 
-A: <br/>
+Q1: 如何配置eslint  <br/>
+A: 
 
 S1 安装esllint/ eslint-loader/ @babel/eslint
   - eslint-loader已被替换为 eslint-webpack-plugin
@@ -188,64 +190,86 @@ S3 引入规范化的规则集合    [13:00-16:00]
 [@babel/eslint-parser](https://www.npmjs.com/package/@babel/eslint-parser)
 
 
-
-
-
 ---------------------------------------
-08 xxx
+08 sourceMap
 
+Q1 如何配置 sourceMap <br/>
+A:
 
-
-
-
-
-
-
-
-
----------------------------------------
-Q7 如何配置 sourceMap
-A：
 S1 明确各类型取值的含义
   - source-map：生成单独的 .map文件 + 包含行列映射 + 包含loader的map
-  - eval：模块级别的sourceMap + 每个模块都使用 eval() 执行 + 不包含行映射 + 可以缓存以提高性能
-  - cheap：不包含列映射 + 忽略 loader的 source map
-  - module：包含loader的 souce map
-  - inline：source map转换为 DataUrl后添加到bundle中，不生成单独的.map
+  - eval：模块级别的sourceMap + 每个模块都使用 eval() 执行 + 不包含行映射 + 可以缓存sourceMap文件 以提高性能 [21:00-26:00]
+  - cheap：不包含列映射 + 不包含 loader的sourceMap  [12:00-19:00]
+  - module：包含loader的 sourceMap
+  - inline：sourceMap转换为 DataUrl后添加到bundle中，不生成单独的.map
 
-S2 最佳实践配置
-  - 开发环境：`devtool: eval-cheap-module-source-map`
+S2 常见配置组合 [27:00-30:30]
+  - source-map
+  - eval-source-map
+  - cheap-source-map
+  - ......
+
+S2 最佳实践配置 [31:20-36:30]
+  - 开发环境：`devtool: cheap-module-eval-source-map`
   - 生产环境：`devtool: hidden-source-map`
 
 S3 更细化配置sourceMap方法
    - 使用 SourceMapDevToolPlugin
 
+
+具体文档，可见
+
 [官方- 配置- Devtool](https://webpack.docschina.org/configuration/devtool/)
 
 [官方- plugin- SourceMapDevToolPlugin](https://webpack.docschina.org/plugins/source-map-dev-tool-plugin/)
 
+
 ---------------------------------------
-Q8 如何加载第三方组件
+09 打包第三方类库
+
+Q1 如何加载 第三方库 <br/>
 A:
-S1 加载方式
-  1. import/ require 直接引用：痛点是比较麻烦，每次使用都要引入
-  2. webpack.ProvidePlugin组件引入
-    - 优点是 不需要手动引用了，直接 就能使用
-    - 缺点是 无法在全局下使用
-  3. expose-loader引入
-    - 配置内容为：exposes: { globalName: "_", override: true }
-  4. CDN 
-    - 手动导入 CDN插件脚本
-    - 执行后 会被挂在到全局对象上
-    - 配置 externals排除依赖
-    - 缺点：需要手动插入脚本 + 不管代码里用到没有用到，都会引入
-  5. html-webpack-extenrals-plugin
-    - 自动导入 CDN等脚本
-    - 只会用到时才 按需引入
+
+S1 import/require 直接引用
+  - 缺点: 比较麻烦，模块内每次使用都要 手动引入
+
+S2 webpack.ProvidePlugin组件引入  [02:30-06:50]
+  - 优点: 不需要在模块中手动引用, 直接 就能使用
+  - 缺点: 无法在全局下使用
+
+S3 expose-loader引入   [06:50-17:20]
+  - 优点: 可以在全局作用域内 使用
+  - 配置内容为：exposes: { globalName: "_", override: true }
+  
+S4 CDN   [17:30-22:30]
+  - 手动导入 CDN插件脚本
+  - 执行后 会被挂在到全局对象上
+  - 配置 externals排除依赖
+  - 缺点：需要手动插入脚本 + 不管代码里用到没有用到，都会引入
+
+S5 html-webpack-extenrals-plugin  [23:00-30:00]
+  - 自动导入 CDN等脚本
+  - 只会用到时才 按需引入
+  - 具体配置实例，见 01_basic/webpack.config.js
+
+具体文档，可参考
 
 [官方- loader- expose-loader](https://webpack.docschina.org/loaders/expose-loader/)
 
 [npm- htmlWebpackExternalsPlugin](https://www.npmjs.com/package/html-webpack-externals-plugin)
+
+
+---------------------------------------
+10 环境变量配置
+
+
+
+
+
+
+
+
+
 
 
 ---------------------------------------
@@ -254,7 +278,7 @@ A:
 
 S1 设置webpack-cli的env值，会被传入到webpack.config.js的函数里
   -  scripts里配置 "webpack --env develop"
-  -  --env只能给webpack配置文件自己使用
+  -  --env只能给webpack配置文件自己使用 ==> process.env.NODE_ENV
 
 S2 使用cross-env配置 NODE_ENV变量
   -  scripts里配置  "wt2": "cross-env NODE_ENV=wt2 webpack"
