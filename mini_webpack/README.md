@@ -262,21 +262,23 @@ S5 html-webpack-extenrals-plugin  [23:00-30:00]
 ---------------------------------------
 10 环境变量配置
 
-
-
-
-
-
-
-
-
-
-
----------------------------------------
-Q9 如何实现 webpack环境配置
+Q1 如何设置 webpack环境变量 <br/>
 A:
 
-S1 设置webpack-cli的env值，会被传入到webpack.config.js的函数里
+1. mode  [06:30-10:00]
+  - 默认为production
+  - 可以通过命令行配置  修改值 ==>  dev: webpack --mode=development
+  - 在模块内，可以通过 process.env.NODE_ENV读取到它的值
+  - 在webpack.config.js内，无法通过 process.env.NODE_ENV读取值
+
+
+
+
+
+
+
+
+设置webpack-cli的env值，会被传入到webpack.config.js的函数里
   -  scripts里配置 "webpack --env develop"
   -  --env只能给webpack配置文件自己使用 ==> process.env.NODE_ENV
 
@@ -293,9 +295,27 @@ S4 如何在全局里拿到 NODE_ENV变量
   - 设置webpack.DefinePlugin：定义全局变量的插件
   - 通过webpack.DefinePlugin，可以在浏览器中模拟 NODE_ENV变量
 
+
 [官方-API- cli](https://webpack.docschina.org/api/cli/#env)
 
 [cross-env介绍](https://www.npmjs.com/package/cross-env)
+
+
+
+
+
+
+
+
+
+---------------------------------------
+
+
+
+
+
+
+
 
 
 ---------------------------------------
