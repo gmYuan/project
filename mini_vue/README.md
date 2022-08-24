@@ -96,6 +96,7 @@ defineReactive的缺点  [03Start-03end]
 06 html-parser实现
 07 把html转为AST语法树
 08 生成代码
+09 生成render函数
 
 
 Q1: 如何实现 模板编译
@@ -104,9 +105,11 @@ A: <br/>
 模板编译的流程
   1. 编译优先级: render方法 > template属性 > el的内容
   2. 把模板编译成render函数 ==> 
-      ast = compileToFunctions(template)
+      ast = compileToFunctions(template);
       fnBody = generate(ast);
-  
+      renderFn = new Function(`with(this){ return ${fnBody}}`); 
+
+
 
 compileToFunctions的流程:
   1.1 把 tempalte转化为 树结构的语法对象 ==> parseHTML(template)
@@ -131,8 +134,12 @@ generate(ast)的流程:
   1. generate(eleAst):  拼接 原生类型的节点对象 (从ast的root开始)
   2. genProps(attrs): 拼接 节点的属性对象 [08__08:00-14:00]
 
+  3. genChildrenn(el): 处理一个节点下的 所有子节点对象，并拼接成字符串
+  4. gen(node): 递归函数，分别处理 原生类型/文本类型 的节点 [09__05:00-20:00]
 
 
+生成函数，注入上下文对象的方法  [09__20:00-25:00]
+  1. renderFn = new Function(`with(this){ return ${fnBody}}`); 
 
 
 

@@ -57,6 +57,8 @@ function gen(node){
         // 处理文本节点 和 变量文本节点
     } else {
         // 节点内容举例: <div>a {{  name  }} b{{age}} c </div>
+        // 希望转化为: _v('a' + _s(name) + 'b' + _s(age) + 'c')
+        
         let text = node.text; 
         let tokens = [];
         let match,index;
