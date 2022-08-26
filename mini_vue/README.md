@@ -15,7 +15,10 @@ this._init(options)
       - parseHTML(template)
       - generate(ast)
       - renderFn
+
     - mountComponent(vm,el)
+      - new Watcher(vm, updateComponent, () => {}, true)
+      - updateComponent = () => { vm._update(vm._render()) }
 
 
 ----------------------
@@ -152,3 +155,18 @@ S1 通过proxy，代理 vm_data的读取逻辑 [0:00-05:00]
 
 S2 具体实现，见 [01_vue初渲染/src/state.js]
 
+
+-----------------------
+11 初始化渲染流程
+
+01 如何实现页面初始化渲染 <br/>
+A: 
+
+1. 渲染watcher, 每个组件都有一个watcher  
+  - 每次组件数据发生变化，就会触发Watcher监听的回调
+  - 所以 Watcher属于 响应数据的 observer下
+  - new Watcher(vm, updateComponent, () => {}, true)
+
+2. 更新函数: updateComponent   [00-00:11:00]
+  - vm._render: 通过render函数，生成虚拟dom
+  - vm._update: 用虚拟dom 生成真实dom
