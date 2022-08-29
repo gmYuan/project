@@ -17,8 +17,17 @@ this._init(options)
       - renderFn
 
     - mountComponent(vm,el)
-      - new Watcher(vm, updateComponent, () => {}, true)
       - updateComponent = () => { vm._update(vm._render()) }
+      - new Watcher(vm, updateComponent, () => {}, true)
+
+        vm._render()
+          - vm.$options.render.call(vm)
+          - vm.pty._c ==> createElement / createTextNode ==> vnode()
+
+        vm._update()
+          - patch(oldVnode, vnode) ==> createElm
+
+
 
 
 ----------------------
@@ -158,6 +167,7 @@ S2 具体实现，见 [01_vue初渲染/src/state.js]
 
 -----------------------
 11 初始化渲染流程
+12 初次渲染
 
 01 如何实现页面初始化渲染 <br/>
 A: 
@@ -167,6 +177,28 @@ A:
   - 所以 Watcher属于 响应数据的 observer下
   - new Watcher(vm, updateComponent, () => {}, true)
 
-2. 更新函数: updateComponent   [00-00:11:00]
+1.2 更新函数: updateComponent   [11__00-00:11:00]
   - vm._render: 通过render函数，生成虚拟dom
   - vm._update: 用虚拟dom 生成真实dom
+
+1.3 Watcher的实现流程
+  - 构造函数: 调用 get, 即调用 updateComponent [12__00:00-03:00]
+
+2. vm._render的流程: [12__04:00-13:00]
+  - 获取到vm.$options.render + render.call(vm)
+  - 分别实现 vm.pty._c 和 vm.pty._v 和 vm.pty._s ==> createElement
+  - 调用 createElement / createTextNode
+
+2.1 createElement/ createTextNode的流程 [12__13:00-19:30]
+  - 调用 vnode，创建 vdom对象
+
+3. 根据vm_render生成的vdom,生成真实dom  [12__33:00-46:30]
+  - vm.pty._update ==> patch()
+  - patch(oldVnode, vnode)
+    - 渲染阶段: createElm + 插入新的真实dom + 删除旧的真实dom
+    - 更新阶段
+
+3.1 createElm的实现流程
+  - 处理当前vnode节点: vnode.el = document.createElement(tag)
+  - 更新属性: updateProperties(vnode);
+  - 处理当前vnode节点的子节点: 递归调用 createElm

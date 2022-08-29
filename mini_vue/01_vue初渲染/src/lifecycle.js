@@ -1,8 +1,11 @@
-
+import Watcher from './observer/watcher'
+import { patch } from "./vdom/patch"
 
 export function lifecycleMixin(Vue) {
   Vue.prototype._update = function (vnode) {
-    
+      // 既有初始化 又有更新 
+      const vm = this;
+      patch(vm.$el, vnode);
   };
 }
 

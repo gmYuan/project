@@ -138,7 +138,7 @@
         case "push": // arr.push({a:1},{b:2})
 
         case "unshift":
-          //这2个方法都是追加 追加的内容可能是对象类型，应该被再次进行劫持
+          //这2个方法都是追加, 追加的内容可能是对象类型，应该被再次进行劫持
           inserted = args;
           break;
 
@@ -173,11 +173,12 @@
       _classCallCheck(this, Observer);
 
       // S3 在所有被劫持过的属性上，都增加 __ob__属性
-      // data.__ob__ = this;
+      // data.__ob__ = this; // 直接这样写会在递归执行时，因为该属性爆栈
       Object.defineProperty(data, "__ob__", {
         value: this,
-        enumerable: false // 不可枚举的
-
+        enumerable: false,
+        //不可枚举的,以防止observeArray递归调用爆栈
+        configurable: false
       });
 
       if (Array.isArray(data)) {
@@ -224,7 +225,7 @@
       },
       set: function set(newV) {
         // Todo 更新视图
-        console.log("监测到值发生了变化"); //如果赋值的是一个新对象 ，也需要对这个新对象 进行劫持
+        console.log("defineReactive监测到值发生了变化"); //如果赋值的是一个新对象 ，也需要对这个新对象 进行劫持
 
         observe(newV);
         value = newV;
@@ -253,7 +254,7 @@
 
     vm._data = data = typeof data == 'function' ? data.call(vm) : data; //S3 数据劫持/响应式原理
     // Vue2: 对象==> Object.defineProperty; 数组==> 单独处理
-    // 当我去vm上取属性时 ，帮我将属性的取值代理到vm._data上
+    // 当去vm上取属性时 ，将属性的取值 代理到vm._data上
 
     for (var key in data) {
       proxy(vm, '_data', key);
@@ -266,18 +267,19 @@
   var ncname = "[a-zA-Z_][\\-\\.0-9_a-zA-Z]*"; // 标签名
   // ?:匹配不捕获
 
-  var qnameCapture = "((?:".concat(ncname, "\\:)?").concat(ncname, ")"); //S1 标签开头的正则 捕获的内容是标签名
+  var qnameCapture = "((?:".concat(ncname, "\\:)?").concat(ncname, ")"); // <aaa:bbb>
+  //S1 标签开头的正则 捕获的内容是标签名
 
   var startTagOpen = new RegExp("^<".concat(qnameCapture)); // console.log('开始标签是', startTagOpen)
-  // console.log('开始标签测试结果是', '<my_name//:is_ygm>'.match(startTagOpen))
+  // console.log('开始标签测试结果是', '<my_name:is_ygm>'.match(startTagOpen))
   //S2 匹配标签结尾的 </div>
 
   var endTag = new RegExp("^<\\/".concat(qnameCapture, "[^>]*>")); // console.log('结束标签是', endTag)
   //S3 匹配属性 aaa="aaa"  a='aaa'   a=aaa
 
-  var attribute = /^\s*([^\s"'<>\/=]+)(?:\s*(=)\s*(?:"([^"]*)"+|'([^']*)'+|([^\s"'=<>`]+)))?/; //S4 匹配标签的右箭头>
+  var attribute = /^\s*([^\s"'<>\/=]+)(?:\s*(=)\s*(?:"([^"]*)"+|'([^']*)'+|([^\s"'=<>`]+)))?/; //S4 匹配标签的右箭头 >
 
-  var startTagClose = /^\s*(\/?)>/; //S5 匹配Vue里的变量模版 双大括号 {{ }}
+  var startTagClose = /^\s*(\/?)>/; //S5 匹配Vue里的变量模版 双大括号 {{ }}, 获取双括号里面的 内容
   /**
   作用: 把html模板内容转化为 AST节点对象
 
@@ -360,8 +362,7 @@
 
       var _end;
 
-      var attr; // 如果没有遇到开始标签的结尾，就不停的解析
-      // 能匹配到属性
+      var attr; // 如果没有遇到开始标签的结尾，就不停的解析 能匹配到属性
 
       while (!(_end = html.match(startTagClose)) && (attr = html.match(attribute))) {
         // 保存属性值
@@ -491,6 +492,7 @@
       return generate(node); // 处理文本节点 和 变量文本节点
     } else {
       // 节点内容举例: <div>a {{  name  }} b{{age}} c </div>
+      // 希望转化为: _v('a' + _s(name) + 'b' + _s(age) + 'c')
       var text = node.text;
       var tokens = [];
       var match, index; // 变量含义: 每次的偏移量
@@ -533,8 +535,95 @@
     return renderFn;
   }
 
+  var Watcher = /*#__PURE__*/function () {
+    function Watcher(vm, expOrFn, cb, options) {
+      _classCallCheck(this, Watcher);
+
+      this.vm = vm;
+      this.cb = cb;
+      this.options = options; // 设置getter
+
+      this.getter = expOrFn; // 调用get
+
+      this.get();
+    }
+
+    _createClass(Watcher, [{
+      key: "get",
+      value: function get() {
+        this.getter();
+      }
+    }]);
+
+    return Watcher;
+  }();
+
+  function patch(oldVnode, vnode) {
+    // 判断是初次渲染还是后续更新 ==> 是否是 原生真实dom
+    // 只有在 原生真实dom节点上，才存在 nodeType属性
+    var isRealElement = oldVnode.nodeType;
+
+    if (isRealElement) {
+      var oldElm = oldVnode; // <div id='app'>
+
+      var parentElm = oldElm.parentNode;
+      var elm = createElm(vnode);
+      parentElm.insertBefore(elm, oldElm.nextSibling);
+      parentElm.removeChild(oldElm);
+    }
+  }
+
+  function createElm(vnode) {
+    var tag = vnode.tag,
+        data = vnode.data,
+        children = vnode.children,
+        key = vnode.key,
+        text = vnode.text,
+        vm = vnode.vm;
+
+    if (typeof tag === 'string') {
+      // 元素
+      // 虚拟节点会有一个el属性 对应真实节点
+      vnode.el = document.createElement(tag); // 更新属性
+
+      updateProperties(vnode); // 递归创建子节点真实dom
+
+      children.forEach(function (child) {
+        vnode.el.appendChild(createElm(child));
+      });
+    } else {
+      // 文本
+      vnode.el = document.createTextNode(text);
+    }
+
+    return vnode.el;
+  } // 更新属性
+
+
+  function updateProperties(vnode) {
+    var newProps = vnode.data || {};
+    var el = vnode.el; //以新的为准
+
+    for (var key in newProps) {
+      if (key === 'style') {
+        for (var styleName in newProps.style) {
+          // 新增样式
+          el.style[styleName] = newProps.style[styleName];
+        }
+      } else if (key === 'class') {
+        el.className = newProps["class"];
+      } else {
+        el.setAttribute(key, newProps[key]);
+      }
+    }
+  }
+
   function lifecycleMixin(Vue) {
-    Vue.prototype._update = function (vnode) {};
+    Vue.prototype._update = function (vnode) {
+      // 既有初始化 又有更新 
+      var vm = this;
+      patch(vm.$el, vnode);
+    };
   }
   function mountComponent(vm, el) {
     var options = vm.$options;
@@ -591,8 +680,56 @@
     };
   }
 
+  function createElement(vm, tag) {
+    var data = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+    var key = data.key; // key不属于data，而是一个单独的vdom属性
+
+    if (key) {
+      delete data.key;
+    }
+
+    for (var _len = arguments.length, children = new Array(_len > 3 ? _len - 3 : 0), _key = 3; _key < _len; _key++) {
+      children[_key - 3] = arguments[_key];
+    }
+
+    return vnode(vm, tag, data, key, children, undefined);
+  }
+  function createTextNode(vm, text) {
+    return vnode(vm, undefined, undefined, undefined, undefined, text);
+  }
+
+  function vnode(vm, tag, data, key, children, text) {
+    return {
+      vm: vm,
+      tag: tag,
+      data: data,
+      key: key,
+      children: children,
+      text: text // .....
+
+    };
+  }
+
   function renderMixin(Vue) {
-    Vue.prototype._render = function () {};
+    Vue.prototype._c = function () {
+      return createElement.apply(void 0, [this].concat(Array.prototype.slice.call(arguments)));
+    };
+
+    Vue.prototype._v = function (text) {
+      return createTextNode(this, text);
+    };
+
+    Vue.prototype._s = function (val) {
+      return val == null ? '' : _typeof(val) === 'object' ? JSON.stringify(val) : val;
+    };
+
+    Vue.prototype._render = function () {
+      var vm = this; // render就是我们实现出的render参数方法，同时也有可能是用户写的
+
+      var render = vm.$options.render;
+      var vnode = render.call(vm);
+      return vnode;
+    };
   }
 
   // 入口：对Vue进行声明和扩展
