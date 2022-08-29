@@ -264,51 +264,66 @@ S5 html-webpack-extenrals-plugin  [23:00-30:00]
 
 Q1 如何设置 webpack环境变量 <br/>
 A:
+ 
+1. webpack-cli的env值   [00:00-06:00]
+  - scripts里配置 "webpack --env develop"
+  - 设置webpack-cli的env值，会被传入到webpack.config.js的函数里
+  - env只能给webpack配置文件自己使用 ==> process.env.NODE_ENV无法获取到
+  - 当 env 和 mode值不一致时，webpack配置文件内 会以mode值为准
 
-1. mode  [06:30-10:00]
+
+2. 使用cross-env配置 NODE_ENV变量   [00:60-14:00]
+  - scripts里配置  "wt2": "cross-env NODE_ENV=wt2 webpack"
+  - 通过cross-env，可以设置 node环境中的process.env.NODE_ENV值
+
+  
+3. 设置webpack-cli的mode值 [具体见11]
   - 默认为production
   - 可以通过命令行配置  修改值 ==>  dev: webpack --mode=development
   - 在模块内，可以通过 process.env.NODE_ENV读取到它的值
   - 在webpack.config.js内，无法通过 process.env.NODE_ENV读取值
 
 
-
-
-
-
-
-
-设置webpack-cli的env值，会被传入到webpack.config.js的函数里
-  -  scripts里配置 "webpack --env develop"
-  -  --env只能给webpack配置文件自己使用 ==> process.env.NODE_ENV
-
-S2 使用cross-env配置 NODE_ENV变量
-  -  scripts里配置  "wt2": "cross-env NODE_ENV=wt2 webpack"
-  -  通过cross-env，可以设置 node环境中的process.env.NODE_ENV值
-  
-S3 设置webpack-cli的mode值
-  - scripts里配置 webpack --mode=development
-  - mode ==> 关联了 其他JS文件内的 process.env.NODE_ENV变量值
-  - webpack mode默认值是production
-
-S4 如何在全局里拿到 NODE_ENV变量
-  - 设置webpack.DefinePlugin：定义全局变量的插件
+4. 在全局里拿到 NODE_ENV变量  [16:00-30:00]
+  - 设置webpack.DefinePlugin: 定义全局变量的插件
   - 通过webpack.DefinePlugin，可以在浏览器中模拟 NODE_ENV变量
 
+具体文档，见: 
 
 [官方-API- cli](https://webpack.docschina.org/api/cli/#env)
 
 [cross-env介绍](https://www.npmjs.com/package/cross-env)
 
 
-
-
-
-
-
-
-
 ---------------------------------------
+11 开发和线上环境配置
+
+Q1 如何分别设置 webpack的开发/生产环境 <br/>
+A:
+
+1. 设置webpack-cli的mode值  [00:00-10:00]
+  - 默认为production
+  - 可以通过命令行配置  修改值 ==>  dev: webpack --mode=development
+  - 在模块内，可以通过 process.env.NODE_ENV读取到它的值
+  - 在webpack.config.js内，无法通过 process.env.NODE_ENV读取值
+
+2. webpack-cli的env值   [10:00-16:00]
+  - scripts里配置 "webpack --env develop"
+  - 设置webpack-cli的env值，会被传入到webpack.config.js的函数里
+  - env只能给webpack配置文件自己使用 ==> process.env.NODE_ENV无法获取到
+
+3. webpack.DefinePlugin  [17:00-21:00]
+
+4. 使用cross-env配置 NODE_ENV变量 [21:00-23:00]
+
+小结:  [23:00-43:00]
+
+1. 影响环境变量的3个变量: --mode=xxx/ cross-env NODE_ENV=wt2 / --env xxx
+2. mode决定了 模块内的process.env.NODE_ENV 的值
+3. cross-env NODE_ENV (export NODE_ENV) 决定了node环境下的process.env.NODE_ENV 的值 
+4. --env决定了 webpack.config.js入口函数的 env形参变量值
+
+
 
 
 
