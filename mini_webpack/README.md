@@ -324,46 +324,56 @@ A:
 4. --env决定了 webpack.config.js入口函数的 env形参变量值
 
 
-
-
-
-
-
-
-
-
-
 ---------------------------------------
-Q10 babel-loader的具体功能
-A:
-S1 babel-loader的presets
-  - "@babel/preset-env"：只能转化ES6的语法，不能转化新的API
+12 babel答疑_polyfill和runtime等
 
-S2 babel-loader的polyfill => options: {useBuiltIns: 'xxx'}
-  1. "@babel/polyfill"：用于转化ES6 新的API(属性方法等)
-  2. 设置 presets:  ` [  ['@babel/preset-env',    { useBuiltIns: 'xxx' },  ]  ......]`
+1. babel-loader的presets  [02:00-06:30]
+  - "@babel/preset-env": 只能转化ES6的语法，不能转化新的API
+  - ES6的语法: 如箭头函数;  ES6的API和属性方法: 如Promise
 
-  3. 全量引入所有的polyfill：{ useBuiltIns: 'entry' } + 使用模块中引入 `require('@babel/polyfill')`
-  4. 按需使用 polyfill：{ useBuiltIns: 'useage' } 
-  5. 缺点：污染了全局对象和变量
+2. babel-loader的polyfill   [06:30-09:30]
+  - "@babel/polyfill": 用于转化ES6 新的API(属性方法等)
+  - 设置 ['@babel/preset-env', { useBuiltIns: 'xxx' } ]  
 
-S3 babel-runtime库：提供编译模块的 工具函数
-  1. 优点：不会污染 全局空间污染
-  2. 缺点：每次使用时，都需要在使用模块中 手动引入所需工具函数
-  3. 安装：`npm install --save @babel/runtime`
-  4. 使用：在a.js中直接引入`require('babel-runtime/core-js/promise')`即可
+2.2 polyfill的引入方式    [09:30-19:00-21:00]
+  - 全量引入: { useBuiltIns: 'entry' } + 使用模块中引入 `require('@babel/polyfill')` + core2/3
+  - 按需使用 polyfill：{ useBuiltIns: 'useage' }
+  - 缺点：污染了全局对象和变量
 
-S4 @babel/plugin-transform-runtime插件
-  1. 按需自动引入babel-runtime工具函数(babel-runtime/core-js、babel-runtime/regenerator)
-  2. 移除内联的babel helpers，替换使用 babel-runtime/helpers
 
-S5 babel-runtime适合在组件/类库项目中使用；babel-polyfill 适合在业务项目中使用
+3. babel-runtime库：提供编译模块的 工具函数 [21:00-25:00]
+  - 优点：不会污染 全局空间污染
+  - 缺点：每次使用时，都需要在使用模块中 手动引入所需工具函数
+  - 安装：`npm install --save @babel/runtime`
+  - 使用：在a.js中直接引入`require('babel-runtime/core-js/promise')`即可
+
+
+4. @babel/plugin-transform-runtime插件  [25:00-36:00]
+  - 按需自动引入babel-runtime工具函数(babel-runtime/core-js、babel-runtime/regenerator)
+  - 移除内联的babel helpers，替换使用 babel-runtime/helpers
+
+小结: [36:00-38:00]
+  - babel-runtime 适合 在组件/类库项目中使用
+  - babel-polyfill适合 在业务项目中使用
+
 
 [@babel/plugin-transform-runtime 到底是什么](https://zhuanlan.zhihu.com/p/147083132)
 
 [@babel/plugin-transform-runtime官方文档](https://babeljs.io/docs/en/babel-plugin-transform-runtime)
-                 
-                
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ---------------------------------------
 Q11 如何设置源内容更新后，自动更新 打包文件
 A:             
