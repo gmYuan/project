@@ -192,6 +192,7 @@ S3 引入规范化的规则集合    [13:00-16:00]
 
 ---------------------------------------
 08 sourceMap
+13 sourceMap答疑
 
 Q1 如何配置 sourceMap <br/>
 A:
@@ -213,7 +214,7 @@ S2 最佳实践配置 [31:20-36:30]
   - 开发环境：`devtool: cheap-module-eval-source-map`
   - 生产环境：`devtool: hidden-source-map`
 
-S3 更细化配置sourceMap方法
+S3 更细化配置sourceMap方法  [13__10:00-24:00]
    - 使用 SourceMapDevToolPlugin
 
 
