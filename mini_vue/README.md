@@ -28,6 +28,10 @@ this._init(options)
           - patch(oldVnode, vnode) ==> createElm
 
 
+initGlobalApi(Vue)
+  - Vue.mixin: mergeOptions 
+    - lifeCycleHooks: 生命周期钩子 ==> 实现订阅
+    - callHook: 在不同阶段触发钩子 ==> 实现发布
 
 
 ----------------------
@@ -202,3 +206,28 @@ A:
   - 处理当前vnode节点: vnode.el = document.createElement(tag)
   - 更新属性: updateProperties(vnode);
   - 处理当前vnode节点的子节点: 递归调用 createElm
+
+
+-----------------------
+13 生命周期的合并策略
+
+Q1 如何实现生命周期钩子 <br/>   
+A: 
+
+1. 定义Vue 静态属性和方法: initGlobalApi(Vue)  [12:30-20:00]
+  - Vue.options
+  - Vue.mixin()
+
+2. Vue.mixin具体实现 
+  实现订阅逻辑
+    - 合并一般属性对象  [20:00-26:00]
+    - 合并特殊属性，如生命周期  [26:00-31:00]
+    - 支持组件实例的 生命周期合并 [32:00-34:00]
+  
+  实现发布逻辑  [34:00-42:00]
+    - 实现callHook
+    - 在不同的阶段，触发调用不同的钩子
+
+
+-----------------------
+14 xxx

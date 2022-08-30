@@ -2,6 +2,7 @@
 import { initMixin } from "./init";
 import { renderMixin } from "./render";
 import { lifecycleMixin } from "./lifecycle";
+import { initGlobalApi } from "./global-api/index";
 
 function Vue(options){
    //S1 初始化数据
@@ -14,6 +15,7 @@ initMixin(Vue);
 renderMixin(Vue);    // 定义vm._render
 lifecycleMixin(Vue); // 定义vm._update
 
-
+// 直接在类上扩展
+initGlobalApi(Vue);
 
 export default Vue;

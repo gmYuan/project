@@ -1,4 +1,4 @@
-import { isObject } from "../utils";
+import { isObject } from "../utils/index";
 import { arrayMethods } from "./array";
 
 // 基本原则：

@@ -21,6 +21,16 @@
             data() {
                 return { name:'world', info: {name2: 'haha'} }
             },
+            beforeCreate() {
+                console.log('实例组件的beforeCreate', this.name)
+            },
+            beforeMount() {
+                console.log('实例组件的beforeMount', this.name, this.$el)
+            },
+            mounted() {
+                console.log('实例组件的mounted', this.$el)
+            }
+
         });
 
         // 更新值

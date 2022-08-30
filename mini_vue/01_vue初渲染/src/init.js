@@ -1,14 +1,23 @@
 import { initState } from "./state";
 import { compileToFunctions } from "./compiler/index";
-import { mountComponent } from "./lifecycle";
+import { mountComponent, callHook } from "./lifecycle";
+import { mergeOptions } from './utils/index'
 
 export function initMixin(Vue) {
   Vue.prototype._init = function (options) {
     const vm = this;
-    vm.$options = options;
+    // 属性合并
+    vm.$options = mergeOptions(vm.constructor.options,options);
+    // console.log('vm.$options', vm.$options)
+
+    // 发布生命周期钩子
+    callHook(vm, 'beforeCreate')
 
     // S2 对初始化数据的类型进行 逻辑细分 ==> Props/ Data/ Computed等
     initState(vm);
+
+    // 发布生命周期钩子
+    callHook(vm, 'created')
 
     // S3 准备模板编译
     if (vm.$options.el) {

@@ -45,6 +45,11 @@ let stack = [];
 let html;
 
 export function parseHTML(sourceHTML) {
+  // 每次解析前，都重置之前的解析结果
+  root = null
+  currentParent = null
+  stack = []
+
   html = sourceHTML;
   while (html) {
     //只要html不为空字符串就一直解析

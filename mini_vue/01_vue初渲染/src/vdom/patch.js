@@ -7,9 +7,11 @@ export function patch(oldVnode, vnode) {
         const oldElm = oldVnode   // <div id='app'>
         const parentElm = oldElm.parentNode;
         let elm = createElm(vnode);
-
+        // 插入真实dom
         parentElm.insertBefore(elm, oldElm.nextSibling);
         parentElm.removeChild(oldElm);
+        // 返回节点
+        return elm
     }
 }
 
