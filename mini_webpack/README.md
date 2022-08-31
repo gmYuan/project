@@ -363,50 +363,60 @@ A:
 [@babel/plugin-transform-runtime官方文档](https://babeljs.io/docs/en/babel-plugin-transform-runtime)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 ---------------------------------------
-Q11 如何设置源内容更新后，自动更新 打包文件
+14 watch/ clean/ copy/ proxy
+
+Q1 如何设置源内容更新后，自动更新 打包文件  <br/>
 A:             
-S1 配置 watch: true
-S2 清空上次打包的文件：clean-webpack-plugin
+
+1. 配置 watch: true + watchOptions  [01:15-07:30]
+
+
+Q2 其他知识 <br/>
+1. copy-webpack-plugin  [07:30-11:00]
+
+2. clean-webpack-plugin [24:00-28:00]
+
+3. 配置proxy  [28:30-39:00__41:30-51:10]
+  - devServer: { proxy: { target: {}}, before() {} ....  }
+  - dev-server.js ==> webpack-dev-middleware + express
+  - nodemon dev-server.js
+
+
+4. chunk/ bundle的 含义  [12:30-14:00__17:00-23:30]
+  - chunk
+    - 模块a及其依赖模块b/c... 的集合，叫做chunk
+    - 单独生成chunk的情况: 入口文件 / 动态import()
+  - bundle: 
+    - chunk打包后生成的资源文件，叫做bunlde
+    - webpack 没有bundle概念，而是叫做 assets (产出的资源文件)
+
 
 [官方- 配置- watch](https://webpack.docschina.org/configuration/watch/)
 
+[官方- 配置- proxy](https://webpack.docschina.org/configuration/dev-server/#devserverproxy)
+
 [clean-webpack-plugin](https://www.npmjs.com/package/clean-webpack-plugin)
+
+[webpack-dev-middleware](https://www.npmjs.com/package/webpack-dev-middleware) 
+
+
+
+
+
+
+
 
 
 ---------------------------------------
 Q12 概念解释
 A:             
-S1 chunk：模块a及其依赖模块b/c... 的集合，叫做chunk
-S2 bundle：chunk打包后生成的资源文件，叫做bunlde
-  - webpack 没有bundle概念，而是叫做 assets (产出的资源文件)
+
 
 S3 filename & chunkfilename
   - 入口代码块的名称 /  非入口代码块的名称配置项
   - import()：动态代码分割，生成一个独立的代码块
 
----------------------------------------
-Q13 如何设置代理
-A:             
-S1 devServer: { proxy: { target: {}}, before() {} ....  }
-S2 dev-server.js ==> webpack-dev-middleware + express
-  - nodemon dev-server.js
-
-[官方- 配置- proxy](https://webpack.docschina.org/configuration/dev-server/#devserverproxy)
-  
-[webpack-dev-middleware](https://www.npmjs.com/package/webpack-dev-middleware) 
 
 ---------------------------------------
 Q13 如何设置 生产环境的webpack配置
