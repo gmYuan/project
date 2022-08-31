@@ -21,21 +21,26 @@
             data() {
                 return { name:'world', info: {name2: 'haha'} }
             },
-            beforeCreate() {
-                console.log('实例组件的beforeCreate', this.name)
-            },
-            beforeMount() {
-                console.log('实例组件的beforeMount', this.name, this.$el)
-            },
-            mounted() {
-                console.log('实例组件的mounted', this.$el)
-            }
-
+            // beforeCreate() {
+            //     console.log('实例组件的beforeCreate', this.name)
+            // },
+            // beforeMount() {
+            //     console.log('实例组件的beforeMount', this.name, this.$el)
+            // },
+            // mounted() {
+            //     console.log('实例组件的mounted', this.$el)
+            // }
         });
 
         // 更新值
         // vm._data.age = 12
         // console.log('新值是', vm._data)
+
+        // update渲染
+        setTimeout(() => {
+                vm.name = 'haha'
+        }, 1000);
+
     </script>
 
 </body>

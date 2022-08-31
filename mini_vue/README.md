@@ -9,6 +9,8 @@ this._init(options)
         - new Observer(data)
           - 代理arrayMethods + this.observeArray(data)
           - defineReactive(data, key, value)
+            - data的 get/set
+            - dep.depend() / dep.notify()
   
   - vm.$mount(vm.$options.el)
     - compileToFunctions(template)
@@ -19,6 +21,7 @@ this._init(options)
     - mountComponent(vm,el)
       - updateComponent = () => { vm._update(vm._render()) }
       - new Watcher(vm, updateComponent, () => {}, true)
+        - dep.pushTarget(watcher) / popTarget()
 
         vm._render()
           - vm.$options.render.call(vm)
@@ -26,7 +29,6 @@ this._init(options)
 
         vm._update()
           - patch(oldVnode, vnode) ==> createElm
-
 
 initGlobalApi(Vue)
   - Vue.mixin: mergeOptions 
@@ -230,4 +232,25 @@ A:
 
 
 -----------------------
-14 xxx
+14 对象的依赖收集
+
+01 如何实现数据更新后，页面dom也随之自动更新 <br/>
+A: 
+
+1. 要存储 可以生成dom的 函数，即存储updateComponent
+  - updateComponent被传给了new Watcher(vm, expOrFn)
+  - new Watcher() ==> this.get()
+
+1.2 new Watcher()
+  - this.get()
+    - 在Dep的stack中 存入/推出 Watcher实例 [00:00-10:00]
+    - 执行了this.getter()， 即 expOrFn()
+ 
+2. 要能知道数据发生了变化 + 发现数据变化，就自动就触发 渲染流程
+  [10:00-18:00]
+  - observe() ==> defineReactive对每个data属性进行代理
+  - data的每个属性，都有一个dep实例，即new Dep()
+  - data.get时，就触发 dep.depend() 来进行订阅
+  - data.set时，就触发 dep.notify() 来进行发布
+
+

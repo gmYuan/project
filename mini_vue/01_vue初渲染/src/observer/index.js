@@ -1,5 +1,6 @@
 import { isObject } from "../utils/index";
 import { arrayMethods } from "./array";
+import Dep from './dep'
 
 // 基本原则：
 // 1.如果数据是对象：会将对象不停的递归 进行劫持
@@ -55,10 +56,15 @@ class Observer {
 
 // vue2会对对象进行遍历 ==> 每个属性用defineProperty重新定义
 function defineReactive(data, key, value) {
+  let dep = new Dep(); // 每个属性都有一个Dep实例
   observe(value); // 处理对象嵌套 ==> 递归调用
 
   Object.defineProperty(data, key, {
     get() {
+      if (Dep.target) {
+        dep.depend()
+      }
+
       return value;
     },
     set(newV) {
@@ -67,6 +73,8 @@ function defineReactive(data, key, value) {
       //如果赋值的是一个新对象 ，也需要对这个新对象 进行劫持
       observe(newV);
       value = newV;
+
+      dep.notify();
     },
   });
 }

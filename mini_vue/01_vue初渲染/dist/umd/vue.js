@@ -258,6 +258,46 @@
     };
   });
 
+  var id = 0;
+
+  var Dep = /*#__PURE__*/function () {
+    function Dep() {
+      _classCallCheck(this, Dep);
+
+      this.id = id++;
+      this.subs = [];
+    }
+
+    _createClass(Dep, [{
+      key: "depend",
+      value: function depend() {
+        // 观测者模式
+        if (Dep.target) {
+          this.subs.push(Dep.target);
+        }
+      }
+    }, {
+      key: "notify",
+      value: function notify() {
+        this.subs.forEach(function (watcher) {
+          return watcher.update();
+        });
+      }
+    }]);
+
+    return Dep;
+  }();
+  Dep.target = null;
+  var stack = [];
+  function pushTarget(watcher) {
+    Dep.target = watcher;
+    stack.push(watcher);
+  }
+  function popTarget() {
+    stack.pop();
+    Dep.target = stack[stack.length - 1];
+  }
+
   // 1.如果数据是对象：会将对象不停的递归 进行劫持
   // 2.如果是数组：会劫持数组的方法，并对数组中不是基本数据类型的 进行劫持
   // 劫持对象类型
@@ -320,10 +360,16 @@
 
 
   function defineReactive(data, key, value) {
+    var dep = new Dep(); // 每个属性都有一个Dep实例
+
     observe(value); // 处理对象嵌套 ==> 递归调用
 
     Object.defineProperty(data, key, {
       get: function get() {
+        if (Dep.target) {
+          dep.depend();
+        }
+
         return value;
       },
       set: function set(newV) {
@@ -332,6 +378,7 @@
 
         observe(newV);
         value = newV;
+        dep.notify();
       }
     });
   }
@@ -401,13 +448,13 @@
 
   var root;
   var currentParent;
-  var stack = [];
+  var stack$1 = [];
   var html;
   function parseHTML(sourceHTML) {
     // 每次解析前，都重置之前的解析结果
     root = null;
     currentParent = null;
-    stack = [];
+    stack$1 = [];
     html = sourceHTML;
 
     while (html) {
@@ -500,13 +547,13 @@
     }
 
     currentParent = element;
-    stack.push(element);
+    stack$1.push(element);
   } // 处理结束标签 ==> 在结尾标签处，创建父子关系
 
 
   function end(tagName) {
-    var element = stack.pop();
-    currentParent = stack[stack.length - 1]; // 在闭合时可以知道这个标签的父亲是谁
+    var element = stack$1.pop();
+    currentParent = stack$1[stack$1.length - 1]; // 在闭合时可以知道这个标签的父亲是谁
 
     if (currentParent) {
       element.parent = currentParent;
@@ -642,13 +689,17 @@
     return renderFn;
   }
 
+  var id$1 = 0;
+
   var Watcher = /*#__PURE__*/function () {
     function Watcher(vm, expOrFn, cb, options) {
       _classCallCheck(this, Watcher);
 
       this.vm = vm;
       this.cb = cb;
-      this.options = options; // 设置getter
+      this.options = options; // 每个Watcher都有一个id
+
+      this.id = ++id$1; // 设置getter
 
       this.getter = expOrFn; // 调用get
 
@@ -658,7 +709,14 @@
     _createClass(Watcher, [{
       key: "get",
       value: function get() {
+        pushTarget(this);
         this.getter();
+        popTarget();
+      }
+    }, {
+      key: "update",
+      value: function update() {
+        this.get();
       }
     }]);
 
