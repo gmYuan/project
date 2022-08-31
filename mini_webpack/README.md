@@ -401,30 +401,21 @@ Q2 其他知识 <br/>
 [webpack-dev-middleware](https://www.npmjs.com/package/webpack-dev-middleware) 
 
 
-
-
-
-
-
-
-
 ---------------------------------------
-Q12 概念解释
-A:             
+15 hash
 
+Q1 如何设置 生产环境的webpack配置 <br/>
+A:  
 
-S3 filename & chunkfilename
-  - 入口代码块的名称 /  非入口代码块的名称配置项
-  - import()：动态代码分割，生成一个独立的代码块
-
-
----------------------------------------
-Q13 如何设置 生产环境的webpack配置
-A:             
-S1 MiniCssExtractPlugin：抽取CSS文件，以并行下载样式文件
-  - 用MiniCssExtractPlugin.loader替换掉style-loader
-  - 把收集到的所有的CSS样式都写入到main.css
+1. MiniCssExtractPlugin：抽取CSS为单独的文件，以并行下载样式文件  [10:30-30:00]
+  - style-loader的简单实现  [00:30-03:00]
+  - 用 MiniCssExtractPlugin.loader替换掉 style-loader
+  - 把收集到的所有的CSS样式都写入到 [name].css
   - HtmlWebpackPlugin把此资源插入到HTML（webpack在打包后 会把所有的产出的资源放在assets对象上）
+  - MiniCssExtractPlugin.loader的简单实现 [20:30-25:00]
+
+
+
 
 S2 图片资源等打包到单独的文件夹内
   -  filename: 'assets/[name].[contenthash:5].css',
@@ -443,6 +434,26 @@ S4 配置项里, [name]的值如何确定的
       代码分割:  vendor common  是由人为指定的
   
 [MiniCssExtractPlugin](https://webpack.docschina.org/plugins/mini-css-extract-plugin#root) 
+
+
+
+
+
+
+
+
+
+
+
+
+---------------------------------------
+Q12 概念解释
+A:             
+
+
+S3 filename & chunkfilename
+  - 入口代码块的名称 /  非入口代码块的名称配置项
+  - import()：动态代码分割，生成一个独立的代码块
 
 
 ---------------------------------------
