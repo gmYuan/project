@@ -253,4 +253,32 @@ A:
   - data.get时，就触发 dep.depend() 来进行订阅
   - data.set时，就触发 dep.notify() 来进行发布
 
+即:
 
+1. 初次渲染: 创建了渲染watcher
+
+2. Dep: 每个data都有一个dep实例，dep可以通过Dep.target，获取到当前的watcher
+
+3. Watcher: 每个watcher实例，都有方法, 可以根据当前data值，渲染出真实dom
+
+
+-----------------------
+15 解决watcher重复存放问题
+
+01 如何处理 读取数据时，dep.depend会重复添加同一个watcher实例 <br/>
+A: 
+
+目标:
+  - watcher实例 不重复依赖同一个dep实例
+  - dep实例 不重复记录 同一个watcher实例
+
+功能流程: [00:00-05:00]
+
+1. dep.depend()
+  - 调用 Dep.target.addDep(this)，即 watcher.addDep(dep)
+
+2. watcher.addDep(dep)
+  - 不重复的记录 watcher依赖的dep: this.depIds = new Set() + this.deps.push(dep)
+  - 让 dep不重复的记录当前的 watcher实例: dep.addSub(watcher)
+  
+  

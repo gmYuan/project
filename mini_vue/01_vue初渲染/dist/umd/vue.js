@@ -264,7 +264,7 @@
     function Dep() {
       _classCallCheck(this, Dep);
 
-      this.id = id++;
+      this.id = ++id;
       this.subs = [];
     }
 
@@ -273,7 +273,8 @@
       value: function depend() {
         // 观测者模式
         if (Dep.target) {
-          this.subs.push(Dep.target);
+          // this.subs.push(Dep.target) // 直接添加会导致wather重复加入  
+          Dep.target.addDep(this);
         }
       }
     }, {
@@ -282,6 +283,11 @@
         this.subs.forEach(function (watcher) {
           return watcher.update();
         });
+      }
+    }, {
+      key: "addSub",
+      value: function addSub(watcher) {
+        this.subs.push(watcher);
       }
     }]);
 
@@ -370,6 +376,7 @@
           dep.depend();
         }
 
+        console.log('get的dep', dep);
         return value;
       },
       set: function set(newV) {
@@ -699,7 +706,10 @@
       this.cb = cb;
       this.options = options; // 每个Watcher都有一个id
 
-      this.id = ++id$1; // 设置getter
+      this.id = ++id$1; // dep相关
+
+      this.deps = [];
+      this.depIds = new Set(); // 设置getter
 
       this.getter = expOrFn; // 调用get
 
@@ -717,6 +727,17 @@
       key: "update",
       value: function update() {
         this.get();
+      }
+    }, {
+      key: "addDep",
+      value: function addDep(dep) {
+        var id = dep.id;
+
+        if (!this.depIds.has(id)) {
+          this.depIds.add(id);
+          this.deps.push(dep);
+          dep.addSub(this);
+        }
       }
     }]);
 

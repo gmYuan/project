@@ -2,19 +2,24 @@ let id = 0
 
 export default class Dep {
   constructor () {
-    this.id = id++
+    this.id = ++id
     this.subs = []
   }
 
   depend () {
     // 观测者模式
     if (Dep.target) {
-      this.subs.push(Dep.target) 
+      // this.subs.push(Dep.target) // 直接添加会导致wather重复加入  
+      Dep.target.addDep(this)
     }
   }
 
   notify () {
     this.subs.forEach(watcher => watcher.update())
+  }
+
+  addSub (watcher) {
+    this.subs.push(watcher)
   }
 }
 

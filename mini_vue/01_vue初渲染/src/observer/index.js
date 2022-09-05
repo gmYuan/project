@@ -64,7 +64,7 @@ function defineReactive(data, key, value) {
       if (Dep.target) {
         dep.depend()
       }
-
+      console.log('get的dep', dep)
       return value;
     },
     set(newV) {
