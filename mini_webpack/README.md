@@ -386,7 +386,7 @@ Q2 其他知识 <br/>
 4. chunk/ bundle的 含义  [12:30-14:00__17:00-23:30]
   - chunk
     - 模块a及其依赖模块b/c... 的集合，叫做chunk
-    - 单独生成chunk的情况: 入口文件 / 动态import()
+    - 单独生成chunk的情况: 入口文件 / 代码分割/ 动态import()
   - bundle: 
     - chunk打包后生成的资源文件，叫做bunlde
     - webpack 没有bundle概念，而是叫做 assets (产出的资源文件)
@@ -404,7 +404,7 @@ Q2 其他知识 <br/>
 ---------------------------------------
 15 hash
 
-Q1 如何设置 生产环境的webpack配置 <br/>
+Q1 如何设置 MiniCssExtractPlugin <br/>
 A:  
 
 1. MiniCssExtractPlugin：抽取CSS为单独的文件，以并行下载样式文件  [10:30-30:00]
@@ -415,28 +415,41 @@ A:
   - MiniCssExtractPlugin.loader的简单实现 [20:30-25:00]
 
 
+Q2 其他知识点 <br/>
+A:  
 
+1. output里 fileName和chunkName的含义   [30:00-39:30]
+  - 分别配置了 入口代码块的名称/ 非入口代码块的名称
+  - 单独生成chunk的情况: 入口文件 / 代码分割(vendor/common)/ 动态import()
 
-S2 图片资源等打包到单独的文件夹内
-  -  filename: 'assets/[name].[contenthash:5].css',
+2. 图片资源等打包到单独的文件夹内  [39:30-49:30]
   - url-loader配置 outputPath + publicPath
+  - url-loader配置 name: 'images/[name].[ext]'
+  
 
-S3 hash相关
-  - hash是"文件内容指纹"，当文件内容发生改变时，hash值才会随之改变
-  - hash一般用于配合CDN缓存使用
+3. hash相关   [50:00-1:08:00]
+  - hash是"文件指纹"，每次webpack构建，就会生成一个 统一的哈希值
+  - hash一般是 配合CDN缓存使用
   - chunkHash：根据chunk生成hash，来源于同一个chunk，则hash值一样
   - contentHash：根据内容生成hash，文件内容相同，则hash值一样
 
-S4 配置项里, [name]的值如何确定的
+具体示例，可见 [hash内容](01_basic/debug/04 hash内容.js)
+
+
+4. 配置项里, [name]的值如何确定的  [1:09:00-1:12:00]
   - 对于入口chunkn来说，name就是 entry的key, 字符串就是默认值 main
   - 对于非入口来说 
-      懒加载时：import('./src/title.js') ==> src_title_js
-      代码分割:  vendor common  是由人为指定的
-  
+    懒加载时：import('./src/title.js') ==> src_title_js
+    代码分割:  vendor common  是由人为指定的
+
 [MiniCssExtractPlugin](https://webpack.docschina.org/plugins/mini-css-extract-plugin#root) 
 
 
+----------------------------
+16 xxx
 
+Q1 如何设置 xxx <br/>
+A:  
 
 
 
@@ -452,7 +465,7 @@ A:
 
 
 S3 filename & chunkfilename
-  - 入口代码块的名称 /  非入口代码块的名称配置项
+ 
   - import()：动态代码分割，生成一个独立的代码块
 
 

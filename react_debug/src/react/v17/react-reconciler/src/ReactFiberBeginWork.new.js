@@ -318,7 +318,7 @@ function updateMemoComponent(
   updateLanes: Lanes,
   renderLanes: Lanes,
 ): null | Fiber {
-  
+
   console.log('updateMemoComponent')
   if (!__LOG_NAMES__.length || __LOG_NAMES__.includes('updateMemoComponent')) debugger
   if (current === null) {
@@ -655,7 +655,7 @@ function updateClassComponent(
   nextProps: any,
   renderLanes: Lanes,
 ) {
-  
+
   enableLog && console.log('updateClassComponent')
   if (!__LOG_NAMES__.length || __LOG_NAMES__.includes('updateClassComponent')) debugger
   // Push context providers early to prevent context stack mismatches.
@@ -725,7 +725,7 @@ function finishClassComponent(
   hasContext: boolean,
   renderLanes: Lanes,
 ) {
-  
+
   enableLog && console.log('finishClassComponent')
   if (!__LOG_NAMES__.length || __LOG_NAMES__.includes('finishClassComponent')) debugger
   // Refs should update even if shouldComponentUpdate returns false
@@ -812,7 +812,7 @@ function pushHostRootContext(workInProgress) {
 }
 
 function updateHostRoot(current, workInProgress, renderLanes) {
-  
+
   enableLog && console.log('updateHostRoot start')
   if (!__LOG_NAMES__.length || __LOG_NAMES__.includes('updateHostRoot')) debugger
 
@@ -925,7 +925,7 @@ function updateHostComponent(
 
   // React DevTools reads this flag.
   workInProgress.flags |= PerformedWork;
-  
+
   markRef(current, workInProgress);
   /**  reconcilerChildren会根据nextChildren(是ReactElement)生成Fiber子节点 */
   reconcileChildren(current, workInProgress, nextChildren, renderLanes);
@@ -1096,7 +1096,7 @@ function mountIndeterminateComponent(
   Component,
   renderLanes,
 ) {
-  
+
   enableLog && console.log('mountIndeterminateComponent start')
   if (!__LOG_NAMES__.length || __LOG_NAMES__.includes('mountIndeterminateComponent')) debugger
 
@@ -1618,7 +1618,7 @@ function createWorkInProgressOffscreenFiber(
   current: Fiber,
   offscreenProps: OffscreenProps,
 ) {
-  
+
   console.log('createWorkInProgressOffscreenFiber')
   if (!__LOG_NAMES__.length || __LOG_NAMES__.includes('createWorkInProgressOffscreenFiber')) debugger
   // The props argument to `createWorkInProgress` is `any` typed, so we use this
@@ -1632,7 +1632,7 @@ function updateSuspensePrimaryChildren(
   primaryChildren,
   renderLanes,
 ) {
-  
+
   console.log('updateSuspensePrimaryChildren')
   if (!__LOG_NAMES__.length || __LOG_NAMES__.includes('updateSuspensePrimaryChildren')) debugger
   const currentPrimaryChildFragment: Fiber = (current.child: any);
@@ -1674,7 +1674,7 @@ function updateSuspenseFallbackChildren(
   fallbackChildren,
   renderLanes,
 ) {
-  
+
   console.log('updateSuspenseFallbackChildren')
   if (!__LOG_NAMES__.length || __LOG_NAMES__.includes('updateSuspenseFallbackChildren')) debugger
   const mode = workInProgress.mode;
@@ -2354,7 +2354,7 @@ function updateScopeComponent(current, workInProgress, renderLanes) {
 export function markWorkInProgressReceivedUpdate() {
   didReceiveUpdate = true;
 }
-/** 
+/**
  * 跳过当前WIP，但会调用markSkippedUpdateLanes标记跳过的更新，
  * 同时会判断子节点是否需要更新，即includesSomeLane(renderLanes, workInProgress.childLanes)，
  * 不用更新返回null，否则从current上复制子节点到WIP.child，然后返回WIP.child
@@ -2377,7 +2377,7 @@ function bailoutOnAlreadyFinishedWork(
   markSkippedUpdateLanes(workInProgress.lanes);
   // Check if the children have any pending work.
   if (!includesSomeLane(renderLanes, workInProgress.childLanes)) {
-    /** 
+    /**
      * 如果子节点没有更新，返回null，那么会进入completeUnitOfWork
      * 以下是performUnitOfWork中的代码判断：
      * next = beginWork(current, unitOfWork, subtreeRenderLanes);
@@ -2398,15 +2398,16 @@ function bailoutOnAlreadyFinishedWork(
     return workInProgress.child;
   }
 }
+
 export function beginWork(
   current: Fiber | null,
   workInProgress: Fiber,
   renderLanes: Lanes,
 ): Fiber | null {
-  
+
   enableLog && console.log('beginWork start')
   if (!__LOG_NAMES__.length || __LOG_NAMES__.includes('beginWork')) debugger
-  
+
   // 获取workInProgress.lanes，可通过判断它是否为空去判断该节点是否需要更新
   const updateLanes = workInProgress.lanes;
 
@@ -2616,7 +2617,7 @@ export function beginWork(
   // the update queue. However, there's an exception: SimpleMemoComponent
   // sometimes bails out later in the begin phase. This indicates that we should
   // move this assignment out of the common path and into each branch.
-  
+
   // 代码走到这里说明确实要去处理节点了，此时会根据不同fiber的类型
   // 去调用它们各自的处理函数
 

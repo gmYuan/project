@@ -1,16 +1,16 @@
 /**
- * hash           每次构建会生成一个统一的hash值
+ * hash: 每次构建会生成一个统一的hash值
  *
- * chunkHash  代码块hash,每个代码块共享 一个hash值
- *                  是通过属于这个chunk的所有的模块计算出来的
+ * chunkHash:
+ *   - 代码块hash,每个代码块共享 一个hash值
+ *   - 是通过属于这个chunk的所有的模块计算出来的
  *
- * contentHash 内容hash,根据文件的内容生成的hash
+ * contentHash: 内容hash,根据文件的内容生成的hash
  *
  * 影响范围越来越小，本次编译->代码块(入口)->单个文件
- *
- *  变化从快到慢分别是  hash>chunkhash>contenthash
+ * 变化从快到慢分别是:  hash>chunkhash>contenthash
 
- * Q: 一个代码块可产出多个文件 main main.js main.css
+ * Q: 一个代码块可产出多个文件 main: main.js main.css
  * chunk里面那么多文件，
  * 取哪个文件的contenthash来作为 最终生成的assets文件名呢
  *
