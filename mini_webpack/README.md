@@ -446,38 +446,36 @@ A:
 
 
 ----------------------------
-16 xxx
+16 CSS兼容和压缩
 
-Q1 如何设置 xxx <br/>
+Q1 如何配置 自动兼容CSS样式 / 压缩CSS和JS文件 <br/>
 A:  
 
+1. 配置postcss  [01:30-09:30]
+
+2. 配置optimize-css-assets-webpack-plugin  [10:25-15:00]
+  - 作用: 压缩和优化CSS资源的插件
+
+3. 配置 terser-webpack-plugin
+  - 作用: 压缩和优化JS资源的插件
+
+4. postcss相关知识点
+  - 配置文件查找优先级 [25:00-27:00]
 
 
+配置文档，可参考:
 
+01 [postcss-loader](https://webpack.docschina.org/loaders/postcss-loader/#postcss-options)
 
+02 [OptimizeCssAssetsWebpackPlugin](https://webpack.docschina.org/plugins/css-minimizer-webpack-plugin/)
 
-
+03 [TerserWebpackPlugin](https://webpack.docschina.org/plugins/terser-webpack-plugin/)
 
 
 ---------------------------------------
-Q12 概念解释
-A:             
+xxx
 
 
-S3 filename & chunkfilename
- 
-  - import()：动态代码分割，生成一个独立的代码块
-
-
----------------------------------------
-Q16 如何配置 自动兼容CSS样式 / 压缩CSS&JS文件
-A:         
-
-S1 [postcss-loader](https://webpack.docschina.org/loaders/postcss-loader/#postcss-options)
-
-S2 [OptimizeCssAssetsWebpackPlugin](https://webpack.docschina.org/plugins/css-minimizer-webpack-plugin/)
-
-S3 [TerserWebpackPlugin](https://webpack.docschina.org/plugins/terser-webpack-plugin/)
 
 
 ---------------------------------------
