@@ -445,6 +445,24 @@ A:
 [MiniCssExtractPlugin](https://webpack.docschina.org/plugins/mini-css-extract-plugin#root) 
 
 
+19 hash实战
+
+1. chunkHash的使用   [09:00-16:30]
+  - 使用场景: 文件缓存，以优化性能
+  - 使用方法 
+
+2. contentHash的使用   [16:40-xx:30]
+
+
+
+![chunkHash含义.png](https://imgtu.com/i/H1HAr6)
+![contentHash含义.png](https://s4.ax1x.com/2022/02/08/H1HqFe.png)
+![19_4.png](https://s4.ax1x.com/2022/02/08/H1beO0.png)
+
+
+
+
+
 ----------------------------
 16 CSS兼容和压缩
 
@@ -497,15 +515,12 @@ S2 生成对应入口的html文件 [09:00-14:00]
 
 
 ---------------------------------------
-19 xxx
+20 xxx
 
 Q1 如何配置 xxx <br/>
 A:          
 
-![19_1.png](https://imgtu.com/i/H1HAr6)
-![19_2.png](https://s4.ax1x.com/2022/02/08/H1HUiQ.png)
-![19_3.png](https://s4.ax1x.com/2022/02/08/H1HqFe.png)
-![19_4.png](https://s4.ax1x.com/2022/02/08/H1beO0.png)
+
 
 
 
