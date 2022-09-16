@@ -325,6 +325,14 @@ A:
 4. --env决定了 webpack.config.js入口函数的 env形参变量值
 
 
+
+21 env环境变量
+
+1. 配置环境变量的第4种方式: dotenv  [01:00-09:00]
+
+文档见: [dotenv](https://www.npmjs.com/package/dotenv)
+
+
 ---------------------------------------
 12 babel答疑_polyfill和runtime等
 
@@ -528,24 +536,9 @@ S1 webpack-merge使用演示  [03:30-10:00]
 
 
 ---------------------------------------
-Q21 如何配置 dotenv
+22 webpack 同步加载打包文件
+
+Q1 webpack如何 同步加载打包文件   <br/>
 A:  
-S1 [dotenv](https://www.npmjs.com/package/dotenv)
 
-
-
-
-
-
-
-
-
----------------------------------------
-Q22 webpack 同步加载打包文件分析 的流程
-A:  
 S1 具体见[02_bundle/1.sync/main.js]分析流程
-
----------------------------------------
-Q23 webpack 兼容流程实现
-A:  
-S1 
