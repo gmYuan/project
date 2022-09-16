@@ -538,7 +538,27 @@ S1 webpack-merge使用演示  [03:30-10:00]
 ---------------------------------------
 22 webpack 同步加载打包文件
 
-Q1 webpack如何 同步加载打包文件   <br/>
-A:  
+1. 前置知识
+  - object.pty.toString 
+  - symbol.toStringTag   [05:00-06:00]
+  - Object.pty.defineProperty
 
-S1 具体见[02_bundle/1.sync/main.js]分析流程
+
+2. webpack打包后的 main.js文件内容  [13:00-23:00__26:30-31:00]
+
+S1 自执行函数，来调用 入口文件内容函数
+  - 内部调用 require
+
+S2 require
+  - 根据传入的moduleId，查找全局modules对象里 对应的模块 + 执行 模块内容函数
+  - 模块内容函数会把其执行结果，赋值给传入的 module.exports
+
+S3 根据是否存入了缓存，来返回 cache[moduleId].exports/ module.exports
+
+具体内容， 见[02_bundle/1.sync/main.js]分析流程
+
+
+3. webpack打包时做了什么
+  - 本质上，webpack在内部自己实现了一套 commonJS规范
+  
+
