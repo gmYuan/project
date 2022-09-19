@@ -91,6 +91,10 @@
     return target;
   }
 
+  function _readOnlyError(name) {
+    throw new Error("\"" + name + "\" is read-only");
+  }
+
   function _slicedToArray(arr, i) {
     return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
   }
@@ -717,6 +721,45 @@
     return renderFn;
   }
 
+  var callbacks = [];
+  var waiting = false;
+  function nextTick(cb) {
+    callbacks.push(cb);
+
+    if (!waiting) {
+      setTimeout(flushCallbacks, 0);
+      waiting = true;
+    }
+  }
+
+  function flushCallbacks() {
+    callbacks.forEach(function (cb) {
+      return cb();
+    });
+    waiting = false;
+    callbacks = (_readOnlyError("callbacks"), []);
+  }
+
+  var queue = [];
+  var has = {};
+  function queueWatcher(watcher) {
+    var id = watcher.id;
+
+    if (has[id] == null) {
+      queue.push(watcher);
+      has[id] = true;
+      nextTick(flushSchedulerQueue);
+    }
+  }
+
+  function flushSchedulerQueue() {
+    queue.forEach(function (watcher) {
+      return watcher.run();
+    });
+    queue = [];
+    has = {};
+  }
+
   var id$1 = 0;
 
   var Watcher = /*#__PURE__*/function () {
@@ -747,6 +790,11 @@
     }, {
       key: "update",
       value: function update() {
+        queueWatcher(this);
+      }
+    }, {
+      key: "run",
+      value: function run() {
         this.get();
       }
     }, {
@@ -844,6 +892,8 @@
     //    vm._update: 用虚拟dom 生成真实dom
 
     var updateComponent = function updateComponent() {
+      console.log('updateComponent进行了更新');
+
       vm._update(vm._render());
     }; // 渲染watcher, 每个组件都有一个watcher
     // true表示是一个渲染过程
@@ -908,6 +958,8 @@
 
       mountComponent(vm, el);
     };
+
+    Vue.prototype.$nextTick = nextTick;
   }
 
   function createElement(vm, tag) {

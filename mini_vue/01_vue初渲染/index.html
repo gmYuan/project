@@ -43,9 +43,21 @@
         // }, 1000);
 
         // update渲染: 数组
-        setTimeout(() => {
-            vm.arr[0].push(4,5,6)
-        }, 1000);
+        // setTimeout(() => {
+        //     // vm.arr[0].push(4,5,6)
+        //     vm.arr.push(4)
+        // }, 1000);
+
+        // nextTick
+        vm.arr.push(4)
+        vm.arr.push(5)
+        vm.arr.push(6)
+        vm.$nextTick(() => {
+            console.log('最新nextTick里的 data是', vm.arr)
+        })
+
+
+        
 
     </script>
 

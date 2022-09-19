@@ -20,6 +20,7 @@ export function mountComponent(vm, el) {
   //    vm._render: 通过render函数，生成虚拟dom
   //    vm._update: 用虚拟dom 生成真实dom
   let updateComponent = () => {
+      console.log('updateComponent进行了更新')
       vm._update(vm._render());
   }
   // 渲染watcher, 每个组件都有一个watcher

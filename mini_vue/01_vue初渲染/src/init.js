@@ -2,6 +2,7 @@ import { initState } from "./state";
 import { compileToFunctions } from "./compiler/index";
 import { mountComponent, callHook } from "./lifecycle";
 import { mergeOptions } from './utils/index'
+import { nextTick } from './utils/next-tick'
 
 export function initMixin(Vue) {
   Vue.prototype._init = function (options) {
@@ -50,4 +51,7 @@ export function initMixin(Vue) {
     // 需要挂载这个组件
     mountComponent(vm,el);
   };
+
+
+  Vue.prototype.$nextTick = nextTick
 }
