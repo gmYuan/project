@@ -562,3 +562,32 @@ S3 根据是否存入了缓存，来返回 cache[moduleId].exports/ module.expor
   - 本质上，webpack在内部自己实现了一套 commonJS规范
   
 
+---------------------------------------
+23 模块的兼容性实现
+
+1. webpack实现 ES6 Modules等不同模块规范的 兼容支持
+
+S1 common.js加载common.js: 默认支持 
+
+S2 支持 common.js加载ES6 Modules  
+  - 如果导入的是ES6 Modules规范，就调用require.r函数 ==> 标识出它的类型是esModule  [01:30-10:30]
+
+  - 调用require.d函数 ==> 把导出的属性，封装成key-value 挂载到 exports的同名key值属性上  [10:30-20:00]
+
+具体内容，见[02_bundle/02.common-load-es/main.js]
+
+
+S3 支持 ES6 Modules加载 ES6 Modules
+  - require.d/ require.r属性简写的原因  [25:00-30:00]
+  - 入口文件modules.index调用require.r==> 进行esModule标识 [33:00-35:00]
+  - 转化import语句为 调用require   [35:00-39:40]
+
+具体内容，见[02_bundle/03.es-load-es/main.js]
+
+
+S4 支持 ES6 Modules加载 common.js  [39:45-52:00]
+  - 入口调用 require.r()
+  - 调用require ==> 获取到导入的 依赖对象
+  - 调用require.n ==> 用以支持es6Module/common.js的默认导出语法
+
+具体内容，见[02_bundle/04.es-load-common/main.js]
