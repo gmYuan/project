@@ -252,7 +252,9 @@
       // 需要观测的是 数组里的每一项，而不是数组
 
 
-      if (inserted) ob.observeArray(inserted); // S8 返回结果
+      if (inserted) ob.observeArray(inserted); // notify change
+
+      ob.dep.notify(); // S8 返回结果
 
       return result;
     };
@@ -321,8 +323,9 @@
     function Observer(data) {
       _classCallCheck(this, Observer);
 
-      // S3 在所有被劫持过的属性上，都增加 __ob__属性
+      this.dep = new Dep(); // S3 在所有被劫持过的属性上，都增加 __ob__属性
       // data.__ob__ = this; // 直接这样写会在递归执行时，因为该属性爆栈
+
       Object.defineProperty(data, "__ob__", {
         value: this,
         enumerable: false,
@@ -368,15 +371,22 @@
   function defineReactive(data, key, value) {
     var dep = new Dep(); // 每个属性都有一个Dep实例
 
-    observe(value); // 处理对象嵌套 ==> 递归调用
+    var childOb = observe(value); // 处理对象嵌套 ==> 递归调用
 
     Object.defineProperty(data, key, {
       get: function get() {
         if (Dep.target) {
-          dep.depend();
+          dep.depend(); // 实现数组的依赖收集
+
+          if (childOb) {
+            childOb.dep.depend(); // 处理嵌套数组
+
+            if (Array.isArray(value)) {
+              dependArray(value);
+            }
+          }
         }
 
-        console.log('get的dep', dep);
         return value;
       },
       set: function set(newV) {
@@ -388,6 +398,17 @@
         dep.notify();
       }
     });
+  }
+
+  function dependArray(value) {
+    for (var e, i = 0, l = value.length; i < l; i++) {
+      e = value[i];
+      e && e.__ob__ && e.__ob__.dep.depend();
+
+      if (Array.isArray(e)) {
+        dependArray(e);
+      }
+    }
   }
 
   function initState(vm) {

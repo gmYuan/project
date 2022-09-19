@@ -34,6 +34,9 @@ methods.forEach((method) => {
     // 需要观测的是 数组里的每一项，而不是数组
     if (inserted) ob.observeArray(inserted);
 
+    // notify change
+    ob.dep.notify()
+
     // S8 返回结果
     return result;
   };

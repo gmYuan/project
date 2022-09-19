@@ -18,6 +18,8 @@ export function observe(data) {
 // 劫持中心
 class Observer {
   constructor(data) {
+    this.dep = new Dep()
+
     // S3 在所有被劫持过的属性上，都增加 __ob__属性
     // data.__ob__ = this; // 直接这样写会在递归执行时，因为该属性爆栈
     Object.defineProperty(data, "__ob__", {
@@ -57,14 +59,21 @@ class Observer {
 // vue2会对对象进行遍历 ==> 每个属性用defineProperty重新定义
 function defineReactive(data, key, value) {
   let dep = new Dep(); // 每个属性都有一个Dep实例
-  observe(value); // 处理对象嵌套 ==> 递归调用
+  let childOb = observe(value); // 处理对象嵌套 ==> 递归调用
 
   Object.defineProperty(data, key, {
     get() {
       if (Dep.target) {
         dep.depend()
+        // 实现数组的依赖收集
+        if (childOb) {
+          childOb.dep.depend()
+          // 处理嵌套数组
+          if (Array.isArray(value)) {
+            dependArray(value)
+          }
+        }
       }
-      console.log('get的dep', dep)
       return value;
     },
     set(newV) {
@@ -77,4 +86,15 @@ function defineReactive(data, key, value) {
       dep.notify();
     },
   });
+}
+
+
+function dependArray (value) {
+  for (let e, i = 0, l = value.length; i < l; i++) {
+    e = value[i]
+    e && e.__ob__ && e.__ob__.dep.depend()
+    if (Array.isArray(e)) {
+      dependArray(e)
+    }
+  }
 }

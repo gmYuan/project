@@ -281,4 +281,23 @@ A:
   - 不重复的记录 watcher依赖的dep: this.depIds = new Set() + this.deps.push(dep)
   - 让 dep不重复的记录当前的 watcher实例: dep.addSub(watcher)
   
-  
+
+-----------------------
+16 数组的依赖收集
+
+01 如何实现 数组类型的data更新时，触发页面渲染 <br/>
+A: 
+
+S1 数组类型的data也要有 dep实例  [00:00-02:00]
+  - observer实例里，定义this.dep = new Dep()
+  - 这样在arrayMethods里，就能通过ob属性来获取到 observer实例
+
+S2 数组类型的data更新时,在这之前要 触发dep的订阅  [02:50-11:30]
+  - Vue规定了 data最外层必然是一个对象，这样就可以获取到子属性的 observe实例
+  - 当属性触发get时，就尝试进行订阅 childOb.dep.depend()
+
+S3 数组类型的data真正更新时, 要 触发dep的发布 [02:00-02:50]
+  - 调用 ob.dep.notify()
+
+S4 处理 data里数组a嵌套数组b的情况  [12:40-23:00]
+  - 递归监测数组属性，从而进行订阅 ==> dependArray
