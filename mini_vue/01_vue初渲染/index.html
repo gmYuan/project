@@ -12,6 +12,8 @@
     <div id="app" style="color:red">
         hello
         <div> {{arr}} </div>
+        <com-test></com-test>
+
     </div>
 
     <script src="dist/umd/vue.js"></script>
@@ -22,6 +24,13 @@
             data() {
                 return { arr:[[1,2,3]]}
             },
+            components: {
+                'com-test': {
+                    template: '<div>我是组件2</div>'
+                }
+            },
+
+
             // beforeCreate() {
             //     console.log('实例组件的beforeCreate', this.name)
             // },
@@ -49,12 +58,19 @@
         // }, 1000);
 
         // nextTick
-        vm.arr.push(4)
-        vm.arr.push(5)
-        vm.arr.push(6)
-        vm.$nextTick(() => {
-            console.log('最新nextTick里的 data是', vm.arr)
+        // vm.arr.push(4)
+        // vm.arr.push(5)
+        // vm.arr.push(6)
+        // vm.$nextTick(() => {
+        //     console.log('最新nextTick里的 data是', vm.arr)
+        // })
+
+        // Vue.component
+        Vue.component('com-test', {
+            template: '<div>我是组件1</div>'
         })
+        console.log('全局vue-options', Vue.options)
+        console.log('当前组件实例vm', vm)
 
 
         

@@ -151,6 +151,8 @@
     throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
   }
 
+  var ASSET_TYPES = ['component', 'directive', 'filter'];
+
   function isObject(val) {
     return _typeof(val) == 'object' && val !== null;
   }
@@ -220,6 +222,22 @@
 
     return options;
   }
+
+  function mergeAssets(parentVal, childVal, vm, key) {
+    var res = Object.create(parentVal || null);
+
+    if (childVal) {
+      for (var _key in childVal) {
+        res[_key] = childVal[_key];
+      }
+    }
+
+    return res;
+  }
+
+  ASSET_TYPES.forEach(function (type) {
+    strats[type + 's'] = mergeAssets;
+  });
 
   // S1 拿到数组原型上的方法 （原来的方法）
   var oldArrayProtoMethods = Array.prototype; //S2 创建新的原型基础对象：arrayMethods.__proto__ = Array.prototype
@@ -1014,18 +1032,55 @@
     };
   }
 
-  function initGlobalApi(Vue) {
-    // 用来存放全局的配置: 每个组件初始化时，都会和options选项 进行合并
-    Vue.options = {};
-
+  function initMixin$1(Vue) {
     Vue.mixin = function (mixin) {
       this.options = mergeOptions(this.options, mixin);
       return this;
-    }; // test
-    // Vue.mixin({a:1, beforeCreate() {console.log('mixin1')}  })
-    // Vue.mixin({b:2, beforeCreate() {console.log('mixin2')}  })
-    // console.log('deee', Vue.options)
+    };
+  }
 
+  function initExtend(Vue) {
+    Vue.cid = 0;
+
+    Vue.extend = function (extendOptions) {
+      // console.log('extendOptions', extendOptions)
+      var Super = this;
+
+      var Sub = function VueComponent(options) {
+        this._init(options);
+      };
+
+      Sub.prototype = Object.create(Super.prototype);
+      Sub.prototype.constructor = Sub;
+      Sub.options = mergeOptions(Super.options, extendOptions); // 返回子类
+
+      return Sub;
+    };
+  }
+
+  function initAssetRegisters(Vue) {
+    ASSET_TYPES.forEach(function (type) {
+      Vue[type] = function (id, definition) {
+        if (type === 'component') {
+          definition.name = definition.name || id;
+          definition = this.options._base.extend(definition);
+        }
+
+        this.options[type + 's'][id] = definition; // return definition
+      };
+    });
+  }
+
+  function initGlobalApi(Vue) {
+    // 用来存放全局的配置: 每个组件初始化时，都会和options选项 进行合并
+    Vue.options = {};
+    initMixin$1(Vue);
+    ASSET_TYPES.forEach(function (type) {
+      Vue.options[type + 's'] = {};
+    });
+    Vue.options._base = Vue;
+    initExtend(Vue);
+    initAssetRegisters(Vue);
   }
 
   // 入口：对Vue进行声明和扩展

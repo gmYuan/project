@@ -1,3 +1,5 @@
+import { ASSET_TYPES } from '../shared/constants'
+
 export function isObject(val) {
     return typeof val == 'object' && val !== null
 }
@@ -31,21 +33,6 @@ let lifeCycleHooks = [
     'destroyed',
 ]
 let strats = {}; // 存放各种策略
-
-function mergeHook(parentVal, childVal) {
-    if (childVal) {
-        if (parentVal) {
-            return parentVal.concat(childVal); // 后续
-        } else {
-            return [childVal]; // 第一次
-        }
-    } else {
-        return parentVal
-    }
-}
-lifeCycleHooks.forEach(hook => {
-    strats[hook] = mergeHook
-});
 
 export function mergeOptions (parent,child) {
     const options = {}
@@ -81,3 +68,34 @@ export function mergeOptions (parent,child) {
     
     return options
 }
+
+
+function mergeHook(parentVal, childVal) {
+    if (childVal) {
+        if (parentVal) {
+            return parentVal.concat(childVal); // 后续
+        } else {
+            return [childVal]; // 第一次
+        }
+    } else {
+        return parentVal
+    }
+}
+lifeCycleHooks.forEach(hook => {
+    strats[hook] = mergeHook
+});
+
+
+function mergeAssets (parentVal, childVal,vm, key) {
+  const res = Object.create(parentVal || null)
+  if (childVal) {
+    for (let key in childVal) {
+        res[key] = childVal[key]
+    }
+  } 
+  return res
+}
+
+ASSET_TYPES.forEach(function (type) {
+  strats[type + 's'] = mergeAssets
+})

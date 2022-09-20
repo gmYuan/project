@@ -323,3 +323,18 @@ S4 处理 data里数组a嵌套数组b的情况  [12:40-23:00]
 ---------------
 18 组件定义流程
 
+1. 初始化vue.options.components/filters/directives等
+
+2. 定义全局的API ==> initAssetRegisters  [00:00-16:00]
+
+3. 实现initAssetRegisters  [16:00-19:00]
+  - 定义 Vue.component/filter/directive等 API
+  - 实现 Vue.component ==> 调用 Vue.extend
+
+4. 实现 Vue.extend  [19:00-30:00]
+  - 实现Vue的新的子累，且 子类继承了父Vue类的属性
+
+5. 更改合并策略，使子类Vue的同名属性不被 父类Vue覆盖 [30:00-38:00]
+  - component/filter/directive等特殊合并策略==> mergeAssets
+
+6. 渲染出自定义组件的模板内容  [38:00-xx:00]
