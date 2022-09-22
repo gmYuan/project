@@ -43,7 +43,7 @@
   }
   //./src/index.js 的代码
   (()=>{
-    let title = require('./src/title.js.js.js');
+    let title = require('./src/title.js');
     console.log(title);
     console.log(title.age);
   })();

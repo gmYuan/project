@@ -591,3 +591,7 @@ S4 支持 ES6 Modules加载 common.js  [39:45-52:00]
   - 调用require.n ==> 用以支持es6Module/common.js的默认导出语法
 
 具体内容，见[02_bundle/04.es-load-common/main.js]
+
+---------------------------------------
+24 异步加载代码块
+

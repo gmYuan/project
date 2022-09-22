@@ -103,7 +103,7 @@ function getClientEnvironment(publicUrl) {
     "__UMD__": true,
     __NEW_RECONCILER__: true,
     '__LOG_NAMES__': JSON.stringify([
-      // 'createRoot',
+      'createRoot',
       // 'ReactDOMRoot',
       // 'createRootImpl',
       // 'createContainer',
@@ -133,7 +133,7 @@ function getClientEnvironment(publicUrl) {
       // 'createFiber',
       // 'FiberNode',
       // 'performUnitOfWork',
-      'beginWork',
+      // 'beginWork',
       // 'setInitialDOMProperties',
       // 'setInitialProperties',
       // 'diffProperties',
