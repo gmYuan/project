@@ -33,7 +33,7 @@
   //已经安装的代码块 main代码块的名字：0表示已经就绪
   let installedChunks = {
     main:0,
-    hello:0
+    hello:0   // 会变为 hello: [reslove, reject]
   }
   //3.通过jsonp异步加载chunkId,也就是hello这个代码块
   require.f.j = (chunkId,promises)=>{
@@ -90,6 +90,7 @@
   //异步加载hello代码块，然后把hello代码块里的模块定义合并到主模块定义里去
   //再去加载这个hello.js这个模块，拿 到模 块的导出结果
   //1.准备加载异步代码块hello
+  // debugger
   require.e("hello").then(require.bind(require, "./src/hello.js")).then(result => {
     console.log(result.default);
   })

@@ -592,6 +592,46 @@ S4 支持 ES6 Modules加载 common.js  [39:45-52:00]
 
 具体内容，见[02_bundle/04.es-load-common/main.js]
 
+
 ---------------------------------------
 24 异步加载代码块
 
+1. import('xx').then(cb)动态加载 实例  [00:00-16:30]
+
+2. 实现流程
+
+S1 调用 require.e(chunkId)  [16:30-18:30]
+  - 创建promises，调用 require.f.j(chunkId,promises)
+  - 通过 Promise.all(promises)来获取 所有的异步加载代码块的 返回结果
+
+S2 require.f.j  [18:30-30:00]
+  - 通过jsonp异步加载chunkId
+  - 创建一个新的promise, 并存入到promises
+  - 创建installedChunks对象，其key为chunkId, value为 promise的[reslove, reject]
+  - 创建 jsonp的 url ==> 调用 require.p + require.u
+  - 发送 url请求 ==> 调用 require.l(url)
+
+S3.1 require.p
+  - 指向资源访问路径，即配置文件里的 publicPath值
+
+S3.2 require.u
+  - 返回 代码块的文件名
+
+S3.3 require.l
+  - 通过JSONP请求这个url地址
+  - hello.main.js会被执行: 赋值全局变量window["webpack5"] + 调用window["webpack5"]的 push方法
+
+
+S4 window["webpack5"]全局变量  [30:00-45:00]
+  - 在main.js执行时，全局变量 chunkLoadingGlobal = window["webpack5"]
+  - 重写push方法: chunkLoadingGlobal.push = webpackJsonpCallback
+
+S4.2 webpackJsonpCallback [45:00-1:00:01]
+  - 把异步加载来的代码块，合并到 总的模块定义对象modules上
+  - 通过传入的chunkId，在installedChunks对象找到对应的key,然后执行value里的resolve方法，从而让Promise的状态 改变为resolved
+
+具体内容，见[02_bundle/05.lazy异步加载]
+
+
+---------------------------------------
+25 todo
