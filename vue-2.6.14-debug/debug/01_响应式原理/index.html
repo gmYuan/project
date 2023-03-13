@@ -7,7 +7,15 @@
   </head>
   <body>
     <div id="app">
-      {{message}}
+      {{ JSON.stringify(info) }}
+      <button @click="handleChage1">点击修改mid</button>
+      <button @click="handleChage2">点击修改money</button>
+      <button @click="handleChage3">点击修改friends</button>
+
+      <ul v-for="(item, index) in friends" :key="index">
+        <li>{{ item }}</li>
+      </ul>
+      
     </div>
   </body>
 </html>
