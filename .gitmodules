@@ -1,0 +1,3 @@
+[submodule "mini-vue"]
+	path = mini-vue
+	url = https://github.com/gmYuan/project
